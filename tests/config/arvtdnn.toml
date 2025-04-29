@@ -1,0 +1,20 @@
+# Add your neural network configuration here
+title = "ARVTDNN"
+owner = "Zhe Li"
+
+[model]
+model_name = "ARVTDNN"
+memory_depth = 7
+nonlinear_order = 3
+nonlinear_order_memory = 3
+hidden_layers = [20, 20, 20]
+activation = "Tanh"
+
+[model.hyperparameters]
+train_ratio = 0.8
+iteration = 3
+learning_rate = 0.001
+batch_size = 128
+loss_function = "nn.MSELoss()"
+optimizer = "optim.Adam"
+epochs = 100

@@ -1,0 +1,18 @@
+# Add your neural network configuration here
+title = "SBCNN3"
+owner = "Zhe Li"
+
+[model]
+model_name = "SBCNN"
+memory_depth = 7
+hidden_layers = [10, 10, 10, 10, 10]
+activation = "Tanh"
+
+[model.hyperparameters]
+train_ratio = 0.8
+iteration = 3
+learning_rate = 0.01
+batch_size = 128
+loss_function = "nn.MSELoss()"
+optimizer = "optim.Adam"
+epochs = 60

@@ -1,0 +1,12 @@
+# Add your MP model configuration here
+title = "MP"
+owner = "Zhe Li"
+
+[model]
+model_name = "MP"
+memory_depth = 3
+nonlinear_order = 7
+
+[model.hyperparameters]
+ratio = 1
+iteration = 3

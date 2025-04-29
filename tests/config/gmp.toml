@@ -1,0 +1,13 @@
+# Add your GMP model configuration here
+title = "GMP"
+owner = "Zhe Li"
+
+[model]
+model_name = "GMP"
+lagging_depth = [2,2,2]
+nonlinear_order = [5,5,5]
+memory_depth = [2,2]
+
+[model.hyperparameters]
+ratio = 1
+iteration = 3

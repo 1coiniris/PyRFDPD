@@ -1,0 +1,19 @@
+# Some common configuration for all test set
+[data]
+data_path = "data/"
+data_file = "5GNR_20M_122p88.mat"
+data_name = "xorg"
+
+[instrument.signal_generator]
+brand = "Rohde-Schwarz"
+ip = "192.168.1.25"
+
+[instrument.spectrum_analyzer]
+brand = "Keysight"
+ip = "192.168.1.35"
+
+[instrument.configuration]
+center_frequency = 2.53e9
+sampling_frequency = 122.88e6
+power = -20
+attenuation = 15
