@@ -6,22 +6,25 @@ import logging
 from functools import partial
 from scipy.io import loadmat, savemat
 import pyrfdpd.nn as dpdnn
+from pyrfdpd.nn import rvtdnn,trainer
 import pyrfdpd.visa as visa
 from pyrfdpd.utils import metrics, plot, align
 # import pyrfdpd.nn as dpdnn
 import pyrfdpd.utils
+# import pyrfdpd.nn
+
 configfile = "rvtdnn.toml"
-import pyrfdpd.nn
-with open("tests/config/" + "common.toml", "rb") as f:
+# tests/config/common.toml
+with open("../tests/config/" + "common.toml", "rb") as f:
     common_dict = tomli.load(f)
-with open("tests/config/" + configfile, "rb") as f:
+with open("../tests/config/" + configfile, "rb") as f:
     config_dict = tomli.load(f)
 
 test_name = config_dict["title"]
 
 logger = logging.getLogger(test_name)
 logger.setLevel(logging.DEBUG)
-log_file = logging.FileHandler("tests/log/" + test_name + ".log")
+log_file = logging.FileHandler("../tests/log/" + test_name + ".log")
 log_file.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 log_file.setFormatter(formatter)
@@ -33,7 +36,7 @@ console.setFormatter(formatter)
 logger.addHandler(console)
 
 # Data configuration
-data_file = 'tests/data/signal_20M_in.mat'
+data_file = '../tests/data/signal_20M_in.mat'
 # # data_file = common_dict["data"]["data_path"] + common_dict["data"]["data_file"]
 # result_file = (
 #     common_dict["data"]["data_path"]
@@ -41,7 +44,7 @@ data_file = 'tests/data/signal_20M_in.mat'
 #     + "_"
 #     + common_dict["data"]["data_file"]
 # )
-result_file = 'tests/data/signal_20M_out.mat'
+result_file = '../tests/data/signal_20M_out.mat'
 x_data = loadmat(data_file)
 xorg = x_data['x_sync_01'].reshape(-1)
 xorg = xorg / max(abs(xorg))
@@ -73,7 +76,8 @@ if network == "RVTDNN":
     hidden_layers = config_dict["model"]["hidden_layers"]
     activation = config_dict["model"]["activation"]
     layers = [2 * (M + 1)] + hidden_layers + [2]
-    net = dpdnn.rvtdnn.RVTDNN(layers, activation)
+    net = rvtdnn.RVTDNN(layers,activation)
+    # net = dpdnn.rvtdnn.RVTDNN(layers, activation)
     dataset = partial(dpdnn.rvtdnn.Dataset, memory=M)
 elif network == "ARVTDNN":
     M = config_dict["model"]["memory_depth"]
@@ -99,7 +103,7 @@ elif network == "R2TDNN":
 else:
     # You can add your own network here.
     pass
-my_trainer = dpdnn.trainer.Trainer(
+my_trainer = trainer.Trainer(
     net, test_name, lr, batch_size, lossFcn, optimizer, tensorboard=True, logger=logger
 )
 logger.info(f"{'-'*30}")

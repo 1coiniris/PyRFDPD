@@ -16,14 +16,15 @@ from pyrfdpd.utils import metrics, plot, align
 import PA_DVR
 import TEST_Plot
 import Model.LSTM_DPD as LSTM
+import Model.volterra_nn as MCP_NN
 import Model.gmp as gmp
 import Model.mp as mp
 import PA
-
+# NET.MCP_NN()
 print(torch.cuda.is_available())
 
 model_train = 1
-model_path = "data/LSTM_Pred_Model.pt"
+model_path = "data/MCPNN_Pred_Model.pt"
 
 # 读取PA输入输出信号
 data_file = 'data/dataxy400m2G.mat'
@@ -31,17 +32,17 @@ data_file = 'data/dataxy400m2G.mat'
 data = loadmat(data_file)
 
 # Model_map = ['GMP','MP']
-Model_map = ['LSTM']
+Model_map = ['MCP_NN']
 
 # xorg = x_data[]
 xorg = data['x0']
 yorg = data['y00']
 
 N = len(xorg)
-xorg = xorg / max(abs(xorg))
-xorg = xorg*0.9
-yorg = yorg / max(abs(yorg))
-yorg = yorg*0.9
+xnorm = xorg / max(abs(xorg))
+# xorg = xorg*0.9
+ynorm = yorg / max(abs(yorg))
+# yorg = yorg*0.9
 
 # yorg = np.concatenate(([0+0j, 0+0j, 0+0j, 0+0j], PA.PA_Voterra(xorg[4:N-1],xorg[3:N-2],xorg[2:N-3],xorg[1:N-4],xorg[0:N-5]), [0+0j]))
 # # yorg = PA_DVR.PA_DVR_v1(xorg).reshape(-1,1)
@@ -53,12 +54,12 @@ y = yorg.squeeze()
 # plt.xticks(fontsize=20)
 # fig, ax = plt.subplots()
 t = np.linspace(0, 1, 200)
-plt.plot(t,abs(y[0:200]),label = 'PA_Output')
-plt.plot(t,abs(x[0:200]),label = 'PA_Input')
+plt.plot(t,abs(ynorm[0:200]),label = 'PA_Output')
+plt.plot(t,abs(xnorm[0:200]),label = 'PA_Input')
 # plt.xlim(0,200)
 plt.ylim(0,1)
 plt.legend()
-plt.savefig('figures/NN/PA_waveform.png')
+plt.savefig('figures/MCP_NN/PA_waveform.png')
 # plt.show()
 # sleep(5)
 plt.close()
@@ -67,17 +68,37 @@ fs = 2e9
 # import TEST_Plot
 plot.psd(
     {"PA input": x,"PA output":y},
-    fs=fs,filename='figures/NN/PA_Spectrum.png'
+    fs=fs,filename='figures/MCP_NN/PA_Spectrum.png'
 )
 # a = list(xorg)
 # TEST_Plot.plot_power_spectrum({"PA input": x,"PA output":y},100e6)
 # TEST_Plot.plot_amam(x, y,filename="figures/amam wo DPD.png")
-plot.amam(x, {"PAout":y}, "figures/NN/PA_amam.png")
-plot.ampm(x, {"PAout":y}, "figures/NN/PA_ampm.png")
+plot.amam(x, {"PAout":y}, "figures/MCP_NN/PA_amam.png")
+plot.ampm(x, {"PAout":y}, "figures/MCP_NN/PA_ampm.png")
 
 # 检查是否有可用的GPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
+
+
+# 数据预处理函数
+def create_dataset(x, y, M):
+    # 转换为实部虚部分离格式
+    x_real = torch.view_as_real(x).float()  # [N, 2]
+    y_real = torch.view_as_real(y).float()  # [N, 2]
+
+    # 创建延迟窗口
+    sequences = []
+    targets = []
+    for i in range(M, len(x) - 1):
+        # 输入：x(n-M)到x(n)的实部虚部
+        window = x_real[i - M:i + 1].flatten()  # [2*(M+1),]
+        # 输出：y(n+1)的实部虚部
+        target = y_real[i + 1]  # [2,]
+        sequences.append(window)
+        targets.append(target)
+
+    return torch.stack(sequences), torch.stack(targets)
 
 # ====================== 数据预处理（添加滑动窗口）======================
 def create_sequences(data, seq_length):
@@ -103,6 +124,7 @@ def complex_to_real(x):
 
 M = 9
 seq_length = 1
+y_pred = []
 for Model in Model_map:
     if Model == 'LSTM':
         print('------------------------LSTM-------------------------------')
@@ -183,7 +205,7 @@ for Model in Model_map:
 
     x_norm = x/max(abs(x))
     y_norm = y/max(abs(y))
-    y_pred_norm = y_pred/max(abs(y_pred))
+    y_pred_norm = 1 #y_pred/max(abs(y_pred))
 
     # 评估结果（示例）
     NMSE_pred = 10 * np.log10(sum(abs(y_pred_norm - y_norm)**2) / sum(abs(x_norm)**2))
