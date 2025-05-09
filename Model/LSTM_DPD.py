@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 def create_sequences(data, seq_length):
     """将数据转换为序列格式"""
@@ -35,7 +36,35 @@ class LSTMDPD(nn.Module):
         # x = x.unsqueeze(1)
         out, _ = self.lstm(x)
         out = self.fc(out[:, -1, :])  # 只取最后一个时间步的输出
+
         return out
+
+    # 数据预处理函数
+    def create_dataset(self,x, y, M, seq_length = 1,test_size=0.2):
+        # 转换为实部虚部分离格式
+        # x_real = torch.view_as_real(x).float()  # [N, 2]
+        # y_real = torch.view_as_real(y).float()  # [N, 2]
+        X = complex_to_real(x)  # 输入：PA输出信号
+        Y = complex_to_real(y)  # 目标：原始信号
+        # seq_length = 1
+        # # 创建序列数据 (seq_length=10)
+        # seq_length = 10
+        # X_seq = create_sequences(X, seq_length)  # 形状 (10000-M, seq_len, 2M+2)
+        X_seq = create_sequences_addmemory(X, seq_length, M=M)
+        # Y_seq = create_sequences(X,seq_length)# 形状 (10000-9, 10, 2)
+        Y_seq = create_sequences_addmemory(Y, seq_length, M=M)
+
+        X_data = X_seq[:, :, :]  # 输入序列：10个时间步 (10000-9, 10, 2)
+        Y_data = Y_seq[:, -1, -2:]  # 目标值：第10个时间步 (10000-9, 2)
+
+        # ====================== 转换为PyTorch张量 ======================
+        X_tensor = torch.FloatTensor(X_data)  # (16375, 10, 2)
+        Y_tensor = torch.FloatTensor(Y_data)  # (16375, 2)
+
+        # 划分数据集（保持时序顺序）
+        X_train, X_val, Y_train, Y_val = train_test_split(X_tensor, Y_tensor, test_size=0.2, shuffle=False)
+
+        return [X_train, X_val, Y_train, Y_val]
 
     # 生成预失真信号
     def apply_dpd(self, signal, seq_length=10,M = 9):

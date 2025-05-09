@@ -24,7 +24,7 @@ import PA
 print(torch.cuda.is_available())
 
 model_train = 1
-model_path = "data/MCPNN_Pred_Model.pt"
+model_path = "results/save/MCPNN_Pred_Model.pt"
 
 # 读取PA输入输出信号
 data_file = 'data/dataxy400m2G.mat'
