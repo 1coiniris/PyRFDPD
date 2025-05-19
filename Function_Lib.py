@@ -170,13 +170,18 @@ def create_sequences_addmemory(data, seq_length, M = 9):
 def complex_to_real(x):
     return np.stack((x.real, x.imag), axis=1)
 
-def PA_figure(x,y,filepath):
+def PA_figure(x,y,fs,filepath):
     N = len(x)
     xnorm = x / max(abs(x))
     # xorg = xorg*0.9
     ynorm = y / max(abs(y))
     # plt.xticks(fontsize=20)
     # fig, ax = plt.subplots()
+    # 设置坐标轴线条宽度（粗细）
+    plt.rcParams['axes.linewidth'] = 2.0  # 默认值为 0.8
+    # 全局设置
+    plt.rcParams['xtick.labelsize'] = 12  # X轴刻度标签字体大小
+    plt.rcParams['ytick.labelsize'] = 12  # Y轴刻度标签字体大小
 
     t = np.linspace(0, 1, 200)
     plt.plot(t,abs(ynorm[0:200]),label = 'PA_Output')
@@ -189,7 +194,7 @@ def PA_figure(x,y,filepath):
     # sleep(5)
     plt.close()
 
-    fs = 2e9
+    # fs = 2e9
     # import TEST_Plot
     plot.psd(
         {"PA input": x,"PA output":y},

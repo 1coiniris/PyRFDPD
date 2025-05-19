@@ -27,8 +27,8 @@ import Function_Lib as fun
 import Function_Calculate as cal
 
 K = [11, 11, 11]
-L = [13, 13, 13]
-M = [7, 4]
+L = [11, 11, 11]
+M = [7, 7]
 
 filename = f"GMP_K{K}_L{L}_M{M}"
 parser = argparse.ArgumentParser(description='configTemplates')
@@ -41,30 +41,32 @@ fs = 2e9
 BW = 400e6
 
 # 读取PA输入输出信号
+# data_file = 'data/LMBA_200M_23G.mat'
 data_file = 'data/dataxy400m2G.mat'
-# data_file = 'data/signal_100M_NR_fs49152.mat'
 data = loadmat(data_file)
 
 # xorg = x_data[]
 xorg = data['x0']
 yorg = data['y00']
+# xorg = data['x']
+# yorg = data['y']
 x = xorg.squeeze()
 y = yorg.squeeze()
 
 N = len(xorg)
 figure_path = 'figures/polynomial'
-fun.PA_figure(x,y,figure_path)
+fun.PA_figure(x,y,fs,figure_path)
 # 评估结果（示例）
-logger.info(f"signal 400M:")
-NMSE_pred = cal.nmse(x, y, logger)
-ACLR_pred = cal.acpr(y, fs, BW, BW, logger)
+logger.info(f"signal LMBA 200M:")
+NMSE = cal.nmse(x, y, logger)
+ACLR = cal.acpr(y, fs, BW, BW, logger)
 
 # Model_map = ['GMP','MP']
 Model_map = ['GMP']
 
 
-PA_in = xorg[0:50000]
-PA_out = yorg[0:50000]
+PA_in = xorg[0:]
+PA_out = yorg[0:]
 for Model in Model_map:
     if Model == 'GMP':
         logger.info(f'----------------{Model}_K{K}_L{L}_M{M}--------------------')
@@ -72,17 +74,17 @@ for Model in Model_map:
         coef = gmp.GMP_e(PA_in, PA_out, K=K,L=L, M=M)
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
-        logger.info(f"model train time: {elapsed_time:.6f} 秒")
+        logger.info(f"model train time: {elapsed_time:.6f} s")
 
         logger.info(f'{Model} coef num {len(coef)}')
 
-        PA_in = xorg[50001:]
-        PA_out = yorg[50001:]
+        PA_in = xorg[0:]
+        PA_out = yorg[0:]
         start_time = time.time()  # 记录开始时间
         y_pred = gmp.GMP_v(PA_in, coef, K=K, L=L, M=M)
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
-        logger.info(f"model prediction time: {elapsed_time:.6f} 秒")
+        logger.info(f"model prediction time: {elapsed_time:.6f} s")
 
         # y_pred = y_pred.reshape(-1,1)
     elif Model == 'MP':
@@ -96,8 +98,8 @@ for Model in Model_map:
     # PA_out_withDPD = PA_out_withDPD / max(abs(PA_out_withDPD))
     # PA_out_withDPD = PA_out_withDPD.squeeze()
     # PA_out_withDPD = align.align(x,PA_out_withDPD)
-    x = x[50001:]
-    y = y[50001:]
+    x = x[0:]
+    y = y[0:]
     y_pred[0:20] = 0
     x_norm = x/max(abs(x))
     y_norm = y/max(abs(y))

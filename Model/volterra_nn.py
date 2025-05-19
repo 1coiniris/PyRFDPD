@@ -24,6 +24,134 @@ def create_sequences_addmemory(data, seq_length, M = 9):
         sequences.append(memory)
     return np.array(sequences)
 
+class GMP_NN(nn.Module):
+    def __init__(self, layer_dims,L, M, activation="ReLU"):
+        super().__init__()
+        self.M = M
+        self.L = L
+        assert activation == "ReLU" or "Tanh" or "ELU" or "None"
+        self.layers = nn.Sequential()
+        for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
+            self.layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim))
+            if activation == "ReLU":
+                self.layers.add_module("actFunc " + str(index), nn.ReLU())
+            elif activation == "Tanh":
+                self.layers.add_module("actFunc " + str(index), nn.Tanh())
+            elif activation == "ELU":
+                self.layers.add_module("actFunc " + str(index), nn.ELU(alpha=1))
+            elif activation == "None":
+                pass
+        if activation != "None":
+            self.layers = self.layers[:-1]  # remove the last activation layer
+
+    # def __init__(self, input_size, hidden_size, M):
+    #     super().__init__()
+    #     self.M = M
+    #     self.fc = nn.Sequential(
+    #         nn.Linear(input_size, hidden_size),
+    #         nn.ReLU(),
+    #         nn.Linear(hidden_size, hidden_size),
+    #         nn.ReLU(),
+    #         nn.Linear(hidden_size, 2 * (M + 1))  # 输出实部虚部分离
+    #     )
+
+    def forward(self, x_window, x_signal):
+        """
+        x_window: 当前窗口的实值输入 [batch, (M+1)]
+        x_signal: 对应的复数信号窗口 [batch, M+1] (复数)
+        """
+        # 前向传播
+        out = self.layers(x_window)  # [batch, 2*(M+1)]
+
+        # 重组复数系数
+        coeffs = torch.view_as_complex(
+            out.view(-1, self.M + 1, 2)  # [batch, M+1, 2]
+        )  # [batch, M+1] (复数)
+        # x_signal = x_signal.reshape(-1,1)
+        # 计算预测值 y_pred = sum(coeffs * x_window_signals)
+        y_pred = torch.sum(coeffs * x_signal, dim=1)  # [batch,]
+        # a = torch.view_as_real(y_pred)
+        return torch.view_as_real(y_pred)
+
+    # 数据预处理函数
+    def create_dataset(self,x, y, L, M, test_size=0.2):
+        # 转换为实部虚部分离格式
+        # x_real = torch.view_as_real(x).float()  # [N, 2]
+        # y_real = torch.view_as_real(y).float()  # [N, 2]
+        X = complex_to_real(x)
+        Y = complex_to_real(y)
+
+        Lb = self.L[0]
+        Lc = self.L[1]
+
+        # 创建延迟窗口
+        sequences = []
+        targets = []
+        for i in range(M + Lb, len(x) - Lc -2):
+            # 输入：x(n-M)到x(n)的实部虚部
+            window = X[i - M - Lb : i + Lc + 1].flatten()  # [2*(M+1+Lb+Lc),]
+            # 输出：y(n+1)的实部虚部
+            target = Y[i]  # [2,]
+            sequences.append(window)
+            targets.append(target)
+        # if 1:
+        #     batch_x_signal = np.stack([a[-2:] for a in sequences])  # 需优化以提高效率
+        #     batch_x_signal = torch.from_numpy(batch_x_signal)
+        #     # 转换为张量
+        #     # batch_x_signal = torch.view_as_real(batch_x_signal).to(torch.float32)
+        #     batch_x_signal = torch.view_as_complex(batch_x_signal)
+        #     batch_x = np.stack(batch_x_signal[0:200])
+        #     batch_y = np.stack([a[0]+1j*a[1] for a in targets[0:200]])  # targets[0:200]
+        #     plt.figure()
+        #     t = np.linspace(0, 1, 200)
+        #     plt.plot(t, abs(batch_y[000:200]), label='y')
+        #     plt.plot(t, abs(batch_x[000:200]), label='x')
+        #     plt.ylim(0, 1)
+        #     plt.legend()
+        #     plt.show()
+        #     plt.savefig(f'figures/MCP_NN/Dataset_waveform.png')
+        X_tensor = torch.FloatTensor(sequences)  # (16375, 2M+2)
+        Y_tensor = torch.FloatTensor(targets)  # (16375, 2)
+        X_train, X_val, Y_train, Y_val = train_test_split(X_tensor, Y_tensor, test_size=test_size, shuffle=False)
+        return [X_train, X_val, Y_train, Y_val]
+
+    def apply_dpd(self, signal):
+        M = self.M
+        Lb = self.L[0]
+        Lc = self.L[1]
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # 将模型移动到设备上
+        self.to(device)
+        self.eval()
+        X = complex_to_real(signal)  # (16384,2)
+        # 创建延迟窗口
+        sequences = []
+        for i in range(M + Lb, len(signal) - Lc - 2):
+            # 输入：x(n-M)到x(n)的实部虚部
+            window = X[i - M - Lb : i + Lc + 1].flatten()  # [2*(M+1),]
+            # 输出：y(n+1)的实部虚部
+            sequences.append(window)
+
+        X_tensor = torch.FloatTensor(sequences)  # (16375, 2M+2)
+
+        reshaped_tensor = X_tensor.view(len(X_tensor), M + 1 + Lb + Lc, 2)
+        input_tensor = torch.view_as_complex(reshaped_tensor)
+        x_tensor = reshaped_tensor[:, Lb:M + Lb + 1, :]
+        batch_x_signal = torch.view_as_complex(x_tensor)
+        # batch_x_signal = torch.view_as_complex(reshaped_tensor)
+        batch_x_magnitude = abs(input_tensor)
+        with torch.no_grad():
+            # inputs = X_tensor.to(device)
+            batch_x_magnitude = batch_x_magnitude.to(device)
+            batch_x_signal = batch_x_signal.to(device)
+            outputs = self(batch_x_magnitude, batch_x_signal)
+
+            ypred = torch.view_as_complex(outputs).cpu()
+        full_pred = np.complex128(np.zeros((len(signal))))
+        full_pred[M + Lb : -Lc-2] = np.stack(ypred[0:])  # 对齐时间戳
+        return full_pred
+
 class MCP_NN(nn.Module):
     def __init__(self, layer_dims, M, activation="ReLU"):
         super().__init__()
