@@ -1,5 +1,6 @@
 from operator import concat
 
+
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
@@ -34,22 +35,31 @@ print(device)
 
 
 ########################## 信号描述 ################################
-fs = 2e9
-BW = 400e6
+# signal = '400M' #'LMBA200M'
+signal = 'LMBA200M'
+
 # 读取PA输入输出信号
-data_file = 'data/dataxy400m2G.mat'
-# data_file = 'data/LMBA_200M_23G.mat'
-# data_file = 'data/signal_100M_NR_fs49152.mat'
-data = loadmat(data_file)
+if signal == '400M':
+    fs = 2e9
+    BW = 400e6
+    data_file = 'data/dataxy400m2G.mat'
+    data = loadmat(data_file)
+    xorg = data['x0']
+    yorg = data['y00']
+elif signal == 'LMBA200M':
+    fs = 1e9
+    BW = 200e6
+    data_file = 'data/LMBA_200M_23G.mat'
+    data = loadmat(data_file)
+    xorg = data['x']
+    yorg = data['y']
 
-# xorg = x_data[]
-xorg = data['x0']
-yorg = data['y00']
-# xorg = data['x']
-# yorg = data['y']
 
-x = xorg[0:].squeeze()
-y = yorg[0:].squeeze()
+N = len(xorg)
+last_train = int(N*0.6-1)
+
+x = xorg[0:last_train].squeeze()
+y = yorg[0:last_train].squeeze()
 
 N = len(xorg)
 figure_path = 'figures/MCP_NN'
@@ -73,19 +83,23 @@ Model = 'GMP_NN'
 # for size in hidden_size:
 #     layer_dims.append(size)
 # layer_dims.append(output_size)
-model_map = []
-for M in range(7,11,1):
-    for L in range(3,7):
-        for layer1 in range(16,24,4):
-            for layer2 in range(20,24,2):
-                for layer3 in range(2*M+2, 2*M+10, 4):
-                    model_map.append([M,L,layer1,layer2,layer3])
+# model_map = []
+# for M in range(7,11,1):
+#     for L in range(3,7):
+#         inputsize = M+2*L+1
+#         outputsize = 2*M+2
+#         model_map.append([M, L, 22, 30, 24])
+        # for layer1 in range(inputsize,max(inputsize+16,32),4):
+        #     for layer2 in range(inputsize,max(inputsize+16,32),4):
+        #         for layer3 in range(2*M+6, 2*M+18, 4):
+        #             model_map.append([M,L,layer1,layer2,layer3])
+model_map = [[7,3,24,32,24]]
 
 learning_rate = 0.001
-epochs = 100
-batch_size = 512
-activation= "Tanh" #Tanh ReLU
-
+epochs = 400
+batch_size = 256
+# activation= "ReLU" #Tanh ReLU
+activation= "Tanh"
 plotwave = 0
 model_train = 1
 
@@ -93,7 +107,7 @@ NMSE_list = []
 
 filename = f"{Model}_{time.strftime('%Y%m%d%H')}"
 parser = argparse.ArgumentParser(description='configTemplates')
-parser.add_argument('-log_path', default='./results/20250518/log/', type=str, help='log file path to save result')
+parser.add_argument('-log_path', default='./results/20250519/log/', type=str, help='log file path to save result')
 args = parser.parse_args()
 logger = fun.create_logger(args.log_path, filename)
 
@@ -122,13 +136,13 @@ for model in model_map:
             layer_dims.append(size)
         layer_dims.append(output_size)
         # model_path = 'results/save/GMP_NN_M7_[15, 12, 16, 20, 16]_ReLU_202505101439.pt'
-        model_path = f"results/20250518/save/{Model}_M{M}_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
+        model_path = f"results/20250519/save/{Model}_M{M}_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
         # filename = f"{Model}_M{M}_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}"
         # parser = argparse.ArgumentParser(description='configTemplates')
         # parser.add_argument('-log_path', default='./results/20250517/log/', type=str, help='log file path to save result')
         # args = parser.parse_args()
         # logger = fun.create_logger(args.log_path, filename)
-        logger.info(f'------signal {BW / 1e6}M {fs / 1e6}------')
+        logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
 
         # print(f'------------------------{Model}_M{M}_{layer_dims}_{activation}-------------------------------')
         logger.info(f'------------------------{Model}_M{M}_{layer_dims}_{activation}-------------------------------')
@@ -154,6 +168,7 @@ for model in model_map:
             val_loss_list = []
             # 训练循环
             start_time = time.time()  # 记录开始时间
+            nosave_count = 0
             for epoch in range(epochs):
                 model.train()
                 i = 0
@@ -231,6 +246,13 @@ for model in model_map:
                     best_model = model.state_dict()
                 # print(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
                 logger.info(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
+                if save == 0:
+                    nosave_count = nosave_count + 1
+                else:
+                    nosave_count = 0
+                if nosave_count > 15:
+                    break
+
             torch.save(best_model, model_path)
             logger.info(f"model save: {model_path} ")
             end_time = time.time()  # 记录结束时间
@@ -260,8 +282,8 @@ for model in model_map:
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
 
-        x = xorg[0:].squeeze()
-        y = yorg[0:].squeeze()
+        x = xorg[last_train+1:].squeeze()
+        y = yorg[last_train+1:].squeeze()
         start_time = time.time()  # 记录开始时间
         y_pred = model.apply_dpd(x)
         end_time = time.time()  # 记录结束时间
@@ -617,7 +639,7 @@ for model in model_map:
 
     # 评估结果（示例）
     # NMSE_pred = 10 * np.log10(sum(abs(y_pred_norm - y_norm)**2) / sum(abs(y_norm)**2))
-    logger.info(f"signal 400M:")
+    logger.info(f"signal {signal}")
     NMSE = cal.nmse(x,y,logger)
     ACLR = cal.acpr(y,fs,BW,BW,logger)
 
@@ -658,7 +680,6 @@ for model in model_map:
 for para,nmse in zip(model_map,NMSE_list):
     logger.info(f"M{para[0]}_L{para[1]}_{para[2:]}_nmse{nmse}dB")
 
-# NMSE_list = [-1,-2,-3,-4,-5]
 best = min(NMSE_list)
 key = NMSE_list.index(best)
 

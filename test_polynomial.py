@@ -26,47 +26,55 @@ import time
 import Function_Lib as fun
 import Function_Calculate as cal
 
-K = [11, 11, 11]
-L = [11, 11, 11]
-M = [7, 7]
 
-filename = f"GMP_K{K}_L{L}_M{M}"
+########################## 信号描述 ################################
+# signal = '400M' #'LMBA200M'
+signal = 'LMBA200M'
+
+# 读取PA输入输出信号
+if signal == '400M':
+    fs = 2e9
+    BW = 400e6
+    data_file = 'data/dataxy400m2G.mat'
+    data = loadmat(data_file)
+    xorg = data['x0']
+    yorg = data['y00']
+elif signal == 'LMBA200M':
+    fs = 1e9
+    BW = 200e6
+    data_file = 'data/LMBA_200M_23G.mat'
+    data = loadmat(data_file)
+    xorg = data['x']
+    yorg = data['y']
+
+x = xorg.squeeze()
+y = yorg.squeeze()
+
+
+
+N = len(xorg)
+figure_path = 'figures/polynomial'
+fun.PA_figure(x,y,fs,figure_path)
+
+
+
+# Model_map = ['GMP','MP']
+Model_map = ['GMP']
+
+last_train = int(N*0.6-1)
+PA_in  = xorg[0:last_train]
+PA_out = yorg[0:last_train]
+
+K = [7, 7, 7]
+L = [7, 5, 5]
+M = [3, 3]
+
+filename = f"GMP_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}"
 parser = argparse.ArgumentParser(description='configTemplates')
 parser.add_argument('-log_path', default='./results/log', type=str, help='log file path to save result')
 args = parser.parse_args()
 logger = fun.create_logger(args.log_path, filename)
 
-########################## 信号描述 ################################
-fs = 2e9
-BW = 400e6
-
-# 读取PA输入输出信号
-# data_file = 'data/LMBA_200M_23G.mat'
-data_file = 'data/dataxy400m2G.mat'
-data = loadmat(data_file)
-
-# xorg = x_data[]
-xorg = data['x0']
-yorg = data['y00']
-# xorg = data['x']
-# yorg = data['y']
-x = xorg.squeeze()
-y = yorg.squeeze()
-
-N = len(xorg)
-figure_path = 'figures/polynomial'
-fun.PA_figure(x,y,fs,figure_path)
-# 评估结果（示例）
-logger.info(f"signal LMBA 200M:")
-NMSE = cal.nmse(x, y, logger)
-ACLR = cal.acpr(y, fs, BW, BW, logger)
-
-# Model_map = ['GMP','MP']
-Model_map = ['GMP']
-
-
-PA_in = xorg[0:]
-PA_out = yorg[0:]
 for Model in Model_map:
     if Model == 'GMP':
         logger.info(f'----------------{Model}_K{K}_L{L}_M{M}--------------------')
@@ -78,8 +86,8 @@ for Model in Model_map:
 
         logger.info(f'{Model} coef num {len(coef)}')
 
-        PA_in = xorg[0:]
-        PA_out = yorg[0:]
+        PA_in  = xorg[last_train+1:]
+        PA_out = yorg[last_train+1:]
         start_time = time.time()  # 记录开始时间
         y_pred = gmp.GMP_v(PA_in, coef, K=K, L=L, M=M)
         end_time = time.time()  # 记录结束时间
@@ -88,9 +96,9 @@ for Model in Model_map:
 
         # y_pred = y_pred.reshape(-1,1)
     elif Model == 'MP':
-        print('----------------MP--------------------')
+        logger.info('----------------MP--------------------')
         coef = mp.MP_e(PA_in, PA_out, 5, 7)
-        print(f'{Model} coef num {len(coef)}')
+        logger.info(f'{Model} coef num {len(coef)}')
         y_pred = mp.MP_v(PA_in, coef, 5, 7)
         # y_pred = y_pred.reshape(-1, 1)
 
@@ -98,12 +106,18 @@ for Model in Model_map:
     # PA_out_withDPD = PA_out_withDPD / max(abs(PA_out_withDPD))
     # PA_out_withDPD = PA_out_withDPD.squeeze()
     # PA_out_withDPD = align.align(x,PA_out_withDPD)
-    x = x[0:]
-    y = y[0:]
-    y_pred[0:20] = 0
+    x = x[last_train+1:]
+    y = y[last_train+1:]
+    y_pred = y_pred[0:]
+
     x_norm = x/max(abs(x))
     y_norm = y/max(abs(y))
     y_pred_norm = y_pred/max(abs(y_pred))
+
+    # 评估结果（示例）
+    logger.info(f"signal {signal}")
+    NMSE = cal.nmse(x, y, logger)
+    ACLR = cal.acpr(y, fs, BW, BW, logger)
 
     # 评估结果（示例）
     logger.info(f"with {Model}:")
