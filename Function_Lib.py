@@ -54,7 +54,7 @@ def model_structure(model,logger = None):
     blank = ' '
     if logger == None:
         print('-' * 90)
-        print('|' + ' ' * 11 + 'weight name' + ' ' * 10 + '|' \
+        print('|' + ' ' * 20 + 'weight name' + ' ' * 30 + '|' \
               + ' ' * 15 + 'weight shape' + ' ' * 15 + '|' \
               + ' ' * 3 + 'number' + ' ' * 3 + '|')
         print('-' * 90)
@@ -81,20 +81,20 @@ def model_structure(model,logger = None):
         print('The parameters of Model {}: {:4f}M'.format(model._get_name(), num_para * type_size / 1000 / 1000))
         print('-' * 90)
     else:
-        logger.info('-' * 90)
-        logger.info('|' + ' ' * 11 + 'weight name' + ' ' * 10 + '|' \
-                    + ' ' * 15 + 'weight shape' + ' ' * 15 + '|' \
-                    + ' ' * 3 + 'number' + ' ' * 3 + '|')
-        logger.info('-' * 90)
+        logger.info('-' * 120)
+        logger.info('|' + ' ' * 20 + 'weight name' + ' ' * 30 + '|' \
+                    + ' ' * 10 + 'weight shape' + ' ' * 10 + '|' \
+                    + ' ' * 5 + 'number' + ' ' * 5 + '|')
+        logger.info('-' * 120)
 
         num_para = 0
         type_size = 1  # 如果是浮点数就是4
         for index, (key, w_variable) in enumerate(model.named_parameters()):
             if len(key) <= 30:
-                key = key + (30 - len(key)) * blank
+                key = key + (50 - len(key)) * blank
             shape = str(w_variable.shape)
             if len(shape) <= 40:
-                shape = shape + (40 - len(shape)) * blank
+                shape = shape + (20 - len(shape)) * blank
             each_para = 1
             for k in w_variable.shape:
                 each_para *= k
@@ -104,10 +104,10 @@ def model_structure(model,logger = None):
                 str_num = str_num + (10 - len(str_num)) * blank
 
             logger.info('| {} | {} | {} |'.format(key, shape, str_num))
-        logger.info('-' * 90)
+        logger.info('-' * 120)
         logger.info('The total number of parameters: ' + str(num_para))
         logger.info('The parameters of Model {}: {:4f}M'.format(model._get_name(), num_para * type_size / 1000 / 1000))
-        logger.info('-' * 90)
+        logger.info('-' * 120)
 
 # 数据预处理函数
 def create_dataset(x, y, M, test_size = 0.2):
@@ -203,8 +203,8 @@ def PA_figure(x,y,fs,filepath):
     # a = list(xorg)
     # TEST_Plot.plot_power_spectrum({"PA input": x,"PA output":y},100e6)
     # TEST_Plot.plot_amam(x, y,filename="figures/amam wo DPD.png")
-    plot.amam(x, {"PAout":y}, f"{filepath}/PA_amam.png")
-    plot.ampm(x, {"PAout":y}, f"{filepath}/PA_ampm.png")
+    plot.amam(x, {"PAout":y}, filename=f"{filepath}/PA_amam.png")
+    plot.ampm(x, {"PAout":y}, filename=f"{filepath}/PA_ampm.png")
 
 # def calculate_metrics(args: argparse.Namespace, stat: Dict[str, Any], prediction: np.ndarray, ground_truth: np.ndarray):
 #     stat['NMSE'] = metrics.NMSE(prediction, ground_truth)

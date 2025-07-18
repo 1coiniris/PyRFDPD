@@ -28,8 +28,11 @@ import Function_Calculate as cal
 
 
 ########################## 信号描述 ################################
-# signal = '400M' #'LMBA200M'
+# signal = '100M' #'LMBA200M'
 signal = 'LMBA200M'
+# signal = '400M'
+# signal = 'ILC_120M'
+# signal = 'ILC'
 
 # 读取PA输入输出信号
 if signal == '400M':
@@ -46,6 +49,29 @@ elif signal == 'LMBA200M':
     data = loadmat(data_file)
     xorg = data['x']
     yorg = data['y']
+elif signal == '100M':
+    fs = 983.04e6
+    BW = 100e6
+    data_file = 'data/signal_100M_fs98304.mat'
+    data = loadmat(data_file)
+    xorg = data['x'].T
+    yorg = data['y'].T
+elif signal == 'ILC_120M':
+    fs = 1.2288e9
+    BW = 120e6
+    data_file = 'data/ILC.mat'
+    data = loadmat(data_file)
+    xorg = data['uBB']
+    # ILCOut = data['x']
+    yorg = data['xBB']
+elif signal == 'ILC':
+    fs = 1.2288e9
+    BW = 200e6
+    data_file = 'data/ILC_[0  1  1  1  0]_G1_forpython.mat'
+    data = loadmat(data_file)
+    xorg = data['x']
+    # ILCOut = data['x']
+    yorg = data['y_ILC']
 
 x = xorg.squeeze()
 y = yorg.squeeze()
@@ -65,9 +91,9 @@ last_train = int(N*0.6-1)
 PA_in  = xorg[0:last_train]
 PA_out = yorg[0:last_train]
 
-K = [7, 7, 7]
-L = [7, 5, 5]
-M = [3, 3]
+K = [11, 11, 11]
+L = [11, 7, 7]
+M = [5, 5]
 
 filename = f"GMP_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}"
 parser = argparse.ArgumentParser(description='configTemplates')
@@ -83,7 +109,13 @@ for Model in Model_map:
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
         logger.info(f"model train time: {elapsed_time:.6f} s")
+        y_pred = gmp.GMP_v(PA_in, coef, K=K, L=L, M=M)
+        logger.info(f'{Model} train NMSE:')
 
+        x_norm = PA_in / max(abs(PA_in))
+        y_norm = PA_out.squeeze() / max(abs(PA_out))
+        y_pred_norm = y_pred / max(abs(y_pred))
+        NMSE = cal.nmse(y_norm,y_pred_norm, logger)
         logger.info(f'{Model} coef num {len(coef)}')
 
         PA_in  = xorg[last_train+1:]
@@ -106,9 +138,9 @@ for Model in Model_map:
     # PA_out_withDPD = PA_out_withDPD / max(abs(PA_out_withDPD))
     # PA_out_withDPD = PA_out_withDPD.squeeze()
     # PA_out_withDPD = align.align(x,PA_out_withDPD)
-    x = x[last_train+1:]
-    y = y[last_train+1:]
-    y_pred = y_pred[0:]
+    x = x[last_train+20:]
+    y = y[last_train+20:]
+    y_pred = y_pred[19:]
 
     x_norm = x/max(abs(x))
     y_norm = y/max(abs(y))
@@ -135,8 +167,8 @@ for Model in Model_map:
         {"input": x,"pred_output":y_pred,"output":y},
         fs=fs,filename=f'figures/polynomial/{Model}_spec.png'
     )
-    plot.amam(x, {"out":y,"pred":y_pred}, f"figures/polynomial/{Model}_amam.png")
-    plot.ampm(x, {"out": y, "pred": y_pred}, f"figures/polynomial/{Model}_ampm.png")
+    plot.amam(x, {"out":y,"pred":y_pred}, norm=0, filename=f"figures/polynomial/{Model}_amam.png")
+    plot.ampm(x, {"out": y, "pred": y_pred}, norm=0, filename=f"figures/polynomial/{Model}_ampm.png")
 
     plt.figure()
     t = np.linspace(0, 1, 400)
@@ -149,3 +181,9 @@ for Model in Model_map:
     plt.savefig(f'figures/polynomial/{Model}_waveform.png')
 
 A = 1
+
+DPD_with_GMP = gmp.GMP_v(xorg, coef, K=K, L=L, M=M)
+max(abs(DPD_with_GMP))
+# 保存数据到MAT文件
+file_name = 'data/GMP.mat'
+savemat(file_name, {'DPD': DPD_with_GMP.T, 'ILC': yorg, 'X': xorg})
