@@ -16,7 +16,7 @@ import numpy as np
 import scipy.io
 import matplotlib.pyplot as plt
 import argparse
-
+import Function_Calculate as cal
 
 def GMP_e(x_target: np.ndarray, y_target: np.ndarray, K: list, L: list, M: list, ratio: float=1)->np.ndarray:
     """
@@ -70,7 +70,11 @@ def GMP_e(x_target: np.ndarray, y_target: np.ndarray, K: list, L: list, M: list,
     X = np.hstack((X_align, X_lag, X_lead))
     X[np.isnan(X)] = 0 # Remove NaN
     XH = np.conjugate(X.T)
-    coef = np.linalg.pinv(XH.dot(X) + 0.000001*np.eye(X.shape[1])).dot(XH).dot(y_target)
+    coef = np.linalg.pinv(XH.dot(X) + 0.00001*np.eye(X.shape[1])).dot(XH).dot(y_target)
+
+    y_model = GMP_v(x_target, coef,K, L, M)
+    NMSE = cal.nmse(y_target, y_model)
+    print(f'NMSE-with-model = {NMSE:.6f} dB')
     return coef
 
 def GMP_v(x_target: np.ndarray, coef, K: list, L: list, M: list)->np.ndarray:
@@ -120,6 +124,41 @@ def GMP_v(x_target: np.ndarray, coef, K: list, L: list, M: list)->np.ndarray:
     X[np.isnan(X)] = 0 # Remove NaN
     y = X.dot(coef)
     return y
+
+def GMP_get_basis(x_target: np.ndarray, K: list, L: list, M: list, ratio: float=1)->np.ndarray:
+    N = len(x_target)
+    x_target = np.ravel(x_target)  # Change from 2D to 1D array
+    Ka, Kb, Kc = K
+    La, Lb, Lc = L
+    Mb, Mc = M
+
+    X_align = np.empty((N, Ka * La), dtype='complex')
+    for k in range(Ka):
+        for l in range(La):
+            xd = np.roll(x_target, l)
+            X_align[:, k * La + l] = xd * np.power(abs(xd), k)
+
+    X_lag = np.empty((N, Kb * Lb * Mb), dtype='complex')
+    for k in range(Kb):
+        for l in range(Lb):
+            for m in range(Mb):
+                xd = np.roll(x_target, l)
+                xdm = np.roll(xd, m + 1)
+                X_lag[:, k * (Lb + Mb) + l * Mb + m] = xd * np.power(abs(xdm), k + 1)
+
+    X_lead = np.empty((N, Kc * Lb * Mb), dtype='complex')
+    for k in range(Kc):
+        for l in range(Lc):
+            for m in range(Mc):
+                xd = np.roll(x_target, l)
+                xdm = np.roll(xd, -(m + 1))
+                X_lead[:, k * (Lc + Mc) + l * Mc + m] = xd * np.power(abs(xdm), k + 1)
+
+    X = np.hstack((X_align, X_lag, X_lead))
+    X[np.isnan(X)] = 0  # Remove NaN
+    return X
+
+
 
 if __name__ == "__main__":
     print("This is the GMP extraction and evaluation functions.")

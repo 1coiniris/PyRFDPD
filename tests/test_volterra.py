@@ -3,8 +3,11 @@ import logging
 from functools import partial
 from scipy.io import loadmat, savemat
 import pyrfdpd.volterra as volterra
-import pyrfdpd.visa as visa
+import pyrfdpd.visa.collect_signal as visa_collect_signal
+import pyrfdpd.visa.down_signal as visa_down_signal
 from pyrfdpd.utils import metrics, plot, align
+import pyrfdpd
+
 
 
 configfile = "gmp.toml"
@@ -18,7 +21,7 @@ test_name = config_dict["title"]
 
 logger = logging.getLogger(test_name)
 logger.setLevel(logging.DEBUG)
-log_file = logging.FileHandler('tests/log/' + test_name + '.log')
+log_file = logging.FileHandler('log/' + test_name + '.log')
 log_file.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 log_file.setFormatter(formatter)
@@ -61,8 +64,8 @@ elif model == "GMP":
     K = config_dict["model"]["nonlinear_order"]
     L = config_dict["model"]["lagging_depth"]
     ratio = config_dict['model']['hyperparameters']['ratio']
-    model_e = partial(volterra.gmp.GMP_e, M = M, K = K, L = L, ratio=ratio)
-    model_v = partial(volterra.gmp.GMP_v, M = M, K = K, L = L)
+    # model_e = partial(volterra.gmp.GMP_e, M = M, K = K, L = L, ratio=ratio)
+    # model_v = partial(volterra.gmp.GMP_v, M = M, K = K, L = L)
 else:
     pass
 
@@ -71,8 +74,9 @@ logger.info(f"Start Testing --- " + test_name)
 logger.info(f"{'-'*30}")
 
 # Initial test
-visa.down_signal(sg_brand, xorg, fc, fs, pow, sg_ip, logger=logger)
-yraw = visa.collect_signal(sa_brand, fc, fs, att, sa_ip, logger=logger)
+
+# visa_down_signal(sg_brand, xorg, fc, fs, pow, sg_ip, logger=logger)
+yraw = visa_collect_signal(sa_brand, fc, fs, att, sa_ip, logger=logger)
 yorg = align.align(xorg, yraw)
 pa_input, pa_output = xorg.copy(), yorg.copy()
 
@@ -81,8 +85,8 @@ for idx in range(iteration):
     logger.debug(f"Start the {idx+1}th iteration")
     cc = model_e(pa_output, pa_input)
     pa_input = model_v(xorg, cc)
-    visa.down_signal(sg_brand, pa_input, fc, fs, pow, sg_ip, logger=logger)
-    pa_output = visa.collect_signal(sa_brand, fc, fs, att, sa_ip, logger=logger)
+    visa_down_signal(sg_brand, pa_input, fc, fs, pow, sg_ip, logger=logger)
+    pa_output = visa_collect_signal(sa_brand, fc, fs, att, sa_ip, logger=logger)
     pa_output = align.align(xorg, pa_output)
 logger.debug("DPD done!")
 

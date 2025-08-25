@@ -23,6 +23,77 @@ import argparse
 import time
 import os
 
+def get_data(signal,rate=0.6,state=3):
+    # 读取PA输入输出信号
+    if signal == 'YU':
+        state_list = [3, 5, 6, 7, 8, 11 ,15, 18, 20 ]
+        fs = 491.52e6
+        BW = 100e6
+        print(f'state {state}')
+        data_file = 'data/Data_1104_24_3.mat'
+        data = loadmat(data_file)
+        xorg = data['x00']
+        yorg = data['y00']
+        # state = 3
+        L = len(xorg)
+        val_start = int(L * 0.375 + L * 0.625 / 24 * state + 1)
+        val_end = int(L * 0.375 + L * 0.625 / 24 * (state + 1))
+        train_start = int(L * 0.375 / 24 * state + 1)
+        train_end = int(L * 0.375 / 24 * (state + 1))
+        x_train = xorg[train_start:train_end].squeeze()
+        y_train = yorg[train_start:train_end].squeeze()
+        x = xorg[val_start:val_end].squeeze()
+        y = yorg[val_start:val_end].squeeze()
+    else:
+        if signal == '400M':
+            fs = 2e9
+            BW = 400e6
+            data_file = 'data/dataxy400m2G.mat'
+            data = loadmat(data_file)
+            xorg = data['x0']
+            yorg = data['y00']
+        elif signal == 'LMBA200M':
+            fs = 1e9
+            BW = 200e6
+            data_file = 'data/LMBA_200M_23G.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
+            yorg = data['y']
+        elif signal == '100M':
+            fs = 983.04e6
+            BW = 100e6
+            data_file = 'data/PA_100M_98304.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
+            yorg = data['y']
+        elif signal == 'ILC_120M':
+            fs = 1.2288e9
+            BW = 120e6
+            data_file = 'data/ILC.mat'
+            data = loadmat(data_file)
+            xorg = data['uBB']
+            # ILCOut = data['x']
+            yorg = data['xBB']
+        elif signal == 'ILC':
+            fs = 1.2288e9
+            BW = 200e6
+            data_file = 'data/ILC_[0  1  1  1  0]_G1_forpython.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
+            # ILCOut = data['x']
+            yorg = data['y_ILC']
+
+        N = len(xorg)
+        last_train = int(N * rate - 1)
+        # 创建数据集
+        x_train = xorg[0:last_train].squeeze()
+        y_train = yorg[0:last_train].squeeze()
+        x = xorg[last_train + 1:].squeeze()
+        y = yorg[last_train + 1:].squeeze()
+
+    return x_train, y_train, x, y, fs, BW
+
+
 
 def create_logger(logger_file_path,filename):
 

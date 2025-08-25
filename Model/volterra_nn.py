@@ -753,6 +753,124 @@ class RVTD_NN(nn.Module):
     def forward(self, x):
         return self.layers(x)
 
+    def model_train(self, x, y, model_path, logger=None, total_train=1):
+        learning_rate = 0.001
+        epochs = 400
+        batch_size = 512
+        device = self.device
+
+        # optim
+        if total_train == 0:
+            optimizer = optim.Adam(self.linear.parameters(), lr=learning_rate)
+        else:
+            optimizer = optim.Adam(self.parameters(), lr=learning_rate)
+        criterion = nn.MSELoss()
+        # fun.model_structure(self, logger)
+        best_metric = float('inf')
+
+        # dataset
+        X_train, X_val, Y_train, Y_val = self.create_dataset(x, y)
+        train_dataset = TensorDataset(X_train, Y_train)
+        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
+        val_dataset = TensorDataset(X_val, Y_val)
+        val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+
+        # train
+        logger.info(f'------------------------Train Stage-------------------------------')
+        train_loss_list = []
+        val_loss_list = []
+        # 训练循环
+        start_time = time.time()  # 记录开始时间
+        nosave_count = 0
+        for epoch in range(epochs):
+            self.train()
+            i = 0
+            train_loss = 0
+            for inputs, targets in tqdm(train_loader):
+                # 获取对应的复数信号窗口 [batch, M+1]
+                optimizer.zero_grad()
+
+                batch_x_signal = inputs.to(device)
+                targets = torch.view_as_real(targets)
+                targets = targets.to(device)
+                # outputs = model(inputs)
+                outputs = self(batch_x_signal)
+
+                loss = criterion(outputs, targets)
+                loss.backward()
+                optimizer.step()
+                train_loss += loss.item()
+
+            # 验证
+            self.eval()
+            val_loss = 0
+            with torch.no_grad():
+                for inputs, targets in tqdm(val_loader):
+                    # 将数据移动到设备上
+                    # 获取对应的复数信号窗口 [batch, M+1]
+                    batch_x_signal = inputs.to(device)
+                    targets = torch.view_as_real(targets)
+                    targets = targets.to(device)
+                    # outputs = model(inputs)
+                    val_outputs = self(batch_x_signal)
+                    val_loss += criterion(val_outputs, targets).item()
+
+            train_loss_list.append(train_loss / len(train_loader))
+            val_loss_list.append(val_loss / len(val_loader))
+            # 记录指标
+            metrics = {
+                'epoch': epoch,
+                'train_loss': train_loss,
+                'val_loss': val_loss,
+            }
+
+            # # 保存当前模型（按周期命名）
+            # torch.save(model.state_dict(), f'model_epoch_{epoch}.pth')
+            save = 0
+            # 更新最佳模型
+            if val_loss_list[-1] < best_metric:
+                best_metric = val_loss_list[-1]
+                save = 1
+                # 保存模型参数（推荐保存为 .pt 或 .pth 文件）
+                best_model = self.state_dict()
+            # print(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
+            logger.info(
+                f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
+            if save == 0:
+                nosave_count = nosave_count + 1
+            else:
+                nosave_count = 0
+            if nosave_count > 100:
+                break
+
+        torch.save(best_model, model_path)
+        logger.info(f"model save: {model_path} ")
+        end_time = time.time()  # 记录结束时间
+        elapsed_time = end_time - start_time
+        logger.info(f"model train time: {elapsed_time:.6f} s")
+
+        if 1:
+            y_train_loss = train_loss_list  # loss值，即y轴
+            x_train_loss = range(len(y_train_loss))  # loss的数量，即x轴
+
+            plt.figure()
+
+            # 去除顶部和右边框框
+            ax = plt.axes()
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+
+            plt.xlabel('iters')  # x轴标签
+            plt.ylabel('loss')  # y轴标签
+
+            # 以x_train_loss为横坐标，y_train_loss为纵坐标，曲线宽度为1，实线，增加标签，训练损失，
+            # 默认颜色，如果想更改颜色，可以增加参数color='red',这是红色。
+            plt.plot(x_train_loss, y_train_loss, linewidth=1, linestyle="solid", label="train loss")
+            plt.legend()
+            plt.title('Loss curve')
+            plt.savefig(f'figures/MCP_NN/DVR_NN_loss_curve.png')
+            plt.close()
+
     def apply_dpd(self, signal, M=9):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # 将模型移动到设备上

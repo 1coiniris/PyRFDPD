@@ -14,17 +14,18 @@ def rms(x):
     return np.sqrt(np.mean(np.square(abs(x))))
 
 
-def nmse(x, y, logger=None):
+def nmse(x, y, logger=None,print=0):
     # Power normalization first
     rmsx = x / rms(x)
     rmsy = y / rms(y)
     mse_err = np.mean(np.square(np.abs(rmsx - rmsy)))
     mse_x = np.mean(np.square(np.abs(rmsx)))
     nmse = 10 * np.log10(mse_err / mse_x)
-    if logger:
-        logger.info(f"NMSE: {nmse:.3f} dB")
-    else:
-        print(f"NMSE: {nmse:.3f} dB")
+    if print:
+        if logger:
+            logger.info(f"NMSE: {nmse:.3f} dB")
+        else:
+            print(f"NMSE: {nmse:.3f} dB")
     return nmse
 
 
