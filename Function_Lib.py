@@ -22,6 +22,7 @@ import logging
 import argparse
 import time
 import os
+import Function_Calculate as cal
 
 def get_data(signal,rate=0.6,state=3):
     # 读取PA输入输出信号
@@ -93,6 +94,75 @@ def get_data(signal,rate=0.6,state=3):
 
     return x_train, y_train, x, y, fs, BW
 
+def get_waveform(signal,rate=0.6,state=3):
+    # 读取PA输入输出信号
+    if signal == 'YU':
+        state_list = [3, 5, 6, 7, 8, 11 ,15, 18, 20 ]
+        fs = 491.52e6
+        BW = 100e6
+        print(f'state {state}')
+        data_file = './data/Data_1104_24_3.mat'
+        data = loadmat(data_file)
+        xorg = data['x00']
+        yorg = data['y00']
+        # state = 3
+        L = len(xorg)
+        val_start = int(L * 0.375 + L * 0.625 / 24 * state + 1)
+        val_end = int(L * 0.375 + L * 0.625 / 24 * (state + 1))
+        train_start = int(L * 0.375 / 24 * state + 1)
+        train_end = int(L * 0.375 / 24 * (state + 1))
+        x_train = xorg[train_start:train_end].squeeze()
+        y_train = yorg[train_start:train_end].squeeze()
+        x = xorg[val_start:val_end].squeeze()
+        y = yorg[val_start:val_end].squeeze()
+    else:
+        if signal == '400M':
+            fs = 2e9
+            BW = 400e6
+            data_file = './data/dataxy400m2G.mat'
+            data = loadmat(data_file)
+            xorg = data['x0']
+            yorg = data['y00']
+        elif signal == 'LMBA200M':
+            fs = 1e9
+            BW = 200e6
+            data_file = 'data/LMBA_200M_23G.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
+            yorg = data['y']
+        elif signal == '100M':
+            fs = 983.04e6
+            BW = 100e6
+            data_file = 'data/PA_100M_98304.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
+            yorg = data['y']
+        elif signal == 'ILC_120M':
+            fs = 1.2288e9
+            BW = 120e6
+            data_file = 'data/ILC.mat'
+            data = loadmat(data_file)
+            xorg = data['uBB']
+            # ILCOut = data['x']
+            yorg = data['xBB']
+        elif signal == 'ILC':
+            fs = 1.2288e9
+            BW = 200e6
+            data_file = 'data/ILC_[0  1  1  1  0]_G1_forpython.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
+            # ILCOut = data['x']
+            yorg = data['y_ILC']
+
+        N = len(xorg)
+        last_train = int(N * rate - 1)
+        # 创建数据集
+        x_train = xorg[0:last_train].squeeze()
+        # y_train = yorg[0:last_train].squeeze()
+        x = xorg[last_train + 1:].squeeze()
+        # y = yorg[last_train + 1:].squeeze()
+        # x = xorg.squeeze()
+    return x_train, x, fs, BW
 
 
 def create_logger(logger_file_path,filename):
@@ -277,6 +347,41 @@ def PA_figure(x,y,fs,filepath):
     plot.amam(x, {"PAout":y}, filename=f"{filepath}/PA_amam.png")
     plot.ampm(x, {"PAout":y}, filename=f"{filepath}/PA_ampm.png")
 
+def calculate_CRZ(x,y,y_with_DPD,fs,BW, filepath='figures',Model=None, plot_swich = 1,logger=None):
+    x_train = x
+    y_train = y
+    pa_output = y_with_DPD
+    # 评估结果（示例）
+    logger.info(f"signal without DPD")
+    NMSE = cal.nmse(x_train, y_train, logger, 1)
+    ACLR = cal.acpr(y_train, fs, BW, BW, logger)
+
+    # 评估结果（示例）
+    logger.info(f"signal with {Model} DPD:")
+    NMSE_pred = cal.nmse(x_train, pa_output, logger, 1)
+    ACLR_pred = cal.acpr(pa_output, fs, BW, BW, logger)
+
+    if plot_swich:
+        plot.psd(
+            {"input": x_train, "output_with_DPD": pa_output, "output_without_DPD": y_train},
+            fs=fs, filename=f'{filepath}/{Model}_spec.png'
+        )
+        plot.amam(x_train, {"wo_DPD": y_train, "pred": pa_output},
+                  filename=f"{filepath}/{Model}_amam.png")
+        plot.ampm(x_train, {"with_DPD": y_train, "pred": pa_output},
+                  filename=f"{filepath}/{Model}_ampm.png")
+
+        plt.figure()
+        t = np.linspace(0, 1, 100)
+        plt.plot(t, abs(x_train[1000:1100]), label='x')
+        plt.plot(t, abs(y_train[1000:1100]), label='without_DPD')
+        plt.plot(t, abs(pa_output[1000:1100]), label='with_DPD')
+        # plt.plot(t,abs(DPD[2000:2200]),label = 'DPD')
+        # plt.xlim(0,200)
+        plt.ylim(0, 1)
+        plt.legend()
+        plt.savefig(f'{filepath}/{Model}_waveform.png')
+    return NMSE,ACLR,NMSE_pred,ACLR_pred
 # def calculate_metrics(args: argparse.Namespace, stat: Dict[str, Any], prediction: np.ndarray, ground_truth: np.ndarray):
 #     stat['NMSE'] = metrics.NMSE(prediction, ground_truth)
 #     stat['EVM'] = metrics.EVM(prediction, ground_truth, bw_main_ch=args.bw_main_ch, n_sub_ch=args.n_sub_ch, nperseg=args.nperseg)

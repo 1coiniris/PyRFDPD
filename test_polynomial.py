@@ -138,6 +138,7 @@ for state in range(24):
             K = [11, 11, 11]
             L = [11, 7, 7]
             M = [5, 5]
+            GMP = gmp.GMP(K,L,M)
             filename = f"GMP_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}"
             if state==0:
                 parser = argparse.ArgumentParser(description='configTemplates')
@@ -146,11 +147,11 @@ for state in range(24):
                 logger = fun.create_logger(args.log_path, filename)
             logger.info(f'----------------{Model}_K{K}_L{L}_M{M}--------------------')
             start_time = time.time()  # 记录开始时间
-            coef = gmp.GMP_e(PA_in, PA_out, K=K,L=L, M=M)
+            coef = GMP.GMP_e(PA_in, PA_out)
             end_time = time.time()  # 记录结束时间
             elapsed_time = end_time - start_time
             logger.info(f"model train time: {elapsed_time:.6f} s")
-            y_pred = gmp.GMP_v(PA_in, coef, K=K, L=L, M=M)
+            y_pred = GMP.GMP_v(PA_in, coef)
             logger.info(f'{Model} train NMSE:')
 
             x_norm = PA_in / max(abs(PA_in))
@@ -162,12 +163,12 @@ for state in range(24):
             PA_in  = x
             PA_out = y
             start_time = time.time()  # 记录开始时间
-            y_pred = gmp.GMP_v(PA_in, coef, K=K, L=L, M=M)
+            y_pred = GMP.GMP_v(PA_in, coef)
             end_time = time.time()  # 记录结束时间
             elapsed_time = end_time - start_time
             logger.info(f"model prediction time: {elapsed_time:.6f} s")
 
-            X = gmp.GMP_get_basis(PA_in, K=K, L=L, M=M)
+            X = GMP.get_basis(PA_in)
             # X = X.cpu().detach().numpy()
 
 
@@ -191,39 +192,41 @@ for state in range(24):
         y_norm = y_val/max(abs(y_val))
         y_pred_norm = y_pred/max(abs(y_pred))
 
-        # 评估结果（示例）
-        logger.info(f"signal {signal}")
-        NMSE = cal.nmse(x_val, y_val, logger,1)
-        ACLR = cal.acpr(y_val, fs, BW, BW, logger)
-
-        # 评估结果（示例）
-        logger.info(f"with {Model}:")
-        NMSE_pred = cal.nmse(y_norm,y_pred_norm,logger,1)
-        ACLR_pred = cal.acpr(y_pred,fs,BW,BW,logger)
-
-        # fs = 614.4e6
-        # print("without DPD")
-        # acpr_wo_DPD = metrics.acpr(y,fs,100e6,100e6)
-        # print("with DPD")
-        # acpr_with_DPD = metrics.acpr(PA_out_withDPD,fs,100e6,100e6)
-
-        if plot_swich:
-            plot.psd(
-                {"input": x_val,"pred_output":y_pred,"output":y},
-                fs=fs,filename=f'figures/polynomial/{Model}_spec.png'
-            )
-            plot.amam(x_val, {"out":y_val,"pred":y_pred}, norm=0, filename=f"figures/polynomial/{Model}_amam.png")
-            plot.ampm(x_val, {"out": y_val, "pred": y_pred}, norm=0, filename=f"figures/polynomial/{Model}_ampm.png")
-
-            plt.figure()
-            t = np.linspace(0, 1, 100)
-            plt.plot(t,abs(y_val[1000:1100]),label = 'y')
-            plt.plot(t,abs(y_pred[1000:1100]),label = 'y_pred')
-            # plt.plot(t,abs(DPD[2000:2200]),label = 'DPD')
-            # plt.xlim(0,200)
-            plt.ylim(0,1)
-            plt.legend()
-            plt.savefig(f'figures/polynomial/{Model}_waveform.png')
+        filepath = 'figures/polynomial'
+        NMSE,ACLR,NMSE_pred,ACLR_pred = fun.calculate_CRZ(x_val,y_val,y_pred_norm,fs,BW,filepath,'GMP',1,logger)
+        # # 评估结果（示例）
+        # logger.info(f"signal {signal}")
+        # NMSE = cal.nmse(x_val, y_val, logger,1)
+        # ACLR = cal.acpr(y_val, fs, BW, BW, logger)
+        #
+        # # 评估结果（示例）
+        # logger.info(f"with {Model}:")
+        # NMSE_pred = cal.nmse(y_norm,y_pred_norm,logger,1)
+        # ACLR_pred = cal.acpr(y_pred,fs,BW,BW,logger)
+        #
+        # # fs = 614.4e6
+        # # print("without DPD")
+        # # acpr_wo_DPD = metrics.acpr(y,fs,100e6,100e6)
+        # # print("with DPD")
+        # # acpr_with_DPD = metrics.acpr(PA_out_withDPD,fs,100e6,100e6)
+        #
+        # if plot_swich:
+        #     plot.psd(
+        #         {"input": x_val,"pred_output":y_pred,"output":y},
+        #         fs=fs,filename=f'figures/polynomial/{Model}_spec.png'
+        #     )
+        #     plot.amam(x_val, {"out":y_val,"pred":y_pred}, norm=0, filename=f"figures/polynomial/{Model}_amam.png")
+        #     plot.ampm(x_val, {"out": y_val, "pred": y_pred}, norm=0, filename=f"figures/polynomial/{Model}_ampm.png")
+        #
+        #     plt.figure()
+        #     t = np.linspace(0, 1, 100)
+        #     plt.plot(t,abs(y_val[1000:1100]),label = 'y')
+        #     plt.plot(t,abs(y_pred[1000:1100]),label = 'y_pred')
+        #     # plt.plot(t,abs(DPD[2000:2200]),label = 'DPD')
+        #     # plt.xlim(0,200)
+        #     plt.ylim(0,1)
+        #     plt.legend()
+        #     plt.savefig(f'figures/polynomial/{Model}_waveform.png')
 
     NMSE_list.append(NMSE_pred)
     A = 1
