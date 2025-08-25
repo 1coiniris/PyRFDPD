@@ -31,8 +31,9 @@ class VSG:
 
         return
 
-    def down_signal(self,brand, x, fc, fs, power=-30, IP="192.168.0.25", file_name="Waveform_lz.wv", logger=None):
+    def down_signal(self,brand, x, fc, fs, power=-30, file_name="Waveform_lz.wv", logger=None):
         x = x.copy()
+        IP = self.IP
         if brand.lower() == "rohde-schwarz":
             # MATLAB移植时碰到很多官方的文件，难以移植，故直接采用官方Python包
             pc_wv_file = "./arbFile.wv"

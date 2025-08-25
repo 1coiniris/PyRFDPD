@@ -12,6 +12,9 @@ from pyrfdpd.utils import metrics, plot, align
 # import pyrfdpd.nn as dpdnn
 import pyrfdpd.utils
 # import pyrfdpd.nn
+# import Model.Orth_NN as NN
+
+# model = NN.Orth_Basis_DVR_NN(1,2)
 
 configfile = "rvtdnn.toml"
 # tests/config/common.toml

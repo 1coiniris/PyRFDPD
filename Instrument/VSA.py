@@ -16,7 +16,8 @@ class VSA:
     # def __del__(self):
     #     self.inst.close()
 
-    def collect_signal(self,name, fc, fs, att, IP, logger=None) -> np.ndarray:
+    def collect_signal(self,name, fc, fs, att, logger=None) -> np.ndarray:
+        IP = self.IP
         assert name.lower() == "keysight" or "fsw" or "fpl"
         rm = pyvisa.ResourceManager()
         try:
