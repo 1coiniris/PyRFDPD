@@ -3,26 +3,15 @@ matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 # import matplotlib.pyplot as plt
 # from anyio import sleep
-from scipy.io import loadmat, savemat
+from scipy.io import loadmat
 import numpy as np
 import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
-from pyrfdpd.utils import metrics, plot, align
-import PA_DVR
-import TEST_Plot
-import Model.LSTM_DPD as LSTM
-import Model.volterra_nn as MCP_NN
-import Model.gmp as gmp
-import Model.mp as mp
-import PA
+from pyrfdpd.utils import plot
 import logging
-import argparse
-import time
 import os
-import Function_Calculate as cal
+from function import Function_Calculate as cal
+
 
 def get_data(signal,rate=0.6,state=3):
     # 读取PA输入输出信号
@@ -31,7 +20,7 @@ def get_data(signal,rate=0.6,state=3):
         fs = 491.52e6
         BW = 100e6
         print(f'state {state}')
-        data_file = 'data/Data_1104_24_3.mat'
+        data_file = './data/Data_1104_24_3.mat'
         data = loadmat(data_file)
         xorg = data['x00']
         yorg = data['y00']
@@ -49,14 +38,14 @@ def get_data(signal,rate=0.6,state=3):
         if signal == '400M':
             fs = 2e9
             BW = 400e6
-            data_file = 'data/dataxy400m2G.mat'
+            data_file = '../data/dataxy400m2G.mat'
             data = loadmat(data_file)
             xorg = data['x0']
             yorg = data['y00']
         elif signal == 'LMBA200M':
             fs = 1e9
             BW = 200e6
-            data_file = 'data/LMBA_200M_23G.mat'
+            data_file = '../data/LMBA_200M_23G.mat'
             data = loadmat(data_file)
             xorg = data['x']
             yorg = data['y']
@@ -101,7 +90,7 @@ def get_waveform(signal,rate=0.6,state=3):
         fs = 491.52e6
         BW = 100e6
         print(f'state {state}')
-        data_file = './data/Data_1104_24_3.mat'
+        data_file = '../data/Data_1104_24_3.mat'
         data = loadmat(data_file)
         xorg = data['x00']
         yorg = data['y00']
@@ -119,24 +108,24 @@ def get_waveform(signal,rate=0.6,state=3):
         if signal == '400M':
             fs = 2e9
             BW = 400e6
-            data_file = './data/dataxy400m2G.mat'
+            data_file = '../data/dataxy400m2G.mat'
             data = loadmat(data_file)
             xorg = data['x0']
             yorg = data['y00']
         elif signal == 'LMBA200M':
             fs = 1e9
             BW = 200e6
-            data_file = 'data/LMBA_200M_23G.mat'
+            data_file = '../data/LMBA_200M_23G.mat'
             data = loadmat(data_file)
             xorg = data['x']
             yorg = data['y']
         elif signal == '100M':
-            fs = 983.04e6
+            fs = 1000e6
             BW = 100e6
-            data_file = 'data/PA_100M_98304.mat'
+            data_file = 'data/signal_100M_NR_fs1000M.mat'
             data = loadmat(data_file)
-            xorg = data['x']
-            yorg = data['y']
+            xorg = data['x0']
+
         elif signal == 'ILC_120M':
             fs = 1.2288e9
             BW = 120e6
@@ -145,14 +134,18 @@ def get_waveform(signal,rate=0.6,state=3):
             xorg = data['uBB']
             # ILCOut = data['x']
             yorg = data['xBB']
-        elif signal == 'ILC':
-            fs = 1.2288e9
-            BW = 200e6
-            data_file = 'data/ILC_[0  1  1  1  0]_G1_forpython.mat'
+        elif signal == '40M':
+            fs = 200e6
+            BW = 40e6
+            data_file = 'data/signal_40M_NR_fs200M.mat'
             data = loadmat(data_file)
-            xorg = data['x']
-            # ILCOut = data['x']
-            yorg = data['y_ILC']
+            xorg = data['x0']
+        elif signal == '20M':
+            fs = 100e6
+            BW = 20e6
+            data_file = 'data/signal_20M_NR_fs100M.mat'
+            data = loadmat(data_file)
+            xorg = data['x0']
 
         N = len(xorg)
         last_train = int(N * rate - 1)
@@ -318,15 +311,16 @@ def PA_figure(x,y,fs,filepath):
     ynorm = y / max(abs(y))
     # plt.xticks(fontsize=20)
     # fig, ax = plt.subplots()
+    plt.figure(dpi=300, figsize=(16, 10))
     # 设置坐标轴线条宽度（粗细）
     plt.rcParams['axes.linewidth'] = 2.0  # 默认值为 0.8
     # 全局设置
     plt.rcParams['xtick.labelsize'] = 12  # X轴刻度标签字体大小
     plt.rcParams['ytick.labelsize'] = 12  # Y轴刻度标签字体大小
 
-    t = np.linspace(0, 1, 200)
-    plt.plot(t,abs(ynorm[0:200]),label = 'PA_Output')
-    plt.plot(t,abs(xnorm[0:200]),label = 'PA_Input')
+    t = np.linspace(0, 1, 500)
+    plt.plot(t,abs(ynorm[0:500]),label = 'PA_Output')
+    plt.plot(t,abs(xnorm[0:500]),label = 'PA_Input')
     # plt.xlim(0,200)
     plt.ylim(0,1)
     plt.legend()

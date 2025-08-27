@@ -25,13 +25,13 @@ class VSA:
         except pyvisa.VisaIOError:
             print("Can't find the instrument with the IP address!")
             raise
-        else:
-            if logger:
-                logger.debug("Sucessfully connected to spectrum analyzer!")
+        # else:
+        #     if logger:
+        #         logger.info("Sucessfully connected to spectrum analyzer!")
 
         time.sleep(2)
-        instr.write("*rst")
-        instr.query("*opc?")
+        # instr.write("*rst")
+        # instr.query("*opc?")
 
         if name.lower() == "keysight":
             bandwidth = fs / 1.25
@@ -61,9 +61,9 @@ class VSA:
             instr.write("*TRG")
             I_data = data[0::2]
             Q_data = data[1::2]
-            IQ_data = np.array([complex(I, Q) for I, Q in zip(I_data, Q_data)], dtype='complex_')
+            IQ_data = np.array([complex(I, Q) for I, Q in zip(I_data, Q_data)], dtype='complex')
             if logger:
-                logger.debug("Successfully captured IQ data!")
+                logger.info("Successfully captured IQ data!")
             return IQ_data / max(abs(IQ_data))
 
         if name.lower() == "fsw":

@@ -19,11 +19,11 @@ class VSG:
     # def __del__(self):
     #     self.inst.close()
 
-    def transmit(self,x,fs,pow,fc):
+    def transmit(self,brand, x, fc, fs, power=-30, file_name="Waveform_lz.wv", logger=None):
         if len(x) > 80001:
             print("Too long for VSG.")
-        self.SendVSG(x, fs, pow, fc)
-
+        # self.SendVSG(x, fs, pow, fc)
+        self.down_signal(brand,x,fc,fs,power,file_name,logger)
         return
 
 
@@ -39,8 +39,8 @@ class VSG:
             pc_wv_file = "./arbFile.wv"
             instr_wv_file_out = "/var/user/" + file_name
             smw = RsSmw("TCPIP::" + IP + "::HISLIP")
-            if logger:
-                logger.debug("Sucessfully Connected to signal generator!")
+            # if logger:
+            #     logger.info("Sucessfully Connected to signal generator!")
             # RsSmw.assert_minimum_version('5.0.44')
             # print(smw.utilities.idn_string)
             smw.utilities.reset()
@@ -66,7 +66,7 @@ class VSG:
 
             smw.close()
             if logger:
-                logger.debug("SMW signal transmission finished!")
+                logger.info("SMW signal transmission finished!")
             time.sleep(2)
 
     def generate_wv(self,x, fs, file_name):

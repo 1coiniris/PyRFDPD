@@ -11,12 +11,11 @@ Revision histry:
 Version   Date        Author      Changes
 1.0    2024-1-18    Zhe Li      initial version
 '''
-from matplotlib import legend
 import numpy as np
 import scipy.io
-import matplotlib.pyplot as plt
 import argparse
-import Function_Calculate as cal
+from function import Function_Calculate as cal
+
 
 class GMP:
     def __init__(self,K: list, L: list, M: list):

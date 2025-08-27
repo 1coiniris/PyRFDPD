@@ -88,10 +88,10 @@ def acpr(x, fs, offset, bw, logger=None):
 
     if logger:
         logger.info(f"ACPR1_L: {ACPR1_Lower:.3f} dBc, ACPR1_U: {ACPR1_Upper:.3f} dBc")
-        logger.info(f"ACPR2_L: {ACPR2_Lower:.3f} dBc, ACPR2_U: {ACPR2_Upper:.3f} dBc")
+        # logger.info(f"ACPR2_L: {ACPR2_Lower:.3f} dBc, ACPR2_U: {ACPR2_Upper:.3f} dBc")
     else:
         print(f"ACPR1_L: {ACPR1_Lower:.3f} dBc, ACPR1_U: {ACPR1_Upper:.3f} dBc")
-        print(f"ACPR2_L: {ACPR2_Lower:.3f} dBc, ACPR2_U: {ACPR2_Upper:.3f} dBc")
+        # print(f"ACPR2_L: {ACPR2_Lower:.3f} dBc, ACPR2_U: {ACPR2_Upper:.3f} dBc")
 
     return ACPR1_Lower, ACPR1_Upper, ACPR2_Lower, ACPR2_Upper
 

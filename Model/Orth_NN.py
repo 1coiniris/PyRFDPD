@@ -1,16 +1,11 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from sympy import sequence
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
-import logging
-import argparse
 import time
-import os
-import Function_Lib as fun
-import Function_Calculate as cal
+from function import Function_Calculate as cal
 from tqdm import tqdm
 from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
@@ -29,7 +24,7 @@ class Orth_Basis_DVR_NN(nn.Module):
         self.DVR_layers = nn.Sequential()
         # self.DDR_layers = nn.Sequential()
         # layer_dims = [M+1,16,16,(M+1)*K]
-        layer_dims = [M + 1,(M + 1) * K]
+        layer_dims = [M + 1, (M + 1) * K]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
             # self.layers.add_module(
             #     f"res_{index}",
