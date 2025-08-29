@@ -46,9 +46,9 @@ NMSE_state_list = []
 # signal = '100M'
 # signal = 'ILC_120M'
 # signal = 'ILC'
-# signal = 'YU'
+signal = 'YU'
 # signal = '20M'
-signal = '40M'
+# signal = '40M'
 
 x_train, x, fs, BW = fun.get_waveform(signal,rate=0.9)
 
