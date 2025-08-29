@@ -39,7 +39,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 
 
-plot_swich = 0
+plot_swich = 1
 NMSE_state_list = []
 ########################## 信号描述 ################################
 # signal = '400M' #'LMBA200M'
@@ -49,7 +49,7 @@ NMSE_state_list = []
 # signal = 'ILC'
 signal = 'YU'
 
-for state in range(24):
+for state in range(1):
     x_train, y_train, x, y, fs, BW = fun.get_data(signal,state = state)
     figure_path = 'figures/MCP_NN'
     if plot_swich:
@@ -58,7 +58,7 @@ for state in range(24):
     # 模型设置
     # Model = 'DVC_NN'
     # Model = 'GMP_NN'
-    # Model = 'RVTD_NN'
+    Model = 'RVTDNN'
     # Model = 'MCP_BASE_NN'
     # Model = 'PARA_NN'
     # Model = 'DVR'
@@ -66,7 +66,7 @@ for state in range(24):
     # Model = 'OB_DVR_NN'
     # Model = 'VD_DVR_NN'
     # Model = 'VDTDNN'
-    Model = 'RVTDNN'
+    # Model = 'RVTDNN'
     # Model = 'DVR_NN'
 
     model = ['Tanh',3,30,40] #DVR [K,M]
@@ -533,143 +533,6 @@ for state in range(24):
         elapsed_time = end_time - start_time
         logger.info(f"model prediction time: {elapsed_time:.6f} s")
 
-    if Model == 'DVR':
-        # epochs = 30
-        # 参数设置
-        activation = model[0]
-        K = model[1]  # 分段数，可修改
-        M = model[2]
-        # size = (M + 1 + Lb + Lc)
-
-        model_path = f"results/20250519/save/{Model}_M{M}_K{K}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
-        # filename = f"{Model}_M{M}_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}"
-        # parser = argparse.ArgumentParser(description='configTemplates')
-        # parser.add_argument('-log_path', default='./results/20250517/log/', type=str, help='log file path to save result')
-        # args = parser.parse_args()
-        # logger = fun.create_logger(args.log_path, filename)
-        logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
-
-        # print(f'------------------------{Model}_M{M}_{layer_dims}_{activation}-------------------------------')
-        logger.info(f'------------------------{Model}_M{M}_K{K}_{activation}-------------------------------')
-        # 初始化模型
-        model = DVR.DVR( K=K, M=M, threshold=threshold,activation=activation).to(device)
-        criterion = nn.MSELoss()
-        optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-        fun.model_structure(model,logger)
-        best_metric = float('inf')
-
-        # 创建数据集
-        X_train, X_val, Y_train, Y_val = model.create_dataset(x, y)
-        train_dataset = TensorDataset(X_train, Y_train)
-        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
-
-        val_dataset = TensorDataset(X_val, Y_val)
-        val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
-
-        if total_train == 1:
-            logger.info(f'------------------------Train Stage-------------------------------')
-            train_loss_list = []
-            val_loss_list = []
-            # 训练循环
-            start_time = time.time()  # 记录开始时间
-            nosave_count = 0
-            for epoch in range(epochs):
-                model.train()
-                i = 0
-                train_loss = 0
-                for inputs, targets in tqdm(train_loader):
-                    # 获取对应的复数信号窗口 [batch, M+1]
-                    optimizer.zero_grad()
-
-                    batch_x_signal = inputs.to(device)
-                    targets = torch.view_as_real(targets)
-                    targets = targets.to(device)
-                    # outputs = model(inputs)
-                    outputs = model(batch_x_signal)
-
-                    loss = criterion(outputs, targets)
-                    loss.backward()
-                    optimizer.step()
-                    train_loss += loss.item()
-                    # i = i + 1
-                    # print(f"batch{i} added loss:  {train_loss}")
-
-                # 验证
-                model.eval()
-                val_loss = 0
-                with torch.no_grad():
-                    for inputs, targets in tqdm(val_loader):
-                        # 将数据移动到设备上
-                        # 获取对应的复数信号窗口 [batch, M+1]
-                        batch_x_signal = inputs.to(device)
-                        targets = torch.view_as_real(targets)
-                        targets = targets.to(device)
-                        # outputs = model(inputs)
-                        val_outputs = model(batch_x_signal)
-                        val_loss += criterion(val_outputs, targets).item()
-
-                train_loss_list.append(train_loss / len(train_loader))
-                val_loss_list.append(val_loss / len(val_loader))
-                # 记录指标
-                metrics = {
-                    'epoch': epoch,
-                    'train_loss': train_loss,
-                    'val_loss': val_loss,
-                }
-
-                # # 保存当前模型（按周期命名）
-                # torch.save(model.state_dict(), f'model_epoch_{epoch}.pth')
-                save = 0
-                # 更新最佳模型
-                if val_loss_list[-1] < best_metric:
-                    best_metric = val_loss_list[-1]
-                    save = 1
-                    # 保存模型参数（推荐保存为 .pt 或 .pth 文件）
-                    best_model = model.state_dict()
-                # print(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
-                logger.info(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
-                if save == 0:
-                    nosave_count = nosave_count + 1
-                else:
-                    nosave_count = 0
-                if nosave_count > 15:
-                    break
-
-            torch.save(best_model, model_path)
-            logger.info(f"model save: {model_path} ")
-            end_time = time.time()  # 记录结束时间
-            elapsed_time = end_time - start_time
-            logger.info(f"model train time: {elapsed_time:.6f} s")
-            if 1:
-                y_train_loss = train_loss_list  # loss值，即y轴
-                x_train_loss = range(len(y_train_loss))  # loss的数量，即x轴
-
-                plt.figure()
-
-                # 去除顶部和右边框框
-                ax = plt.axes()
-                ax.spines['top'].set_visible(False)
-                ax.spines['right'].set_visible(False)
-
-                plt.xlabel('iters')  # x轴标签
-                plt.ylabel('loss')  # y轴标签
-
-                # 以x_train_loss为横坐标，y_train_loss为纵坐标，曲线宽度为1，实线，增加标签，训练损失，
-                # 默认颜色，如果想更改颜色，可以增加参数color='red',这是红色。
-                plt.plot(x_train_loss, y_train_loss, linewidth=1, linestyle="solid", label="train loss")
-                plt.legend()
-                plt.title('Loss curve')
-                plt.savefig(f'figures/MCP_NN/{Model}_loss_curve.png')
-                plt.close()
-        model.load_state_dict(torch.load(model_path))
-        logger.info(f"-------------------load model: {model_path}---------------------")
-
-        start_time = time.time()  # 记录开始时间
-        y_pred = model.apply_dpd(x)
-        end_time = time.time()  # 记录结束时间
-        elapsed_time = end_time - start_time
-        logger.info(f"model prediction time: {elapsed_time:.6f} s")
-
     if Model == 'VDTDNN':
         # 参数设置
         model_map = ['Tanh', 30, 7,32, 32, 32]
@@ -720,7 +583,7 @@ for state in range(24):
 
     if Model == 'RVTDNN':
         # 参数设置
-        model_map = ['Tanh', 20, 7, 24, 24]
+        model_map = ['Tanh', 10, 1, 16,16]
         activation = model_map[0]
         # K = model_map[1]  # 分段数，可修改
         M = model_map[1]
