@@ -991,6 +991,9 @@ class DVR(nn.Module):
         # 使用系数进行预测
         y = X @ coef.reshape(-1, 1).flatten()
         # y = X.dot(coef)
+        y[abs(y) > 1] = 0
+        # a = np.where(abs(y) > 1)
+        # indices = np.where(a == 1)
         return y
 
     def DVR_get_basis(self,x):
@@ -1060,5 +1063,6 @@ class DVR(nn.Module):
 
         # 组合所有特征
         X = np.hstack([X_lin, X_1, X_21, X_22, X_23, X_ddr_1, X_ddr_2])
+        X[np.isnan(X)] = 0
 
         return X

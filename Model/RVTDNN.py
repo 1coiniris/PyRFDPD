@@ -15,67 +15,40 @@ class RVTDNN(nn.Module):
         self.M = M
         self.K = K
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # self.threshold = threshold
         assert activation == "ReLU" or "Tanh" or "GELU" or "None"
         self.activation = activation
         self.layers = nn.Sequential()
-        # self.DDR_layers = nn.Sequential()
-        # layer_dims = [M+1,(M+1)*K]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
-            # self.layers.add_module(
-            #     f"res_{index}",
-            #     ResidualBlock(in_dim, out_dim, activation)
-            # )
             self.layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
-            # self.DDR_layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
             if activation == "ReLU":
                 self.layers.add_module("actFunc " + str(index), nn.ReLU())
-                # self.DDR_layers.add_module("actFunc " + str(index), nn.ReLU())
             elif activation == "Tanh":
                 self.layers.add_module("actFunc " + str(index), nn.Tanh())
-                # self.DDR_layers.add_module("actFunc " + str(index), nn.Tanh())
             elif activation == "GELU":
                 self.layers.add_module("actFunc " + str(index), nn.GELU())
-                # self.DDR_layers.add_module("actFunc " + str(index), nn.GELU())
-            # self.layers.add_module("dropout" + str(index), nn.Dropout(0.2))
-        # self.amp_layers = self.amp_layers[:-1]  # remove the last activation layer
-
-        # # self.amp_act = nn.()
-        # self.linear = nn.Linear(2*(M+1), 2,bias=False).double()
-
-        # self.linear_2 = nn.Linear(12, 2, bias=False).double()
-        # self.main_layers = nn.Sequential()
-        # self.para_layers = nn.Sequential()
-        # self.main_nn = volterra_nn.GMP_NN(self.layer_dim1, L, M = self.M,activation=activation)
-        # self.para_nn = volterra_nn.MCP_BASE_NN(self.layer_dim2, L, M = self.M, K = 5,activation=activation)
-        # self.out_layer = nn.Linear(2*M+2, 2,bias=False)
+        self.layers = self.layers[:-1]  # remove the last activation layer
 
     def forward(self, x_window):
         """
         x_window: 当前窗口的记忆输入 [batch, (M+1)]
         """
-        # VD_out_full = self.get_basis(x_window)  #[batch, (M+1)]
-        # VD_out_full_real = torch.view_as_real(VD_out_full)
-        # VD = VD_out_full_real.view(len(VD_out_full_real), -1)
-        # VD = self.get_basis(x_window)
-        # y_pred = self.linear(VD)
-        # out = self.linear(DVR)
-        # # out_act = self.act(out)
-        # y_pred = self.linear_2(out)
         X = x_window
         for i in range(2,self.K+1):
             X_k = x_window.pow(i)
             X = torch.concat((X,X_k), dim=1)
-        x_real = torch.view_as_real(X)
-        x_real = x_real.view(len(x_real), -1)
-        y_pred = self.layers(x_real)
+        x_real = X.real
+        x_imag = X.imag
+        # x_real = x_real.view(len(x_real), -1)
+        x = torch.cat((x_real, x_imag), dim=1)
+        y_pred = self.layers(x)
+
         return y_pred
 
 
     def model_train(self,x,y,model_path,logger=None,total_train = 1):
         learning_rate = 0.001
-        epochs = 200
-        batch_size = 512
+        epochs = 300
+        batch_size = 256
         device = self.device
 
         # optim
