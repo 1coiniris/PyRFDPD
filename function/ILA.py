@@ -36,10 +36,19 @@ def ILA(board,model, x,nIterations,logger=None):
         logger.info(f"Start the {idx+1}th iteration")
         if model.name == 'GMP':
             coef = model.model_e(y_k,u_k)
-            u_k = model.model_v(x, model.coef)
+            u_k = model.model_v(x, coef)
             y_k = board.transmit(u_k, logger)
             PA_out.append(y_k)
+        if model.name == 'DVR':
+            coef = model.DVR_e(y_k, u_k)
+            u_k = model.DVR_v(x, coef)
+            y_k = board.transmit(u_k, logger)
+            PA_out.append(y_k)
+
         if model.name == 'DVR_NN':
+            if idx == 0:
+                model.model_train(y_k, u_k, 'tests/20250831/20M/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt', logger, 1)
+
             x_coef_tensor = torch.from_numpy(u_k).to(model.device)
             y_coef_tensor = torch.from_numpy(y_k).to(model.device)
             sequences = fun.create_memory_seq(u_k, model.M)  # [N, M+1]
@@ -48,7 +57,9 @@ def ILA(board,model, x,nIterations,logger=None):
             y_coef_window = torch.from_numpy(y_sequences).to(model.device)
             coef = model.model_e(y_coef_window, x_coef_tensor)
             u_k = model.apply_dpd(x, coef)
+            y_k = board.transmit(u_k, logger)
             PA_out.append(y_k)
+
         nmse_ila = cal.nmse(y_k,x,logger,1)
         NMSE.append(nmse_ila)
         ACLR = cal.acpr(y_k, board.fs, board.BW, board.BW, logger)

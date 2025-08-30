@@ -85,22 +85,25 @@ class SingleBandPA:
 
             # For demonstration, we'll use a simple simulation
             # In practice, replace with actual hardware calls
-            self.VSG_1.transmit(brand="rohde-schwarz", x=x, fc=self.fc,fs=self.fs, power=self.pow, logger=logger)
+            try:
+                self.VSG_1.transmit(brand="rohde-schwarz", x=x, fc=self.fc,fs=self.fs, power=self.pow, logger=logger)
 
-            y0 = self.VSA_1.collect_signal(name="keysight",fc=self.fc, fs=self.fs, att=self.att,logger=logger)
-            # Time alignment and normalization (assuming align_coarse_norm and upsample_nrmse are implemented)
-            # _, y = align_coarse_norm(x, y0)
-            # _, y = upsample_nrmse(x, y, 16)
+                y0 = self.VSA_1.collect_signal(name="keysight",fc=self.fc, fs=self.fs, att=self.att,logger=logger)
+                # Time alignment and normalization (assuming align_coarse_norm and upsample_nrmse are implemented)
+                # _, y = align_coarse_norm(x, y0)
+                # _, y = upsample_nrmse(x, y, 16)
 
-            # Simplified implementation for demonstration
-            y = align.align(x, y0,'PCF')
-            # y = align.coarse_align(x,y0)
-            # y = y0
-            y = y / np.max(np.abs(y))
+                # Simplified implementation for demonstration
+                y = align.align(x, y0,'PCF')
+                # y = align.coarse_align(x,y0)
+                # y = y0
+                y = y / np.max(np.abs(y))
 
-            # Normalize to input norm (commented out in original)
-            # y = y * np.linalg.norm(x) / np.linalg.norm(y)
-
+                # Normalize to input norm (commented out in original)
+                # y = y * np.linalg.norm(x) / np.linalg.norm(y)
+            except:
+                y = x
+                logger.info('!!!!!!!!!!! error !!!!!!!!!')
             return y
 
         elif self.type == 0:  # MATLAB-defined PA mode

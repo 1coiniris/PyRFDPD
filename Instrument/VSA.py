@@ -37,7 +37,7 @@ class VSA:
             bandwidth = fs / 1.25
             measureTime = 20e-4
             instr.write("*SAV 8")
-            instr.write("*RST")
+            # instr.write("*RST")
             instr.write(":INSTrument:SELect BASIC")
             instr.write(":SENSe:FREQuency:CENTer " + str(fc))
             # this command can't not found in manual but can be used
@@ -57,8 +57,8 @@ class VSA:
             # data = instr.read_raw()
             instr.write(":INSTrument:SELect SA")
             # Go back to saved state 8
-            instr.write("*RCL 8")
-            instr.write("*TRG")
+            # instr.write("*RCL 8")
+            # instr.write("*TRG")
             I_data = data[0::2]
             Q_data = data[1::2]
             IQ_data = np.array([complex(I, Q) for I, Q in zip(I_data, Q_data)], dtype='complex')

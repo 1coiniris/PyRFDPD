@@ -992,7 +992,7 @@ class DVR(nn.Module):
         # 使用系数进行预测
         y = X @ coef.reshape(-1, 1).flatten()
         # y = X.dot(coef)
-        y[abs(y) > 1] = 0
+        # y[abs(y) > 1] = 0
         # a = np.where(abs(y) > 1)
         # indices = np.where(a == 1)
         return y

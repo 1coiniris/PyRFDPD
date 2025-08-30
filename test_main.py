@@ -2,7 +2,7 @@
 # from anyio import sleep
 import torch
 import numpy as np
-from scipy.io import savemat
+from scipy.io import savemat, loadmat
 import Model.gmp as gmp
 import Model.volterra_nn as MCP_NN
 import Model.Mixed_NN as MIX_NN
@@ -18,9 +18,9 @@ from function import Function_Calculate as cal, Function_Lib as fun
 from function import Single_Band_PA, ILC, ILA
 from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
+from scipy.io import loadmat
 
-
-filepath = f'tests/20250831/20M'
+filepath = f'tests/20250831/40M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -48,12 +48,12 @@ NMSE_state_list = []
 # signal = 'ILC'
 # signal = 'YU'
 # signal = '20M'
-signal = '20M'
+signal = '40M'
 
 x_train, x, fs, BW = fun.get_waveform(signal,rate=0.6)
 
 params = {
-    'pow': -22,  # output power in dB
+    'pow': -28,  # output power in dB
     'VSG_IP': '192.168.1.30',  # IP of Vector Signal Generator (VSG)
     'VSA_IP': '192.168.1.36',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'k',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
@@ -77,8 +77,8 @@ if plot_swich:
     fun.PA_figure(x_train, y_train, fs, figure_path)
 
 
-savemat(f'{mat_path}/PA_inout.mat', {'x':x_train,'y':y_train})
-
+savemat(f"{mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x_train,'y':y_train})
+logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
 
 
 ilc_in = {
@@ -91,12 +91,19 @@ ilc_in = {
 
 ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)
 
-mat_filename = f'{mat_path}/ILCOUT.mat'
+mat_filename = f"{mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat"
 savemat(mat_filename, ilc_out)
+logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
+
+
+# data_file = './tests/20250831/20M/data/ILCOUT_202508301624.mat'
+# ilc_out = loadmat(data_file)
+#
+# ilc_out['u_ideal'] = ilc_out['u_ideal'].T
 
 
 # 模型设置
-Model_map = ['DVR']
+Model_map = ['DVR','GMP','VDTDNN','RVTDNN','DVR_NN']
 # Model = "GMP"
 # Model = 'DVC_NN'
 # Model = 'GMP_NN'
@@ -117,30 +124,32 @@ for Model in Model_map:
     iteration = 1
     if Model == 'GMP':
         K = [7, 7, 7]
-        L = [7, 3, 3]
+        L = [5, 5, 5]
         M = [3, 3]
         model = gmp.GMP(K,L,M)
         # coef = GMP.GMP_e(x_train,ilc_out['u_ideal'])
         model.coef = model.model_e(x_train,ilc_out['u_ideal'])
         pa_input = model.model_v(x_train, model.coef)
-        print(f'COEF number: {len(model.coef)} ')
+        logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
-        savemat(f'{mat_path}/{Model}_K{K}_L{L}_M{M}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        savemat(f"{mat_path}/{Model}_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model}_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat")
 
     if Model == 'DVR':
         # 参数设置
-        K = 2  # 分段数，可修改
-        M = 15
-        threshold = np.array([0.2, 0.6])
+        K = 4  # 分段数，可修改
+        M = 10
+        threshold = np.array([0.2,0.4,0.6,0.8])
         model = DVR.DVR(M=M, threshold=threshold)
         model.coef = model.DVR_e(x_train, ilc_out['u_ideal'])
         pa_input = model.DVR_v(x_train, model.coef)
-        print(f'COEF number: {len(model.coef)} ')
+        logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
-        savemat(f'{mat_path}/{Model}_K{K}_M{M}_thres{threshold}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        savemat(f"{mat_path}/{Model}_K{K}_M{M}_thres{threshold}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model}_K{K}_M{M}_thres{threshold}_{time.strftime('%Y%m%d%H%M')}.mat")
 
     if Model == 'DVR_NN':
-        model = ['Tanh', 2, 12, 40]
+        model = ['GELU', 4, 10]
         # 参数设置
         activation = model[0]
         K = model[1]  # 分段数，可修改
@@ -173,14 +182,15 @@ for Model in Model_map:
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
         logger.info(f"model prediction time: {elapsed_time:.6f} s")
-        print(f'COEF number: {len(model.coef)} ')
+        logger.info(f'COEF number: {len(model.coef)} ')
 
         pa_output = PA_board.transmit(pa_input, logger)
-        savemat(f'{mat_path}/{Model}_K{K}_M{M}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        savemat(f"{mat_path}/{Model}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat")
 
     if Model == 'VDTDNN':
         # 参数设置
-        model = ['Tanh', 20, 5, 24, 24]
+        model = ['Tanh', 10, 5, 16,16]
         activation = model[0]
         # K = model_map[1]  # 分段数，可修改
         M = model[1]
@@ -216,11 +226,12 @@ for Model in Model_map:
         logger.info(f"model prediction time: {elapsed_time:.6f} s")
 
         pa_output = PA_board.transmit(pa_input, logger)
-        savemat(f'{mat_path}/{Model}_K{K}_M{M}_Layer_{layer_dims}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        savemat(f"{mat_path}/{Model}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat")
 
     if Model == 'RVTDNN':
         # 参数设置
-        model = ['ReLU', 15, 3, 32,32]
+        model = ['ReLU', 10, 5, 24,24]
         activation = model[0]
         # K = model_map[1]  # 分段数，可修改
         M = model[1]
@@ -256,7 +267,8 @@ for Model in Model_map:
         logger.info(f"model prediction time: {elapsed_time:.6f} s")
 
         pa_output = PA_board.transmit(pa_input, logger)
-        savemat(f'{mat_path}/{Model}_K{K}_M{M}_Layer_{layer_dims}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        savemat(f"{mat_path}/{Model}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat")
 
 
 
@@ -280,9 +292,13 @@ logger.debug("DPD done!")
 # logger.info(f'NMSE_WITH_DPD: {NMSE_withDPD} dB')
 
 
-ila_out = ILA.ILA(PA_board,model,x_train,5,logger)
+# ila_out = ILA.ILA(PA_board,model,x_train,10,logger)
+# mat_filename = f"{mat_path}/ILAOUT_{model.name}_{time.strftime('%Y%m%d%H%M')}.mat"
+# savemat(mat_filename, {'PA_out':ila_out['PA_Out'],'NMSE':ila_out['NMSE']})
+# logger.info(f"save ilc file to {mat_filename}")
+
 A = 1
 
-
+# ILA.ILA(PA_board,model,x_train,5,logger)
 # # 保存数据到MAT文件
 # savemat(file_name, {'DPD': DPD_with_GMPNN.T, 'ILC': yorg, 'X': xorg})
