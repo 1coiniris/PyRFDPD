@@ -12,6 +12,15 @@ import logging
 import os
 from function import Function_Calculate as cal
 
+def create_memory_seq(data, M):
+    """将数据转换为记忆序列格式"""
+    L = len(data)
+    data_new = np.concatenate((data[ L-M : L],data),axis=0)
+    sequences = []
+    for i in range(M,len(data_new)):
+        sequences.append(data_new[i-M:i+1])
+        a = data_new[i-M:i+1]
+    return np.array(sequences)
 
 def get_data(signal,rate=0.6,state=3):
     # 读取PA输入输出信号
@@ -38,14 +47,14 @@ def get_data(signal,rate=0.6,state=3):
         if signal == '400M':
             fs = 2e9
             BW = 400e6
-            data_file = '../data/dataxy400m2G.mat'
+            data_file = './data/dataxy400m2G.mat'
             data = loadmat(data_file)
             xorg = data['x0']
             yorg = data['y00']
         elif signal == 'LMBA200M':
             fs = 1e9
             BW = 200e6
-            data_file = '../data/LMBA_200M_23G.mat'
+            data_file = './data/LMBA_200M_23G.mat'
             data = loadmat(data_file)
             xorg = data['x']
             yorg = data['y']
@@ -290,14 +299,14 @@ def create_sequences(data, seq_length):
         sequences.append(data[i:i+seq_length])
     return np.array(sequences)
 
-def create_sequences_addmemory(data, seq_length, M = 9):
-    """将数据转换为序列格式"""
+def create_memory_seq(data, M):
+    """将数据转换为记忆序列格式"""
+    L = len(data)
+    data_new = np.concatenate((data[ L-M : L],data),axis=0)
     sequences = []
-    for i in range(len(data) - seq_length - M + 1):
-        memory = []
-        for j in range(seq_length):
-            memory.append(data[i+j:i+j+M+1].reshape(2*(M+1)))
-        sequences.append(memory)
+    for i in range(M,len(data_new)):
+        sequences.append(data_new[i-M:i+1])
+        a = data_new[i-M:i+1]
     return np.array(sequences)
 
 # 数据预处理：将复数转换为实部+虚部

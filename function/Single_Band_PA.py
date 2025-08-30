@@ -3,6 +3,7 @@ import warnings
 from typing import Union, Dict, Any
 from Instrument import VSA, VSG
 from function import align
+from function import PA_DVR
 import argparse
 import time
 
@@ -37,6 +38,7 @@ class SingleBandPA:
                 'VSA_IP': '192.168.0.30',  # IP of Vector Signal Analyzer (VSA)
                 'VSA_type': 'rs',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
                 'waveformfile': 'waveform_crz',
+                'BW': 20e6,
                 'fs': 160e6,  # sampling rate = 160 MHz
                 'fc': 2.4e9,  # carrier frequency = 2.14 GHz
                 'att': 20,  # attenuation level of (VSA) in dB
@@ -49,6 +51,7 @@ class SingleBandPA:
         self.VSA_IP = params.get('VSA_IP', '192.168.0.30')
         self.VSA_type = params.get('VSA_type', 'rs')
         self.waveformfile = params.get('waveformfile', 'waveform_crz')
+        self.BW = params.get('BW', 20e6)
         self.fs = params.get('fs', 160e6)
         self.fc = params.get('fc', 2.4e9)
         self.att = params.get('att', 20)
@@ -100,19 +103,20 @@ class SingleBandPA:
 
             return y
 
-        # elif self.type == 0:  # MATLAB-defined PA mode
-        #     # Apply PA model (assuming PA function is implemented)
-        #     # y0 = PA(x, self.pow)
-        #
-        #     # Simplified implementation for demonstration
-        #     y0 = self._matlab_pa_model(x, self.pow)
-        #
-        #     # Time alignment and normalization
-        #     # _, y = align_coarse_norm(x, y0.T)
-        #     # _, y = upsample_nrmse(x, y, 16)
-        #
-        #     # Simplified implementation for demonstration
-        #     y = self._align_and_normalize(x, y0)
-        #     y = y / np.max(np.abs(y))
-        #
-        #     return y
+        elif self.type == 0:  # MATLAB-defined PA mode
+            # Apply PA model (assuming PA function is implemented)
+            # y0 = PA(x, self.pow)
+
+            # Simplified implementation for demonstration
+
+            y0 = PA_DVR.PA_DVR_v1(x)
+            # Time alignment and normalization
+            # _, y = align_coarse_norm(x, y0.T)
+            # _, y = upsample_nrmse(x, y, 16)
+
+            # Simplified implementation for demonstration
+            # y = align.align(x, y0,'PCF')
+            y = y0
+            y = y / np.max(np.abs(y))
+
+            return y

@@ -961,6 +961,7 @@ class DVR_2(nn.Module):
 class DVR(nn.Module):
     def __init__(self, M,threshold):
         super(DVR, self).__init__()
+        self.name = 'DVR'
         self.M = M
         self.threshold = threshold
         self.K = len(self.threshold)

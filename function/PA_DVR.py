@@ -177,9 +177,10 @@ def PA_DVR_v1(In):
     X = np.hstack((X_lin, X_1, X_21, X_22, X_23, X_ddr_1, X_ddr_2))
     
     # 矩阵乘法
-    Out = X.dot(coeff)
+    Out = X.dot(coeff).reshape(-1,1)
+    Out = Out.squeeze()
     # Out1 = Out.reshape(-1,1)
-    return Out.reshape(-1,1)
+    return Out
 
 # 使用示例 ---------------------------------------------------
 if __name__ == "__main__":

@@ -39,7 +39,7 @@ for state in range(24):
 
 
     # Model_map = ['GMP','MP']
-    Model_map = ['DVR']
+    Model_map = ['GMP']
 
     # last_train = int(N*0.6-1)
     PA_in  = x_train
@@ -50,9 +50,9 @@ for state in range(24):
     for Model in Model_map:
         if Model == 'DVR': # DVR [K,M]
             # 参数设置
-            K = 3  # 分段数，可修改
-            M = 20
-            threshold = np.array([0.2,0.4, 0.6, 0.8])
+            K = 2  # 分段数，可修改
+            M = 10
+            threshold = np.array([0.2, 0.6])
             # size = (M + 1 + Lb + Lc)
             filename = f"DVR_K{K}_M{M}_threshold{threshold}_{time.strftime('%Y%m%d%H%M')}"
             if count==0:
@@ -71,9 +71,9 @@ for state in range(24):
 
 
         elif Model == 'GMP':
-            K = [11, 11, 11]
-            L = [11, 7, 7]
-            M = [5, 5]
+            K = [7, 5, 5]
+            L = [7, 5, 5]
+            M = [3, 3]
             GMP = gmp.GMP(K,L,M)
             filename = f"GMP_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}"
             if state==0:
@@ -83,11 +83,11 @@ for state in range(24):
                 logger = fun.create_logger(args.log_path, filename)
             logger.info(f'----------------{Model}_K{K}_L{L}_M{M}--------------------')
             start_time = time.time()  # 记录开始时间
-            coef = GMP.GMP_e(PA_in, PA_out)
+            coef = GMP.model_e(PA_in, PA_out)
             end_time = time.time()  # 记录结束时间
             elapsed_time = end_time - start_time
             logger.info(f"model train time: {elapsed_time:.6f} s")
-            y_pred = GMP.GMP_v(PA_in, coef)
+            y_pred = GMP.model_v(PA_in, coef)
             logger.info(f'{Model} train NMSE:')
 
             x_norm = PA_in / max(abs(PA_in))
@@ -99,7 +99,7 @@ for state in range(24):
             PA_in  = x
             PA_out = y
             start_time = time.time()  # 记录开始时间
-            y_pred = GMP.GMP_v(PA_in, coef)
+            y_pred = GMP.model_v(PA_in, coef)
             end_time = time.time()  # 记录结束时间
             elapsed_time = end_time - start_time
             logger.info(f"model prediction time: {elapsed_time:.6f} s")

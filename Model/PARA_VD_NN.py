@@ -14,6 +14,7 @@ class VD_DVR_NN(nn.Module):
     def __init__(self, K, M, M2,  activation="ReLU"):
         super().__init__()
         # self.total_train = 1
+        self.name = 'VD_DVR_NN'
         self.M = M
         self.M2 = M2
         self.K = K

@@ -18,7 +18,7 @@ def ILC(board, ilc_in,logger=None):
     Returns:
     dict: containing
         - u_ideal: estimated ideal input
-        - PA_Out: PA output when k=1
+        - PA_Out: PA output
         - test: error vector
         - NMSE: NMSE vector
         - ILC_final: ILC optimum output
@@ -38,11 +38,13 @@ def ILC(board, ilc_in,logger=None):
     ilc_out = {
         'test': np.zeros(ilc_in['nIterations']),
         'NMSE': np.zeros(ilc_in['nIterations']),
+        'u_k': ilc_in['u_k'],
         'PA_Out': None,
         'u_ideal': None,
         'ILC_final': None
     }
 
+    PA_out = []
     for k in range(ilc_in['nIterations']):
         iteration = k + 1  # Python is 0-indexed, MATLAB is 1-indexed
         if logger:
@@ -61,8 +63,8 @@ def ILC(board, ilc_in,logger=None):
             Out.append(y_k.copy())
             continue
 
-        if k == 0:
-            ilc_out['PA_Out'] = y_k  # output for learning
+        PA_out.append(y_k)
+
 
         # Calculate error
         e_k = ilc_in['y_d'] - y_k
@@ -97,5 +99,6 @@ def ILC(board, ilc_in,logger=None):
     k_opt = np.argmin(ilc_out['NMSE'])
     ilc_out['u_ideal'] = In[k_opt]
     ilc_out['ILC_final'] = Out[k_opt]
+    ilc_out['PA_Out'] = PA_out  # output for learning
 
     return ilc_out, k_opt

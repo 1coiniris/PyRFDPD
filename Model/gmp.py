@@ -22,9 +22,11 @@ class GMP:
         self.K = K
         self.L = L
         self.M = M
+        self.name = 'GMP'
+        self.coef = None
 
 
-    def GMP_e(self,x_target: np.ndarray, y_target: np.ndarray, ratio: float=1)->np.ndarray:
+    def model_e(self,x_target: np.ndarray, y_target: np.ndarray, ratio: float=1)->np.ndarray:
         """
         This is the coefficient extraction file based on GMP DPD
         designed by Qianyun Lu, Oct 12, 2019, qianyun.lu@seu.edu.cn
@@ -83,12 +85,12 @@ class GMP:
         XH = np.conjugate(X.T)
         coef = np.linalg.pinv(XH.dot(X) + 0.00001*np.eye(X.shape[1])).dot(XH).dot(y_target)
 
-        y_model = self.GMP_v(x_target, coef)
+        y_model = self.model_v(x_target, coef)
         NMSE = cal.nmse(y_target, y_model)
-        print(f'NMSE-with-model = {NMSE:.6f} dB')
+        # print(f'NMSE-with-model = {NMSE:.6f} dB')
         return coef
 
-    def GMP_v(self,x_target: np.ndarray, coef)->np.ndarray:
+    def model_v(self,x_target: np.ndarray, coef)->np.ndarray:
         """
         This is the coefficient evaluation file based on MP DPD
         designed by Qianyun Lu, Oct. 12, 2018, qianyun.lu@seu.edu.cn
@@ -138,6 +140,10 @@ class GMP:
         # X[np.isnan(X)] = 0 # Remove NaN
         X = self.get_basis(x_target)
         y = X.dot(coef)
+        return y
+
+    def apply_dpd(self, signal,coef = None):
+        y = self.model_v(signal,coef)
         return y
 
     def get_basis(self,x_target: np.ndarray)->np.ndarray:

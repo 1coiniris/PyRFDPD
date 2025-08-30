@@ -1,24 +1,17 @@
-from functools import partial
-
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 
 # from anyio import sleep
-from scipy.io import loadmat, savemat
+from scipy.io import loadmat
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
-import pyrfdpd.nn as dpdnn
-import pyrfdpd.visa as visa
-from pyrfdpd.utils import metrics, plot, align
-import PA_DVR
-import TEST_Plot
+from pyrfdpd.utils import metrics, plot
 import Model.LSTM_DPD as LSTM
-import PA
+from function import PA
 
 print(torch.cuda.is_available())
 
@@ -37,7 +30,7 @@ xorg = x_data['signal_100M_fs6144'][0:N]
 xorg = xorg / max(abs(xorg))
 xorg = xorg*0.9
 
-yorg = np.concatenate(([0+0j, 0+0j, 0+0j, 0+0j], PA.PA_Voterra(xorg[4:N-1],xorg[3:N-2],xorg[2:N-3],xorg[1:N-4],xorg[0:N-5]), [0+0j]))
+yorg = np.concatenate(([0+0j, 0+0j, 0+0j, 0+0j], PA.PA_Voterra(xorg[4:N - 1], xorg[3:N - 2], xorg[2:N - 3], xorg[1:N - 4], xorg[0:N - 5]), [0 + 0j]))
 # yorg = PA_DVR.PA_DVR_v1(xorg).reshape(-1,1)
 # yorg = yorg / max(abs(yorg))
 # yorg = yorg*0.8
@@ -226,7 +219,7 @@ DPD = DPD.reshape(-1,1)
 # mse = np.mean(np.abs(xorg - predistorted_signal)**2)
 # print(f"Prediction MSE: {mse:.6f}")
 
-PA_out_withDPD = np.concatenate(([0+0j, 0+0j, 0+0j, 0+0j], PA.PA_Voterra(DPD[4:N-1],DPD[3:N-2],DPD[2:N-3],DPD[1:N-4],DPD[0:N-5]), [0+0j]))
+PA_out_withDPD = np.concatenate(([0+0j, 0+0j, 0+0j, 0+0j], PA.PA_Voterra(DPD[4:N - 1], DPD[3:N - 2], DPD[2:N - 3], DPD[1:N - 4], DPD[0:N - 5]), [0 + 0j]))
 # PA_out_withDPD = PA_DVR.PA_DVR_v1(predistorted_signal)
 # PA_out_withDPD = PA_out_withDPD / max(abs(PA_out_withDPD))
 PA_out_withDPD = PA_out_withDPD.squeeze()

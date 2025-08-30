@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 import time
 from function import Function_Calculate as cal
+from function import Function_Lib as fun
 from tqdm import tqdm
 from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
@@ -15,15 +16,15 @@ class Orth_Basis_DVR_NN(nn.Module):
     def __init__(self, K, M, activation="ReLU"):
         super().__init__()
         # self.total_train = 1
+        self.name = 'DVR_NN'
         self.M = M
         self.K = K
+        self.coef = None
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # self.threshold = threshold
         assert activation == "ReLU" or "Tanh" or "GELU" or "None"
         self.activation = activation
         self.DVR_layers = nn.Sequential()
-        # self.DDR_layers = nn.Sequential()
-        # layer_dims = [M+1,16,16,(M+1)*K]
         layer_dims = [M + 1, (M + 1) * K]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
             # self.layers.add_module(
@@ -43,11 +44,7 @@ class Orth_Basis_DVR_NN(nn.Module):
                 # self.DDR_layers.add_module("actFunc " + str(index), nn.GELU())
             # self.layers.add_module("dropout" + str(index), nn.Dropout(0.2))
         self.DVR_layers = self.DVR_layers[:-1]  # remove the last activation layer
-        # self.amp_linear = nn.Linear(M+1, (M+1)*K).double()
-        # self.DDR_linear = nn.Linear(1, (M+1)*K).double()
-        # self.DDR_linear = nn.Linear(M + 1, (M + 1) * K).double()
-        # self.amp_act = nn.()
-        # self.linear = nn.Linear((K*(M+1)*6+M+1)*2, 2,bias=False).double()
+
         if self.activation != "ABS":
             if self.activation == "ReLU":
                 self.act = nn.ReLU()
@@ -55,29 +52,14 @@ class Orth_Basis_DVR_NN(nn.Module):
                 self.act = nn.Tanh()
             elif self.activation == "GELU":
                 self.act = nn.GELU()
-        # self.linear_2 = nn.Linear(12, 2, bias=False).double()
-        # self.main_layers = nn.Sequential()
-        # self.para_layers = nn.Sequential()
-        # self.main_nn = volterra_nn.GMP_NN(self.layer_dim1, L, M = self.M,activation=activation)
-        # self.para_nn = volterra_nn.MCP_BASE_NN(self.layer_dim2, L, M = self.M, K = 5,activation=activation)
-        # self.out_layer = nn.Linear(2*M+2, 2,bias=False)
+
 
     def forward(self, x_window,coef = None):
         """
         x_window: 当前窗口的记忆输入 [batch, (M+1)]
         """
-        # if coef is None:
-        #     DVR_out_full = self.get_basis(x_window)
-        #     DVR_out_full_real = torch.view_as_real(DVR_out_full)
-        #     # DVR = DVR_out_full_real.view(len(DVR_out_full_real), -1)
-        #     DVR = DVR_out_full_real.flatten(1)
-        #     y_pred = self.linear(DVR)
-        # else:
-        y = self.DVR_NN_v(x_window,coef)
+        y = self.model_v(x_window,coef)
         y_pred = torch.view_as_real(y)
-        # out = self.linear(DVR)
-        # # out_act = self.act(out)
-        # y_pred = self.linear_2(out)
 
         return y_pred
 
@@ -133,7 +115,7 @@ class Orth_Basis_DVR_NN(nn.Module):
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
-                coef = self.DVR_NN_e(batch_x_signal,targets)
+                coef = self.model_e(batch_x_signal,targets)
 
                 # outputs = model(inputs)
                 outputs = self(batch_x_signal,coef)
@@ -167,7 +149,7 @@ class Orth_Basis_DVR_NN(nn.Module):
                     targets_real = torch.view_as_real(targets)
                     targets_real = targets_real.to(device)
 
-                    coef = self.DVR_NN_e(batch_x_signal, targets)
+                    coef = self.model_e(batch_x_signal, targets)
                     # outputs = model(inputs)
                     val_outputs = self(batch_x_signal,coef)
                     val_loss_total += criterion(val_outputs, targets_real).item()
@@ -308,18 +290,18 @@ class Orth_Basis_DVR_NN(nn.Module):
         DVR_out_21 = DVR_core * DVR_phase * DVR_xn_amp  # (16384,(M+1)*K)
         DVR_out_22 = DVR_core * DVR_xn
         DVR_out_23 = DVR_core * DVR_X
-        DVR_out_DDR_1 = DVR_core * DVR_X
+        # DVR_out_DDR_1 = DVR_core * DVR_X
         DVR_out_DDR_2 = DVR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
         # DVR_out_DDR_1 = DDR_core * DVR_X
         # DVR_out_DDR_2 = DDR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
-        DVR_out_full = torch.concatenate((DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
+        DVR_out_full = torch.concatenate((DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_2), dim=1)
         # 添加正交化层
         # 使用QR分解（更稳定）
         # Q, R = torch.linalg.qr(DVR_out_full,mode='reduced')
         # return Q
         return DVR_out_full
 
-    def DVR_NN_e(self,x_window,y,alpha=5e-2,pri = 0):
+    def model_e(self,x_window,y,alpha=5e-2,pri = 0):
         """使用最小二乘法提取系数（冻结基函数网络）"""
         # self.eval()  # 设置为评估模式
         M = self.M
@@ -327,7 +309,7 @@ class Orth_Basis_DVR_NN(nn.Module):
         K = self.K
         device = self.device
 
-        # sequences = volterra_nn.create_memory_seq(x, M)  # [N, M+1]
+        # sequences = fun.create_memory_seq(x, M)  # [N, M+1]
         # x_window = torch.from_numpy(sequences).to(device)
 
         # 生成正交基函数
@@ -338,26 +320,7 @@ class Orth_Basis_DVR_NN(nn.Module):
         np_X = X.cpu().detach().numpy()
         y_copy = y
         np_y = y_copy.cpu().detach().numpy()
-        # # 计算共轭转置 (对实数矩阵等价于转置)
-        # XH = X.conj().T
-        #
-        # # 计算正则化矩阵
-        # I = torch.eye(X.shape[1], device=device)
-        # reg_matrix = alpha * I
-        # # 核心计算: (X^H X + αI)^(-1) X^H y
-        # XHX = XH @ X
-        # XHX_reg = XHX + reg_matrix
-        # # 使用 Cholesky 分解求解更稳定
-        # try:
-        #     L = torch.linalg.cholesky(XHX_reg)
-        #     coef = torch.cholesky_solve(XH @ y, L)
-        # except RuntimeError:  # 如果 Cholesky 失败，使用伪逆
-        #     pinv = torch.linalg.pinv(XHX_reg)
-        #     coef = pinv @ XH @ y
-        # pinv = torch.linalg.pinv(XHX_reg)
-        # coef = pinv @ XH @ y
-        # X = basis.cpu().detach().numpy()
-        # X = self.get_basis(x_window).cpu().detach().numpy()
+
         np_XH = np.conjugate(np_X.T)
         np_coef = np.linalg.pinv(np_XH.dot(np_X) + alpha * np.eye(np_X.shape[1])).dot(np_XH).dot(np_y)
         coef = torch.from_numpy(np_coef).to(device)
@@ -370,7 +333,7 @@ class Orth_Basis_DVR_NN(nn.Module):
             print(f"NMSE: {NMSE:.3f} dB")
         return coef
 
-    def DVR_NN_v(self, x_window, coef):
+    def model_v(self, x_window, coef):
         """使用提取的系数进行预测（冻结基函数网络）"""
         # self.eval()  # 设置为评估模式
         M = self.M

@@ -7,11 +7,13 @@ import time
 from tqdm import tqdm
 from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
+from function import Function_Lib as fun
 
 class RVTDNN(nn.Module):
     def __init__(self, layer_dims, M, K=1, activation="ReLU"):
         super().__init__()
         # self.total_train = 1
+        self.name = 'RVTDNN'
         self.M = M
         self.K = K
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -19,14 +21,17 @@ class RVTDNN(nn.Module):
         self.activation = activation
         self.layers = nn.Sequential()
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
-            self.layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
+            self.layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim))
             if activation == "ReLU":
                 self.layers.add_module("actFunc " + str(index), nn.ReLU())
             elif activation == "Tanh":
                 self.layers.add_module("actFunc " + str(index), nn.Tanh())
-            elif activation == "GELU":
-                self.layers.add_module("actFunc " + str(index), nn.GELU())
-        self.layers = self.layers[:-1]  # remove the last activation layer
+            elif activation == "ELU":
+                self.layers.add_module("actFunc " + str(index), nn.ELU(alpha=1))
+            elif activation == "None":
+                pass
+        if activation != "None":
+            self.layers = self.layers[:-1]  # remove the last activation layer
 
     def forward(self, x_window):
         """
@@ -45,17 +50,14 @@ class RVTDNN(nn.Module):
         return y_pred
 
 
-    def model_train(self,x,y,model_path,logger=None,total_train = 1):
+    def model_train(self,x,y,model_path,logger=None):
         learning_rate = 0.001
-        epochs = 300
-        batch_size = 256
+        epochs = 200
+        batch_size = 512
         device = self.device
 
         # optim
-        if total_train == 0:
-            optimizer = optim.Adam(self.linear.parameters(), lr=learning_rate)
-        else:
-            optimizer = optim.Adam(self.parameters(), lr=learning_rate)
+        optimizer = optim.Adam(self.parameters(), lr=learning_rate)
         criterion = nn.MSELoss()
         # fun.model_structure(self, logger)
         best_metric = float('inf')
@@ -142,35 +144,12 @@ class RVTDNN(nn.Module):
         logger.info(f"model train time: {elapsed_time:.6f} s")
 
 
-        if 1:
-            y_train_loss = train_loss_list  # loss值，即y轴
-            x_train_loss = range(len(y_train_loss))  # loss的数量，即x轴
-
-            plt.figure()
-
-            # 去除顶部和右边框框
-            ax = plt.axes()
-            ax.spines['top'].set_visible(False)
-            ax.spines['right'].set_visible(False)
-
-            plt.xlabel('iters')  # x轴标签
-            plt.ylabel('loss')  # y轴标签
-
-            # 以x_train_loss为横坐标，y_train_loss为纵坐标，曲线宽度为1，实线，增加标签，训练损失，
-            # 默认颜色，如果想更改颜色，可以增加参数color='red',这是红色。
-            plt.plot(x_train_loss, y_train_loss, linewidth=1, linestyle="solid", label="train loss")
-            plt.legend()
-            plt.title('Loss curve')
-            plt.savefig(f'figures/MCP_NN/DVR_NN_loss_curve.png')
-            plt.close()
-
-
     # 数据预处理函数
     def create_dataset(self,x, y, test_size=0.2):
         M = self.M
         # 转换为实部虚部分离格式
 
-        sequences = volterra_nn.create_memory_seq(x,M)  # [N, M+1]
+        sequences = fun.create_memory_seq(x,M)  # [N, M+1]
 
         X_tensor = torch.from_numpy(sequences)
         # targets = volterra_nn.complex_to_real(y)    # [N, 1]
@@ -189,13 +168,12 @@ class RVTDNN(nn.Module):
         # 将模型移动到设备上
         self.to(device)
         self.eval()
-        sequences = volterra_nn.create_memory_seq(signal, M)  # [N, M+1]
+        sequences = fun.create_memory_seq(signal, M)  # [N, M+1]
         x = torch.from_numpy(sequences).to(device)
         out = self(x)
         out_complex = torch.view_as_complex(out).cpu()
         y_pred = out_complex.detach().numpy()
 
-        # y_pred = np.stack()
         return y_pred
     # def train(self):
     #     self.train()

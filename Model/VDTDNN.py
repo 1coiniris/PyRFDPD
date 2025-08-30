@@ -14,6 +14,7 @@ class VDTDNN(nn.Module):
     def __init__(self, layer_dims, M, K=1, activation="ReLU"):
         super().__init__()
         # self.total_train = 1
+        self.name = 'VDTDNN'
         self.M = M
         self.K = K
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

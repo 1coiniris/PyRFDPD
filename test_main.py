@@ -15,12 +15,12 @@ import argparse
 import time
 from function import align
 from function import Function_Calculate as cal, Function_Lib as fun
-from function import Single_Band_PA, ILC
+from function import Single_Band_PA, ILC, ILA
 from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
 
 
-filepath = f'tests/20250826/40M'
+filepath = f'tests/20250831/40M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -46,9 +46,9 @@ NMSE_state_list = []
 # signal = '100M'
 # signal = 'ILC_120M'
 # signal = 'ILC'
-signal = 'YU'
+# signal = 'YU'
 # signal = '20M'
-# signal = '40M'
+signal = '40M'
 
 x_train, x, fs, BW = fun.get_waveform(signal,rate=0.9)
 
@@ -61,7 +61,7 @@ params = {
     'fs': fs,  # sampling rate = 160 MHz
     'fc': 3.5e9,  # carrier frequency = 2.14 GHz
     'att': 10,  # attenuation level of (VSA) in dB
-    'type': 1  # test type
+    'type': 0  # test type
 }
 
 
@@ -80,6 +80,7 @@ if plot_swich:
 savemat(f'{mat_path}/PA_inout.mat', {'x':x_train,'y':y_train})
 
 
+
 ilc_in = {
     'y_d': x_train,
     'u_k': x_train,
@@ -95,7 +96,7 @@ savemat(mat_filename, ilc_out)
 
 
 # 模型设置
-Model_map = ['DVR_NN','GMP','VDTDNN']
+Model_map = ['DVR_NN']
 # Model = "GMP"
 # Model = 'DVC_NN'
 # Model = 'GMP_NN'
@@ -118,11 +119,11 @@ for Model in Model_map:
         K = [7, 7, 7]
         L = [7, 3, 3]
         M = [3, 3]
-        GMP = gmp.GMP(K,L,M)
+        model = gmp.GMP(K,L,M)
         # coef = GMP.GMP_e(x_train,ilc_out['u_ideal'])
-        coef = GMP.GMP_e(x_train,ilc_out['u_ideal'])
-        pa_input = GMP.GMP_v(x_train, coef)
-        print(f'COEF number: {len(coef)} ')
+        model.coef = model.model_e(x_train,ilc_out['u_ideal'])
+        pa_input = model.model_v(x_train, model.coef)
+        print(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
         savemat(f'{mat_path}/{Model}_K{K}_L{L}_M{M}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
 
@@ -155,7 +156,7 @@ for Model in Model_map:
         x_coef_window = torch.from_numpy(sequences).to(device)
         y_sequences = MCP_NN.create_memory_seq(y_coef, M)  # [N, M+1]
         y_coef_window = torch.from_numpy(y_sequences).to(device)
-        model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor)
+        model.coef = model.model_e(x_coef_window,y_coef_tensor)
         pa_input = model.apply_dpd(x_train, model.coef)
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
@@ -267,7 +268,7 @@ logger.debug("DPD done!")
 # logger.info(f'NMSE_WITH_DPD: {NMSE_withDPD} dB')
 
 
-
+ila_out = ILA.ILA(PA_board,model,x_train,5,logger)
 A = 1
 
 
