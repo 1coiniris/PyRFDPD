@@ -1,0 +1,1050 @@
+2025-08-30 18:31:55,549 INFO: SMW signal transmission finished! 
+2025-08-30 18:32:01,043 INFO: Successfully captured IQ data! 
+2025-08-30 18:32:32,654 INFO: ------signal BW20.0M fs100.0MHz------ 
+2025-08-30 18:32:32,654 INFO: ------------------------DVR_NN_M1_K1_GELU------------------------------- 
+2025-08-30 18:32:32,695 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:32:32,695 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-08-30 18:32:32,695 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:32:32,700 INFO: | DVR_layers.linear 0.weight                         | torch.Size([2, 2])   | 4          | 
+2025-08-30 18:32:32,700 INFO: | DVR_layers.linear 0.bias                           | torch.Size([2])      | 2          | 
+2025-08-30 18:32:32,700 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:32:32,700 INFO: The total number of parameters: 6 
+2025-08-30 18:32:32,700 INFO: The parameters of Model Orth_Basis_DVR_NN: 0.000006M 
+2025-08-30 18:32:32,700 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:33:08,115 INFO: ------signal BW20.0M fs100.0MHz------ 
+2025-08-30 18:33:08,115 INFO: ------------------------DVR_NN_M5_K2_GELU------------------------------- 
+2025-08-30 18:33:08,115 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:33:08,115 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-08-30 18:33:08,115 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:33:08,115 INFO: | DVR_layers.linear 0.weight                         | torch.Size([12, 6])  | 72         | 
+2025-08-30 18:33:08,115 INFO: | DVR_layers.linear 0.bias                           | torch.Size([12])     | 12         | 
+2025-08-30 18:33:08,115 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:33:08,115 INFO: The total number of parameters: 84 
+2025-08-30 18:33:08,115 INFO: The parameters of Model Orth_Basis_DVR_NN: 0.000084M 
+2025-08-30 18:33:08,115 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:33:16,986 INFO: ================ ILA ================== 
+2025-08-30 18:33:17,234 INFO: SMW signal transmission finished! 
+2025-08-30 18:33:22,550 INFO: Successfully captured IQ data! 
+2025-08-30 18:33:24,612 INFO: NMSE: -23.130 dB 
+2025-08-30 18:33:24,612 INFO: Start the 1th iteration 
+2025-08-30 18:33:25,677 INFO: ------------------------Joint Training with Orthogonal Loss------------------------------- 
+2025-08-30 18:34:30,085 INFO: SMW signal transmission finished! 
+2025-08-30 18:34:35,680 INFO: Successfully captured IQ data! 
+2025-08-30 18:34:54,092 INFO: ------signal BW20.0M fs100.0MHz------ 
+2025-08-30 18:34:54,092 INFO: ------------------------DVR_NN_M5_K2_GELU------------------------------- 
+2025-08-30 18:34:54,130 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:34:54,130 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-08-30 18:34:54,130 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:34:54,130 INFO: | DVR_layers.linear 0.weight                         | torch.Size([12, 6])  | 72         | 
+2025-08-30 18:34:54,130 INFO: | DVR_layers.linear 0.bias                           | torch.Size([12])     | 12         | 
+2025-08-30 18:34:54,130 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:34:54,130 INFO: The total number of parameters: 84 
+2025-08-30 18:34:54,130 INFO: The parameters of Model Orth_Basis_DVR_NN: 0.000084M 
+2025-08-30 18:34:54,130 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:34:57,606 INFO: ================ ILA ================== 
+2025-08-30 18:34:57,868 INFO: SMW signal transmission finished! 
+2025-08-30 18:35:03,237 INFO: Successfully captured IQ data! 
+2025-08-30 18:35:05,308 INFO: NMSE: -23.172 dB 
+2025-08-30 18:35:05,308 INFO: Start the 1th iteration 
+2025-08-30 18:35:06,347 INFO: ------------------------Joint Training with Orthogonal Loss------------------------------- 
+2025-08-30 18:35:07,152 INFO: Epoch 001 | Train Loss: 0.0000048 | Ortho Loss: 9682.1435210 | Val Loss: 0.0000042 | save:1 
+2025-08-30 18:35:07,266 INFO: Epoch 002 | Train Loss: 0.0000047 | Ortho Loss: 10220.1867403 | Val Loss: 0.0000041 | save:1 
+2025-08-30 18:35:07,369 INFO: Epoch 003 | Train Loss: 0.0000046 | Ortho Loss: 10749.7919273 | Val Loss: 0.0000040 | save:1 
+2025-08-30 18:35:07,473 INFO: Epoch 004 | Train Loss: 0.0000045 | Ortho Loss: 11262.5767649 | Val Loss: 0.0000039 | save:1 
+2025-08-30 18:35:07,576 INFO: Epoch 005 | Train Loss: 0.0000044 | Ortho Loss: 11755.8703584 | Val Loss: 0.0000037 | save:1 
+2025-08-30 18:35:07,682 INFO: Epoch 006 | Train Loss: 0.0000043 | Ortho Loss: 12216.1666549 | Val Loss: 0.0000036 | save:1 
+2025-08-30 18:35:07,781 INFO: Epoch 007 | Train Loss: 0.0000042 | Ortho Loss: 12629.7842245 | Val Loss: 0.0000035 | save:1 
+2025-08-30 18:35:07,885 INFO: Epoch 008 | Train Loss: 0.0000041 | Ortho Loss: 13003.1864093 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:35:07,999 INFO: Epoch 009 | Train Loss: 0.0000040 | Ortho Loss: 13353.5929390 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:35:08,092 INFO: Epoch 010 | Train Loss: 0.0000039 | Ortho Loss: 13684.7502944 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:35:08,209 INFO: Epoch 011 | Train Loss: 0.0000038 | Ortho Loss: 13996.2508834 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:35:08,310 INFO: Epoch 012 | Train Loss: 0.0000038 | Ortho Loss: 14294.6077787 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:35:08,418 INFO: Epoch 013 | Train Loss: 0.0000037 | Ortho Loss: 14588.6166572 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:35:08,520 INFO: Epoch 014 | Train Loss: 0.0000036 | Ortho Loss: 14877.4975015 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:35:08,701 INFO: Epoch 015 | Train Loss: 0.0000036 | Ortho Loss: 15159.1502068 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:35:08,811 INFO: Epoch 016 | Train Loss: 0.0000036 | Ortho Loss: 15433.9726506 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:35:08,914 INFO: Epoch 017 | Train Loss: 0.0000035 | Ortho Loss: 15703.0736448 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:35:09,017 INFO: Epoch 018 | Train Loss: 0.0000035 | Ortho Loss: 15965.4211156 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:35:09,130 INFO: Epoch 019 | Train Loss: 0.0000035 | Ortho Loss: 16216.6142433 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:35:09,235 INFO: Epoch 020 | Train Loss: 0.0000034 | Ortho Loss: 16459.1637080 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:35:09,345 INFO: Epoch 021 | Train Loss: 0.0000034 | Ortho Loss: 16692.6960942 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:35:09,451 INFO: Epoch 022 | Train Loss: 0.0000034 | Ortho Loss: 16919.1058916 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:35:09,555 INFO: Epoch 023 | Train Loss: 0.0000034 | Ortho Loss: 17137.0298353 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:35:09,659 INFO: Epoch 024 | Train Loss: 0.0000034 | Ortho Loss: 17348.7903231 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:35:09,763 INFO: Epoch 025 | Train Loss: 0.0000033 | Ortho Loss: 17570.9316134 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:09,867 INFO: Epoch 026 | Train Loss: 0.0000033 | Ortho Loss: 17794.1397946 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:09,982 INFO: Epoch 027 | Train Loss: 0.0000033 | Ortho Loss: 18006.8875606 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:10,086 INFO: Epoch 028 | Train Loss: 0.0000033 | Ortho Loss: 18220.5892475 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:10,191 INFO: Epoch 029 | Train Loss: 0.0000033 | Ortho Loss: 18436.7363510 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:10,299 INFO: Epoch 030 | Train Loss: 0.0000033 | Ortho Loss: 18656.4170817 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:10,412 INFO: Epoch 031 | Train Loss: 0.0000032 | Ortho Loss: 18884.5491536 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:10,606 INFO: Epoch 032 | Train Loss: 0.0000032 | Ortho Loss: 19111.1377648 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:35:10,714 INFO: Epoch 033 | Train Loss: 0.0000032 | Ortho Loss: 19332.5647060 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:10,827 INFO: Epoch 034 | Train Loss: 0.0000032 | Ortho Loss: 19544.0240628 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:10,933 INFO: Epoch 035 | Train Loss: 0.0000032 | Ortho Loss: 19749.1282256 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,044 INFO: Epoch 036 | Train Loss: 0.0000032 | Ortho Loss: 19954.2336245 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,148 INFO: Epoch 037 | Train Loss: 0.0000032 | Ortho Loss: 20164.4203909 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,253 INFO: Epoch 038 | Train Loss: 0.0000032 | Ortho Loss: 20376.2677133 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,368 INFO: Epoch 039 | Train Loss: 0.0000031 | Ortho Loss: 20585.0937860 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,472 INFO: Epoch 040 | Train Loss: 0.0000031 | Ortho Loss: 20792.7949415 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,596 INFO: Epoch 041 | Train Loss: 0.0000031 | Ortho Loss: 21000.2841985 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,715 INFO: Epoch 042 | Train Loss: 0.0000031 | Ortho Loss: 21210.0823268 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:35:11,815 INFO: Epoch 043 | Train Loss: 0.0000031 | Ortho Loss: 21420.6139528 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:11,929 INFO: Epoch 044 | Train Loss: 0.0000031 | Ortho Loss: 21629.4760819 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,033 INFO: Epoch 045 | Train Loss: 0.0000031 | Ortho Loss: 21837.6605061 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,148 INFO: Epoch 046 | Train Loss: 0.0000031 | Ortho Loss: 22039.9717422 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,345 INFO: Epoch 047 | Train Loss: 0.0000031 | Ortho Loss: 22243.3695438 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,459 INFO: Epoch 048 | Train Loss: 0.0000031 | Ortho Loss: 22448.1085563 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,584 INFO: Epoch 049 | Train Loss: 0.0000031 | Ortho Loss: 22649.1105597 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,698 INFO: Epoch 050 | Train Loss: 0.0000031 | Ortho Loss: 22850.5751058 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,809 INFO: Epoch 051 | Train Loss: 0.0000030 | Ortho Loss: 23050.7721978 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:12,924 INFO: Epoch 052 | Train Loss: 0.0000030 | Ortho Loss: 23252.0502821 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:13,042 INFO: Epoch 053 | Train Loss: 0.0000030 | Ortho Loss: 23455.5068885 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:13,152 INFO: Epoch 054 | Train Loss: 0.0000030 | Ortho Loss: 23660.5519090 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:13,266 INFO: Epoch 055 | Train Loss: 0.0000030 | Ortho Loss: 23861.6277819 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:35:13,381 INFO: Epoch 056 | Train Loss: 0.0000030 | Ortho Loss: 24062.8842577 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:13,484 INFO: Epoch 057 | Train Loss: 0.0000030 | Ortho Loss: 24260.3370372 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:13,610 INFO: Epoch 058 | Train Loss: 0.0000030 | Ortho Loss: 24459.0039368 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:13,724 INFO: Epoch 059 | Train Loss: 0.0000030 | Ortho Loss: 24654.8097904 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:13,839 INFO: Epoch 060 | Train Loss: 0.0000030 | Ortho Loss: 24853.8547822 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,047 INFO: Epoch 061 | Train Loss: 0.0000030 | Ortho Loss: 25055.8338033 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,162 INFO: Epoch 062 | Train Loss: 0.0000030 | Ortho Loss: 25252.6701309 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,279 INFO: Epoch 063 | Train Loss: 0.0000030 | Ortho Loss: 25452.2243858 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,383 INFO: Epoch 064 | Train Loss: 0.0000030 | Ortho Loss: 25643.8409134 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,508 INFO: Epoch 065 | Train Loss: 0.0000030 | Ortho Loss: 25836.6081184 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,623 INFO: Epoch 066 | Train Loss: 0.0000030 | Ortho Loss: 26030.1657273 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,737 INFO: Epoch 067 | Train Loss: 0.0000029 | Ortho Loss: 26221.2929083 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,850 INFO: Epoch 068 | Train Loss: 0.0000029 | Ortho Loss: 26410.1649341 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:14,955 INFO: Epoch 069 | Train Loss: 0.0000029 | Ortho Loss: 26592.6409565 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:15,063 INFO: Epoch 070 | Train Loss: 0.0000029 | Ortho Loss: 26780.1312852 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:15,174 INFO: Epoch 071 | Train Loss: 0.0000029 | Ortho Loss: 26966.0575350 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:15,290 INFO: Epoch 072 | Train Loss: 0.0000029 | Ortho Loss: 27145.1599515 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:15,401 INFO: Epoch 073 | Train Loss: 0.0000029 | Ortho Loss: 27334.0660291 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:15,509 INFO: Epoch 074 | Train Loss: 0.0000029 | Ortho Loss: 27522.6350449 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:15,628 INFO: Epoch 075 | Train Loss: 0.0000029 | Ortho Loss: 27707.3802681 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:35:15,739 INFO: Epoch 076 | Train Loss: 0.0000029 | Ortho Loss: 27902.2066662 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:15,855 INFO: Epoch 077 | Train Loss: 0.0000029 | Ortho Loss: 28093.1564745 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,050 INFO: Epoch 078 | Train Loss: 0.0000029 | Ortho Loss: 28279.5673638 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,162 INFO: Epoch 079 | Train Loss: 0.0000029 | Ortho Loss: 28474.0922558 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,287 INFO: Epoch 080 | Train Loss: 0.0000029 | Ortho Loss: 28669.0830483 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,410 INFO: Epoch 081 | Train Loss: 0.0000029 | Ortho Loss: 28857.8248369 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,531 INFO: Epoch 082 | Train Loss: 0.0000029 | Ortho Loss: 29046.6535802 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,635 INFO: Epoch 083 | Train Loss: 0.0000029 | Ortho Loss: 29237.2225603 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,739 INFO: Epoch 084 | Train Loss: 0.0000029 | Ortho Loss: 29428.3552123 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,854 INFO: Epoch 085 | Train Loss: 0.0000029 | Ortho Loss: 29611.6147319 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:16,971 INFO: Epoch 086 | Train Loss: 0.0000029 | Ortho Loss: 29794.7235975 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,084 INFO: Epoch 087 | Train Loss: 0.0000029 | Ortho Loss: 29990.4683401 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,188 INFO: Epoch 088 | Train Loss: 0.0000029 | Ortho Loss: 30183.2054135 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,303 INFO: Epoch 089 | Train Loss: 0.0000029 | Ortho Loss: 30364.2698949 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,407 INFO: Epoch 090 | Train Loss: 0.0000029 | Ortho Loss: 30545.4598962 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,521 INFO: Epoch 091 | Train Loss: 0.0000029 | Ortho Loss: 30731.9750438 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,636 INFO: Epoch 092 | Train Loss: 0.0000029 | Ortho Loss: 30919.3273178 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,826 INFO: Epoch 093 | Train Loss: 0.0000028 | Ortho Loss: 31099.5123523 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:17,937 INFO: Epoch 094 | Train Loss: 0.0000028 | Ortho Loss: 31282.0518960 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,051 INFO: Epoch 095 | Train Loss: 0.0000028 | Ortho Loss: 31465.9875974 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,164 INFO: Epoch 096 | Train Loss: 0.0000028 | Ortho Loss: 31648.5186341 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,278 INFO: Epoch 097 | Train Loss: 0.0000028 | Ortho Loss: 31832.6166831 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,391 INFO: Epoch 098 | Train Loss: 0.0000028 | Ortho Loss: 32015.1297179 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,520 INFO: Epoch 099 | Train Loss: 0.0000028 | Ortho Loss: 32192.7654173 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,633 INFO: Epoch 100 | Train Loss: 0.0000028 | Ortho Loss: 32370.4826069 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,757 INFO: Epoch 101 | Train Loss: 0.0000028 | Ortho Loss: 32550.5546174 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,888 INFO: Epoch 102 | Train Loss: 0.0000028 | Ortho Loss: 32732.3919711 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:18,996 INFO: Epoch 103 | Train Loss: 0.0000028 | Ortho Loss: 32910.2890930 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:19,110 INFO: Epoch 104 | Train Loss: 0.0000028 | Ortho Loss: 33082.7016773 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:19,223 INFO: Epoch 105 | Train Loss: 0.0000028 | Ortho Loss: 33259.9670218 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:19,329 INFO: Epoch 106 | Train Loss: 0.0000028 | Ortho Loss: 33439.4708126 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:19,440 INFO: Epoch 107 | Train Loss: 0.0000028 | Ortho Loss: 33619.4297205 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:19,629 INFO: Epoch 108 | Train Loss: 0.0000028 | Ortho Loss: 33801.5824467 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:19,734 INFO: Epoch 109 | Train Loss: 0.0000028 | Ortho Loss: 33985.5688242 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:35:19,845 INFO: Epoch 110 | Train Loss: 0.0000028 | Ortho Loss: 34167.1134523 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:19,950 INFO: Epoch 111 | Train Loss: 0.0000028 | Ortho Loss: 34347.1838141 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,066 INFO: Epoch 112 | Train Loss: 0.0000028 | Ortho Loss: 34530.7926657 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,180 INFO: Epoch 113 | Train Loss: 0.0000028 | Ortho Loss: 34720.0346682 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,284 INFO: Epoch 114 | Train Loss: 0.0000028 | Ortho Loss: 34905.0979489 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,387 INFO: Epoch 115 | Train Loss: 0.0000028 | Ortho Loss: 35086.7469137 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,502 INFO: Epoch 116 | Train Loss: 0.0000028 | Ortho Loss: 35272.1025429 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,608 INFO: Epoch 117 | Train Loss: 0.0000028 | Ortho Loss: 35457.3422168 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,713 INFO: Epoch 118 | Train Loss: 0.0000028 | Ortho Loss: 35642.8567709 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,827 INFO: Epoch 119 | Train Loss: 0.0000028 | Ortho Loss: 35830.5824031 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:20,931 INFO: Epoch 120 | Train Loss: 0.0000028 | Ortho Loss: 36021.2796785 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,044 INFO: Epoch 121 | Train Loss: 0.0000028 | Ortho Loss: 36210.4191060 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,169 INFO: Epoch 122 | Train Loss: 0.0000028 | Ortho Loss: 36400.1376127 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,284 INFO: Epoch 123 | Train Loss: 0.0000028 | Ortho Loss: 36592.6530489 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,473 INFO: Epoch 124 | Train Loss: 0.0000028 | Ortho Loss: 36782.1925592 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,586 INFO: Epoch 125 | Train Loss: 0.0000028 | Ortho Loss: 36972.5099196 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,691 INFO: Epoch 126 | Train Loss: 0.0000028 | Ortho Loss: 37170.4840297 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,806 INFO: Epoch 127 | Train Loss: 0.0000028 | Ortho Loss: 37365.5497389 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:21,910 INFO: Epoch 128 | Train Loss: 0.0000028 | Ortho Loss: 37557.3975613 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,022 INFO: Epoch 129 | Train Loss: 0.0000028 | Ortho Loss: 37754.8671922 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,124 INFO: Epoch 130 | Train Loss: 0.0000028 | Ortho Loss: 37950.9291598 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,237 INFO: Epoch 131 | Train Loss: 0.0000028 | Ortho Loss: 38147.4794819 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,355 INFO: Epoch 132 | Train Loss: 0.0000028 | Ortho Loss: 38342.5340336 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,465 INFO: Epoch 133 | Train Loss: 0.0000028 | Ortho Loss: 38529.9782439 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,569 INFO: Epoch 134 | Train Loss: 0.0000028 | Ortho Loss: 38724.6582938 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,683 INFO: Epoch 135 | Train Loss: 0.0000027 | Ortho Loss: 38920.4847506 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,788 INFO: Epoch 136 | Train Loss: 0.0000027 | Ortho Loss: 39109.5825428 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:22,894 INFO: Epoch 137 | Train Loss: 0.0000027 | Ortho Loss: 39302.8718976 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,005 INFO: Epoch 138 | Train Loss: 0.0000027 | Ortho Loss: 39494.6917955 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,112 INFO: Epoch 139 | Train Loss: 0.0000027 | Ortho Loss: 39680.1023586 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,302 INFO: Epoch 140 | Train Loss: 0.0000027 | Ortho Loss: 39869.0937834 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,411 INFO: Epoch 141 | Train Loss: 0.0000027 | Ortho Loss: 40060.4090140 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,525 INFO: Epoch 142 | Train Loss: 0.0000027 | Ortho Loss: 40249.0419394 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,639 INFO: Epoch 143 | Train Loss: 0.0000027 | Ortho Loss: 40437.5780625 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,753 INFO: Epoch 144 | Train Loss: 0.0000027 | Ortho Loss: 40627.5083566 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,868 INFO: Epoch 145 | Train Loss: 0.0000027 | Ortho Loss: 40816.7760035 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:23,972 INFO: Epoch 146 | Train Loss: 0.0000027 | Ortho Loss: 41005.3298846 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,087 INFO: Epoch 147 | Train Loss: 0.0000027 | Ortho Loss: 41196.7558888 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,191 INFO: Epoch 148 | Train Loss: 0.0000027 | Ortho Loss: 41387.0886372 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,305 INFO: Epoch 149 | Train Loss: 0.0000027 | Ortho Loss: 41576.3371970 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,419 INFO: Epoch 150 | Train Loss: 0.0000027 | Ortho Loss: 41762.4325116 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,523 INFO: Epoch 151 | Train Loss: 0.0000027 | Ortho Loss: 41946.7941375 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,638 INFO: Epoch 152 | Train Loss: 0.0000027 | Ortho Loss: 42127.2381294 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,741 INFO: Epoch 153 | Train Loss: 0.0000027 | Ortho Loss: 42303.3892659 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:24,938 INFO: Epoch 154 | Train Loss: 0.0000027 | Ortho Loss: 42481.9358040 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,051 INFO: Epoch 155 | Train Loss: 0.0000027 | Ortho Loss: 42666.2892162 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,165 INFO: Epoch 156 | Train Loss: 0.0000027 | Ortho Loss: 42854.6906674 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,279 INFO: Epoch 157 | Train Loss: 0.0000027 | Ortho Loss: 43047.2422970 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,381 INFO: Epoch 158 | Train Loss: 0.0000027 | Ortho Loss: 43240.2695613 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,498 INFO: Epoch 159 | Train Loss: 0.0000027 | Ortho Loss: 43432.4271650 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,602 INFO: Epoch 160 | Train Loss: 0.0000027 | Ortho Loss: 43623.8781681 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,716 INFO: Epoch 161 | Train Loss: 0.0000027 | Ortho Loss: 43814.7967983 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,840 INFO: Epoch 162 | Train Loss: 0.0000027 | Ortho Loss: 44005.1643857 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:25,955 INFO: Epoch 163 | Train Loss: 0.0000027 | Ortho Loss: 44193.9818351 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,073 INFO: Epoch 164 | Train Loss: 0.0000027 | Ortho Loss: 44382.1474310 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,187 INFO: Epoch 165 | Train Loss: 0.0000027 | Ortho Loss: 44569.9715573 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,292 INFO: Epoch 166 | Train Loss: 0.0000027 | Ortho Loss: 44756.6098240 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,403 INFO: Epoch 167 | Train Loss: 0.0000027 | Ortho Loss: 44945.8024075 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,517 INFO: Epoch 168 | Train Loss: 0.0000027 | Ortho Loss: 45135.2918159 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,622 INFO: Epoch 169 | Train Loss: 0.0000027 | Ortho Loss: 45322.7562265 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,725 INFO: Epoch 170 | Train Loss: 0.0000027 | Ortho Loss: 45512.8993670 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:26,922 INFO: Epoch 171 | Train Loss: 0.0000027 | Ortho Loss: 45705.0074938 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:27,030 INFO: Epoch 172 | Train Loss: 0.0000027 | Ortho Loss: 45897.5526957 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:27,141 INFO: Epoch 173 | Train Loss: 0.0000027 | Ortho Loss: 46084.9416609 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:27,243 INFO: Epoch 174 | Train Loss: 0.0000027 | Ortho Loss: 46273.0029695 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:27,348 INFO: Epoch 175 | Train Loss: 0.0000027 | Ortho Loss: 46463.4400627 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:27,462 INFO: Epoch 176 | Train Loss: 0.0000027 | Ortho Loss: 46652.1556439 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:27,577 INFO: Epoch 177 | Train Loss: 0.0000027 | Ortho Loss: 46841.1784783 | Val Loss: 0.0000023 | save:1 
+2025-08-30 18:35:27,682 INFO: Epoch 178 | Train Loss: 0.0000027 | Ortho Loss: 47029.4965232 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:27,796 INFO: Epoch 179 | Train Loss: 0.0000027 | Ortho Loss: 47211.6308869 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:27,901 INFO: Epoch 180 | Train Loss: 0.0000027 | Ortho Loss: 47396.7446808 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,015 INFO: Epoch 181 | Train Loss: 0.0000027 | Ortho Loss: 47582.4385783 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,128 INFO: Epoch 182 | Train Loss: 0.0000027 | Ortho Loss: 47766.3289976 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,243 INFO: Epoch 183 | Train Loss: 0.0000027 | Ortho Loss: 47951.2044706 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,355 INFO: Epoch 184 | Train Loss: 0.0000027 | Ortho Loss: 48137.8574318 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,475 INFO: Epoch 185 | Train Loss: 0.0000027 | Ortho Loss: 48325.2448032 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,667 INFO: Epoch 186 | Train Loss: 0.0000027 | Ortho Loss: 48510.1112164 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,775 INFO: Epoch 187 | Train Loss: 0.0000027 | Ortho Loss: 48695.1440852 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,880 INFO: Epoch 188 | Train Loss: 0.0000027 | Ortho Loss: 48882.7301200 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:28,981 INFO: Epoch 189 | Train Loss: 0.0000027 | Ortho Loss: 49073.5034968 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,096 INFO: Epoch 190 | Train Loss: 0.0000027 | Ortho Loss: 49261.3567370 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,206 INFO: Epoch 191 | Train Loss: 0.0000027 | Ortho Loss: 49447.0716592 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,318 INFO: Epoch 192 | Train Loss: 0.0000027 | Ortho Loss: 49632.4103491 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,422 INFO: Epoch 193 | Train Loss: 0.0000027 | Ortho Loss: 49813.4767120 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,535 INFO: Epoch 194 | Train Loss: 0.0000027 | Ortho Loss: 49992.8027993 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,649 INFO: Epoch 195 | Train Loss: 0.0000027 | Ortho Loss: 50173.0852933 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,756 INFO: Epoch 196 | Train Loss: 0.0000027 | Ortho Loss: 50358.2110604 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,866 INFO: Epoch 197 | Train Loss: 0.0000027 | Ortho Loss: 50548.0413064 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:29,979 INFO: Epoch 198 | Train Loss: 0.0000027 | Ortho Loss: 50738.8044937 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,084 INFO: Epoch 199 | Train Loss: 0.0000027 | Ortho Loss: 50932.0990195 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,280 INFO: Epoch 200 | Train Loss: 0.0000027 | Ortho Loss: 51126.3900351 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,396 INFO: Epoch 201 | Train Loss: 0.0000027 | Ortho Loss: 51317.8248308 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,507 INFO: Epoch 202 | Train Loss: 0.0000027 | Ortho Loss: 51505.8358789 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,621 INFO: Epoch 203 | Train Loss: 0.0000026 | Ortho Loss: 51695.8618516 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,743 INFO: Epoch 204 | Train Loss: 0.0000026 | Ortho Loss: 51882.6560925 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,856 INFO: Epoch 205 | Train Loss: 0.0000026 | Ortho Loss: 52070.9856506 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:30,960 INFO: Epoch 206 | Train Loss: 0.0000026 | Ortho Loss: 52260.8402800 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,068 INFO: Epoch 207 | Train Loss: 0.0000026 | Ortho Loss: 52448.8614324 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,182 INFO: Epoch 208 | Train Loss: 0.0000026 | Ortho Loss: 52636.5685307 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,293 INFO: Epoch 209 | Train Loss: 0.0000026 | Ortho Loss: 52824.8587397 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,401 INFO: Epoch 210 | Train Loss: 0.0000026 | Ortho Loss: 53013.1289367 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,508 INFO: Epoch 211 | Train Loss: 0.0000026 | Ortho Loss: 53199.1428843 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,619 INFO: Epoch 212 | Train Loss: 0.0000026 | Ortho Loss: 53387.2065645 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,724 INFO: Epoch 213 | Train Loss: 0.0000026 | Ortho Loss: 53571.7449441 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,838 INFO: Epoch 214 | Train Loss: 0.0000026 | Ortho Loss: 53754.5253452 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:31,947 INFO: Epoch 215 | Train Loss: 0.0000026 | Ortho Loss: 53946.7141929 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,057 INFO: Epoch 216 | Train Loss: 0.0000026 | Ortho Loss: 54138.2923694 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,243 INFO: Epoch 217 | Train Loss: 0.0000026 | Ortho Loss: 54325.4910236 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,348 INFO: Epoch 218 | Train Loss: 0.0000026 | Ortho Loss: 54510.8310354 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,463 INFO: Epoch 219 | Train Loss: 0.0000026 | Ortho Loss: 54703.9288219 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,579 INFO: Epoch 220 | Train Loss: 0.0000026 | Ortho Loss: 54898.0553756 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,691 INFO: Epoch 221 | Train Loss: 0.0000026 | Ortho Loss: 55090.9735677 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,806 INFO: Epoch 222 | Train Loss: 0.0000026 | Ortho Loss: 55286.4269155 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:32,919 INFO: Epoch 223 | Train Loss: 0.0000026 | Ortho Loss: 55482.4106275 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,055 INFO: Epoch 224 | Train Loss: 0.0000026 | Ortho Loss: 55677.1509360 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,169 INFO: Epoch 225 | Train Loss: 0.0000026 | Ortho Loss: 55866.1774286 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,295 INFO: Epoch 226 | Train Loss: 0.0000026 | Ortho Loss: 56054.8002959 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,401 INFO: Epoch 227 | Train Loss: 0.0000026 | Ortho Loss: 56245.2768333 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,515 INFO: Epoch 228 | Train Loss: 0.0000026 | Ortho Loss: 56435.5647055 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,620 INFO: Epoch 229 | Train Loss: 0.0000026 | Ortho Loss: 56624.5419870 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,734 INFO: Epoch 230 | Train Loss: 0.0000026 | Ortho Loss: 56813.0454495 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:33,843 INFO: Epoch 231 | Train Loss: 0.0000026 | Ortho Loss: 57003.8012200 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,044 INFO: Epoch 232 | Train Loss: 0.0000026 | Ortho Loss: 57195.7917673 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,154 INFO: Epoch 233 | Train Loss: 0.0000026 | Ortho Loss: 57386.8227804 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,265 INFO: Epoch 234 | Train Loss: 0.0000026 | Ortho Loss: 57575.1926162 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,377 INFO: Epoch 235 | Train Loss: 0.0000026 | Ortho Loss: 57763.0394759 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,481 INFO: Epoch 236 | Train Loss: 0.0000026 | Ortho Loss: 57951.5176349 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,593 INFO: Epoch 237 | Train Loss: 0.0000026 | Ortho Loss: 58140.8285788 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,705 INFO: Epoch 238 | Train Loss: 0.0000026 | Ortho Loss: 58332.9692950 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,810 INFO: Epoch 239 | Train Loss: 0.0000026 | Ortho Loss: 58524.2232953 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:34,924 INFO: Epoch 240 | Train Loss: 0.0000026 | Ortho Loss: 58713.9560808 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,038 INFO: Epoch 241 | Train Loss: 0.0000026 | Ortho Loss: 58904.9826066 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,141 INFO: Epoch 242 | Train Loss: 0.0000026 | Ortho Loss: 59097.9930302 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,254 INFO: Epoch 243 | Train Loss: 0.0000026 | Ortho Loss: 59292.1881009 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,370 INFO: Epoch 244 | Train Loss: 0.0000026 | Ortho Loss: 59484.3885480 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,494 INFO: Epoch 245 | Train Loss: 0.0000026 | Ortho Loss: 59676.5836661 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,614 INFO: Epoch 246 | Train Loss: 0.0000026 | Ortho Loss: 59870.3550851 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,806 INFO: Epoch 247 | Train Loss: 0.0000026 | Ortho Loss: 60063.4618159 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:35,921 INFO: Epoch 248 | Train Loss: 0.0000026 | Ortho Loss: 60264.5811252 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:36,024 INFO: Epoch 249 | Train Loss: 0.0000026 | Ortho Loss: 60466.3291882 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:36,135 INFO: Epoch 250 | Train Loss: 0.0000026 | Ortho Loss: 60664.1689093 | Val Loss: 0.0000022 | save:1 
+2025-08-30 18:35:36,135 INFO: Final model saved to tests/20250831/20M/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt 
+2025-08-30 18:35:36,135 INFO: model train time: 29.787951 s 
+2025-08-30 18:35:36,228 INFO: NMSE: -23.172 dB 
+2025-08-30 18:35:36,228 INFO: ACPR1_L: -32.059 dBc, ACPR1_U: -31.941 dBc 
+2025-08-30 18:35:36,228 INFO: Start the 2th iteration 
+2025-08-30 18:35:36,263 INFO: NMSE: -23.172 dB 
+2025-08-30 18:35:36,263 INFO: ACPR1_L: -32.059 dBc, ACPR1_U: -31.941 dBc 
+2025-08-30 18:35:36,263 INFO: Start the 3th iteration 
+2025-08-30 18:35:36,292 INFO: NMSE: -23.172 dB 
+2025-08-30 18:35:36,294 INFO: ACPR1_L: -32.059 dBc, ACPR1_U: -31.941 dBc 
+2025-08-30 18:35:36,294 INFO: Start the 4th iteration 
+2025-08-30 18:35:36,319 INFO: NMSE: -23.172 dB 
+2025-08-30 18:35:36,319 INFO: ACPR1_L: -32.059 dBc, ACPR1_U: -31.941 dBc 
+2025-08-30 18:35:36,319 INFO: Start the 5th iteration 
+2025-08-30 18:35:36,352 INFO: NMSE: -23.172 dB 
+2025-08-30 18:35:36,352 INFO: ACPR1_L: -32.059 dBc, ACPR1_U: -31.941 dBc 
+2025-08-30 18:38:54,400 INFO: SMW signal transmission finished! 
+2025-08-30 18:38:59,886 INFO: Successfully captured IQ data! 
+2025-08-30 18:39:20,567 INFO: ------signal BW20.0M fs100.0MHz------ 
+2025-08-30 18:39:20,567 INFO: ------------------------DVR_NN_M5_K2_GELU------------------------------- 
+2025-08-30 18:39:20,596 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:39:20,596 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-08-30 18:39:20,596 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:39:20,596 INFO: | DVR_layers.linear 0.weight                         | torch.Size([12, 6])  | 72         | 
+2025-08-30 18:39:20,596 INFO: | DVR_layers.linear 0.bias                           | torch.Size([12])     | 12         | 
+2025-08-30 18:39:20,596 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:39:20,607 INFO: The total number of parameters: 84 
+2025-08-30 18:39:20,607 INFO: The parameters of Model Orth_Basis_DVR_NN: 0.000084M 
+2025-08-30 18:39:20,607 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:39:23,597 INFO: ================ ILA ================== 
+2025-08-30 18:39:23,839 INFO: SMW signal transmission finished! 
+2025-08-30 18:39:29,152 INFO: Successfully captured IQ data! 
+2025-08-30 18:39:31,216 INFO: NMSE: -23.209 dB 
+2025-08-30 18:39:31,216 INFO: Start the 1th iteration 
+2025-08-30 18:39:32,272 INFO: ------------------------Joint Training with Orthogonal Loss------------------------------- 
+2025-08-30 18:39:32,981 INFO: Epoch 001 | Train Loss: 0.0000053 | Ortho Loss: 6714.9050046 | Val Loss: 0.0000047 | save:1 
+2025-08-30 18:39:33,162 INFO: Epoch 002 | Train Loss: 0.0000050 | Ortho Loss: 7342.0899602 | Val Loss: 0.0000045 | save:1 
+2025-08-30 18:39:33,266 INFO: Epoch 003 | Train Loss: 0.0000048 | Ortho Loss: 8016.9277064 | Val Loss: 0.0000043 | save:1 
+2025-08-30 18:39:33,379 INFO: Epoch 004 | Train Loss: 0.0000047 | Ortho Loss: 8748.8086651 | Val Loss: 0.0000042 | save:1 
+2025-08-30 18:39:33,483 INFO: Epoch 005 | Train Loss: 0.0000045 | Ortho Loss: 9513.7960016 | Val Loss: 0.0000041 | save:1 
+2025-08-30 18:39:33,590 INFO: Epoch 006 | Train Loss: 0.0000044 | Ortho Loss: 10292.4489043 | Val Loss: 0.0000039 | save:1 
+2025-08-30 18:39:33,691 INFO: Epoch 007 | Train Loss: 0.0000043 | Ortho Loss: 11073.2131370 | Val Loss: 0.0000038 | save:1 
+2025-08-30 18:39:33,794 INFO: Epoch 008 | Train Loss: 0.0000042 | Ortho Loss: 11858.8883246 | Val Loss: 0.0000037 | save:1 
+2025-08-30 18:39:33,898 INFO: Epoch 009 | Train Loss: 0.0000041 | Ortho Loss: 12644.1984507 | Val Loss: 0.0000036 | save:1 
+2025-08-30 18:39:33,992 INFO: Epoch 010 | Train Loss: 0.0000040 | Ortho Loss: 13391.5411842 | Val Loss: 0.0000036 | save:1 
+2025-08-30 18:39:34,096 INFO: Epoch 011 | Train Loss: 0.0000040 | Ortho Loss: 14088.6294797 | Val Loss: 0.0000035 | save:1 
+2025-08-30 18:39:34,199 INFO: Epoch 012 | Train Loss: 0.0000039 | Ortho Loss: 14744.5832898 | Val Loss: 0.0000035 | save:1 
+2025-08-30 18:39:34,303 INFO: Epoch 013 | Train Loss: 0.0000039 | Ortho Loss: 15351.4858791 | Val Loss: 0.0000035 | save:1 
+2025-08-30 18:39:34,407 INFO: Epoch 014 | Train Loss: 0.0000038 | Ortho Loss: 15909.9735056 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:39:34,504 INFO: Epoch 015 | Train Loss: 0.0000038 | Ortho Loss: 16425.3051881 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:39:34,615 INFO: Epoch 016 | Train Loss: 0.0000038 | Ortho Loss: 16902.3696733 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:39:34,709 INFO: Epoch 017 | Train Loss: 0.0000037 | Ortho Loss: 17347.5545206 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:39:34,896 INFO: Epoch 018 | Train Loss: 0.0000037 | Ortho Loss: 17769.7847126 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:39:34,990 INFO: Epoch 019 | Train Loss: 0.0000037 | Ortho Loss: 18173.8813697 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:39:35,094 INFO: Epoch 020 | Train Loss: 0.0000037 | Ortho Loss: 18564.7890630 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:39:35,189 INFO: Epoch 021 | Train Loss: 0.0000036 | Ortho Loss: 18942.2175091 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:39:35,290 INFO: Epoch 022 | Train Loss: 0.0000036 | Ortho Loss: 19303.6790570 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:39:35,394 INFO: Epoch 023 | Train Loss: 0.0000036 | Ortho Loss: 19657.3989499 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:39:35,498 INFO: Epoch 024 | Train Loss: 0.0000036 | Ortho Loss: 20008.9855095 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:39:35,612 INFO: Epoch 025 | Train Loss: 0.0000036 | Ortho Loss: 20360.5584351 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:39:35,726 INFO: Epoch 026 | Train Loss: 0.0000035 | Ortho Loss: 20709.8370530 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:39:35,839 INFO: Epoch 027 | Train Loss: 0.0000035 | Ortho Loss: 21058.5380419 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:39:35,950 INFO: Epoch 028 | Train Loss: 0.0000035 | Ortho Loss: 21388.6468797 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:39:36,061 INFO: Epoch 029 | Train Loss: 0.0000035 | Ortho Loss: 21707.5179575 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,162 INFO: Epoch 030 | Train Loss: 0.0000035 | Ortho Loss: 22025.3120859 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,267 INFO: Epoch 031 | Train Loss: 0.0000035 | Ortho Loss: 22350.5311770 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,461 INFO: Epoch 032 | Train Loss: 0.0000035 | Ortho Loss: 22696.4663147 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,565 INFO: Epoch 033 | Train Loss: 0.0000034 | Ortho Loss: 23052.1502171 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,670 INFO: Epoch 034 | Train Loss: 0.0000034 | Ortho Loss: 23406.1816318 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,775 INFO: Epoch 035 | Train Loss: 0.0000034 | Ortho Loss: 23748.5514804 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,878 INFO: Epoch 036 | Train Loss: 0.0000034 | Ortho Loss: 24085.4911641 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:39:36,985 INFO: Epoch 037 | Train Loss: 0.0000034 | Ortho Loss: 24419.5842220 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,086 INFO: Epoch 038 | Train Loss: 0.0000034 | Ortho Loss: 24750.0494483 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,201 INFO: Epoch 039 | Train Loss: 0.0000034 | Ortho Loss: 25080.7809040 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,304 INFO: Epoch 040 | Train Loss: 0.0000034 | Ortho Loss: 25407.3579731 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,427 INFO: Epoch 041 | Train Loss: 0.0000033 | Ortho Loss: 25730.5855291 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,530 INFO: Epoch 042 | Train Loss: 0.0000033 | Ortho Loss: 26053.8439229 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,637 INFO: Epoch 043 | Train Loss: 0.0000033 | Ortho Loss: 26374.0940786 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,737 INFO: Epoch 044 | Train Loss: 0.0000033 | Ortho Loss: 26690.9272701 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,851 INFO: Epoch 045 | Train Loss: 0.0000033 | Ortho Loss: 27006.5658003 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:37,974 INFO: Epoch 046 | Train Loss: 0.0000033 | Ortho Loss: 27319.7245165 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:38,089 INFO: Epoch 047 | Train Loss: 0.0000033 | Ortho Loss: 27631.4345666 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:39:38,297 INFO: Epoch 048 | Train Loss: 0.0000033 | Ortho Loss: 27943.0126395 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:38,401 INFO: Epoch 049 | Train Loss: 0.0000033 | Ortho Loss: 28254.1589716 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:38,514 INFO: Epoch 050 | Train Loss: 0.0000033 | Ortho Loss: 28564.3403574 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:38,618 INFO: Epoch 051 | Train Loss: 0.0000033 | Ortho Loss: 28872.9170930 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:38,722 INFO: Epoch 052 | Train Loss: 0.0000032 | Ortho Loss: 29179.4680454 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:38,826 INFO: Epoch 053 | Train Loss: 0.0000032 | Ortho Loss: 29484.6715609 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:38,940 INFO: Epoch 054 | Train Loss: 0.0000032 | Ortho Loss: 29790.2129942 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,044 INFO: Epoch 055 | Train Loss: 0.0000032 | Ortho Loss: 30095.4972261 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,153 INFO: Epoch 056 | Train Loss: 0.0000032 | Ortho Loss: 30399.2667124 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,252 INFO: Epoch 057 | Train Loss: 0.0000032 | Ortho Loss: 30702.4812451 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,366 INFO: Epoch 058 | Train Loss: 0.0000032 | Ortho Loss: 31006.4020447 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,491 INFO: Epoch 059 | Train Loss: 0.0000032 | Ortho Loss: 31310.5849524 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,608 INFO: Epoch 060 | Train Loss: 0.0000032 | Ortho Loss: 31612.8446700 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,711 INFO: Epoch 061 | Train Loss: 0.0000032 | Ortho Loss: 31915.4463424 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,815 INFO: Epoch 062 | Train Loss: 0.0000032 | Ortho Loss: 32219.2703830 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:39,923 INFO: Epoch 063 | Train Loss: 0.0000032 | Ortho Loss: 32523.9697827 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:39:40,111 INFO: Epoch 064 | Train Loss: 0.0000032 | Ortho Loss: 32828.8499660 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:40,215 INFO: Epoch 065 | Train Loss: 0.0000032 | Ortho Loss: 33132.9335195 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:40,328 INFO: Epoch 066 | Train Loss: 0.0000032 | Ortho Loss: 33437.0135252 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:40,442 INFO: Epoch 067 | Train Loss: 0.0000032 | Ortho Loss: 33742.5425295 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:40,556 INFO: Epoch 068 | Train Loss: 0.0000031 | Ortho Loss: 34048.3364256 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:40,671 INFO: Epoch 069 | Train Loss: 0.0000031 | Ortho Loss: 34351.6196649 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:40,786 INFO: Epoch 070 | Train Loss: 0.0000031 | Ortho Loss: 34652.3671449 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:40,891 INFO: Epoch 071 | Train Loss: 0.0000031 | Ortho Loss: 34953.2932131 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,002 INFO: Epoch 072 | Train Loss: 0.0000031 | Ortho Loss: 35252.7277222 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,108 INFO: Epoch 073 | Train Loss: 0.0000031 | Ortho Loss: 35551.0466778 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,213 INFO: Epoch 074 | Train Loss: 0.0000031 | Ortho Loss: 35848.7161046 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,325 INFO: Epoch 075 | Train Loss: 0.0000031 | Ortho Loss: 36147.1823130 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,432 INFO: Epoch 076 | Train Loss: 0.0000031 | Ortho Loss: 36446.8873441 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,537 INFO: Epoch 077 | Train Loss: 0.0000031 | Ortho Loss: 36747.1042763 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,651 INFO: Epoch 078 | Train Loss: 0.0000031 | Ortho Loss: 37047.3342388 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,839 INFO: Epoch 079 | Train Loss: 0.0000031 | Ortho Loss: 37348.3072952 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:41,944 INFO: Epoch 080 | Train Loss: 0.0000031 | Ortho Loss: 37647.1102716 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,048 INFO: Epoch 081 | Train Loss: 0.0000031 | Ortho Loss: 37945.2682463 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,153 INFO: Epoch 082 | Train Loss: 0.0000031 | Ortho Loss: 38241.2932158 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,266 INFO: Epoch 083 | Train Loss: 0.0000031 | Ortho Loss: 38536.8800218 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,370 INFO: Epoch 084 | Train Loss: 0.0000031 | Ortho Loss: 38832.9997268 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,475 INFO: Epoch 085 | Train Loss: 0.0000031 | Ortho Loss: 39130.6109037 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,579 INFO: Epoch 086 | Train Loss: 0.0000031 | Ortho Loss: 39429.1030770 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,683 INFO: Epoch 087 | Train Loss: 0.0000031 | Ortho Loss: 39727.6188261 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,796 INFO: Epoch 088 | Train Loss: 0.0000031 | Ortho Loss: 40025.9938076 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:39:42,908 INFO: Epoch 089 | Train Loss: 0.0000031 | Ortho Loss: 40324.3709926 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,014 INFO: Epoch 090 | Train Loss: 0.0000031 | Ortho Loss: 40623.0490791 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,127 INFO: Epoch 091 | Train Loss: 0.0000030 | Ortho Loss: 40922.3562520 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,233 INFO: Epoch 092 | Train Loss: 0.0000030 | Ortho Loss: 41221.6929661 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,339 INFO: Epoch 093 | Train Loss: 0.0000030 | Ortho Loss: 41520.1911611 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,451 INFO: Epoch 094 | Train Loss: 0.0000030 | Ortho Loss: 41818.2200628 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,643 INFO: Epoch 095 | Train Loss: 0.0000030 | Ortho Loss: 42116.7880673 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,747 INFO: Epoch 096 | Train Loss: 0.0000030 | Ortho Loss: 42417.9729180 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,848 INFO: Epoch 097 | Train Loss: 0.0000030 | Ortho Loss: 42719.1497244 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:43,949 INFO: Epoch 098 | Train Loss: 0.0000030 | Ortho Loss: 43018.2459059 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,064 INFO: Epoch 099 | Train Loss: 0.0000030 | Ortho Loss: 43315.8180905 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,167 INFO: Epoch 100 | Train Loss: 0.0000030 | Ortho Loss: 43612.7763142 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,271 INFO: Epoch 101 | Train Loss: 0.0000030 | Ortho Loss: 43907.5427719 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,385 INFO: Epoch 102 | Train Loss: 0.0000030 | Ortho Loss: 44203.2735003 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,489 INFO: Epoch 103 | Train Loss: 0.0000030 | Ortho Loss: 44500.0517528 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,602 INFO: Epoch 104 | Train Loss: 0.0000030 | Ortho Loss: 44797.6330703 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,707 INFO: Epoch 105 | Train Loss: 0.0000030 | Ortho Loss: 45095.9264707 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,821 INFO: Epoch 106 | Train Loss: 0.0000030 | Ortho Loss: 45395.1170325 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:44,925 INFO: Epoch 107 | Train Loss: 0.0000030 | Ortho Loss: 45693.8760157 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,029 INFO: Epoch 108 | Train Loss: 0.0000030 | Ortho Loss: 45992.0112521 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,142 INFO: Epoch 109 | Train Loss: 0.0000030 | Ortho Loss: 46290.2183628 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,255 INFO: Epoch 110 | Train Loss: 0.0000030 | Ortho Loss: 46588.7206422 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,457 INFO: Epoch 111 | Train Loss: 0.0000030 | Ortho Loss: 46886.8609794 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,560 INFO: Epoch 112 | Train Loss: 0.0000030 | Ortho Loss: 47185.0120946 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,658 INFO: Epoch 113 | Train Loss: 0.0000030 | Ortho Loss: 47484.0121184 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,757 INFO: Epoch 114 | Train Loss: 0.0000030 | Ortho Loss: 47783.4615225 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,861 INFO: Epoch 115 | Train Loss: 0.0000030 | Ortho Loss: 48082.5030283 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:45,974 INFO: Epoch 116 | Train Loss: 0.0000030 | Ortho Loss: 48380.4243600 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,078 INFO: Epoch 117 | Train Loss: 0.0000030 | Ortho Loss: 48677.2892255 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,183 INFO: Epoch 118 | Train Loss: 0.0000030 | Ortho Loss: 48972.9952403 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,277 INFO: Epoch 119 | Train Loss: 0.0000030 | Ortho Loss: 49271.3631118 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,392 INFO: Epoch 120 | Train Loss: 0.0000030 | Ortho Loss: 49570.7786259 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,497 INFO: Epoch 121 | Train Loss: 0.0000030 | Ortho Loss: 49869.6560196 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,591 INFO: Epoch 122 | Train Loss: 0.0000030 | Ortho Loss: 50165.8164344 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,696 INFO: Epoch 123 | Train Loss: 0.0000030 | Ortho Loss: 50462.4585770 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,801 INFO: Epoch 124 | Train Loss: 0.0000030 | Ortho Loss: 50759.8652862 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:46,989 INFO: Epoch 125 | Train Loss: 0.0000030 | Ortho Loss: 51057.5128818 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,093 INFO: Epoch 126 | Train Loss: 0.0000030 | Ortho Loss: 51356.0656037 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,192 INFO: Epoch 127 | Train Loss: 0.0000030 | Ortho Loss: 51656.0430553 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,292 INFO: Epoch 128 | Train Loss: 0.0000029 | Ortho Loss: 51955.2996976 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,396 INFO: Epoch 129 | Train Loss: 0.0000029 | Ortho Loss: 52253.3257617 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,508 INFO: Epoch 130 | Train Loss: 0.0000029 | Ortho Loss: 52550.7251053 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,616 INFO: Epoch 131 | Train Loss: 0.0000029 | Ortho Loss: 52847.9762603 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,718 INFO: Epoch 132 | Train Loss: 0.0000029 | Ortho Loss: 53145.9120729 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:39:47,834 INFO: Epoch 133 | Train Loss: 0.0000029 | Ortho Loss: 53444.5587974 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:47,939 INFO: Epoch 134 | Train Loss: 0.0000029 | Ortho Loss: 53743.7787264 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,043 INFO: Epoch 135 | Train Loss: 0.0000029 | Ortho Loss: 54043.3783989 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,147 INFO: Epoch 136 | Train Loss: 0.0000029 | Ortho Loss: 54342.3091021 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,256 INFO: Epoch 137 | Train Loss: 0.0000029 | Ortho Loss: 54641.3026938 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,357 INFO: Epoch 138 | Train Loss: 0.0000029 | Ortho Loss: 54939.7631295 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,460 INFO: Epoch 139 | Train Loss: 0.0000029 | Ortho Loss: 55238.2786100 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,565 INFO: Epoch 140 | Train Loss: 0.0000029 | Ortho Loss: 55537.2366854 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,668 INFO: Epoch 141 | Train Loss: 0.0000029 | Ortho Loss: 55836.6065553 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,855 INFO: Epoch 142 | Train Loss: 0.0000029 | Ortho Loss: 56133.7761878 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:48,970 INFO: Epoch 143 | Train Loss: 0.0000029 | Ortho Loss: 56431.3219131 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,074 INFO: Epoch 144 | Train Loss: 0.0000029 | Ortho Loss: 56728.8281078 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,178 INFO: Epoch 145 | Train Loss: 0.0000029 | Ortho Loss: 57027.5915630 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,282 INFO: Epoch 146 | Train Loss: 0.0000029 | Ortho Loss: 57326.2019072 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,385 INFO: Epoch 147 | Train Loss: 0.0000029 | Ortho Loss: 57623.4659103 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,488 INFO: Epoch 148 | Train Loss: 0.0000029 | Ortho Loss: 57921.3169277 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,583 INFO: Epoch 149 | Train Loss: 0.0000029 | Ortho Loss: 58219.0888380 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,695 INFO: Epoch 150 | Train Loss: 0.0000029 | Ortho Loss: 58516.5292418 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,792 INFO: Epoch 151 | Train Loss: 0.0000029 | Ortho Loss: 58814.9811762 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:49,900 INFO: Epoch 152 | Train Loss: 0.0000029 | Ortho Loss: 59115.5752245 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,009 INFO: Epoch 153 | Train Loss: 0.0000029 | Ortho Loss: 59416.0725068 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,120 INFO: Epoch 154 | Train Loss: 0.0000029 | Ortho Loss: 59716.0055498 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,225 INFO: Epoch 155 | Train Loss: 0.0000029 | Ortho Loss: 60015.8896864 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,329 INFO: Epoch 156 | Train Loss: 0.0000029 | Ortho Loss: 60315.9079830 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,520 INFO: Epoch 157 | Train Loss: 0.0000029 | Ortho Loss: 60615.4366890 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,612 INFO: Epoch 158 | Train Loss: 0.0000029 | Ortho Loss: 60915.2927996 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,727 INFO: Epoch 159 | Train Loss: 0.0000029 | Ortho Loss: 61215.4964216 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,832 INFO: Epoch 160 | Train Loss: 0.0000029 | Ortho Loss: 61515.8757784 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:50,925 INFO: Epoch 161 | Train Loss: 0.0000029 | Ortho Loss: 61816.7691334 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,029 INFO: Epoch 162 | Train Loss: 0.0000029 | Ortho Loss: 62118.0900223 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,144 INFO: Epoch 163 | Train Loss: 0.0000029 | Ortho Loss: 62419.7389983 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,247 INFO: Epoch 164 | Train Loss: 0.0000029 | Ortho Loss: 62721.3086300 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,361 INFO: Epoch 165 | Train Loss: 0.0000029 | Ortho Loss: 63022.7725608 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,464 INFO: Epoch 166 | Train Loss: 0.0000029 | Ortho Loss: 63323.6288083 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,577 INFO: Epoch 167 | Train Loss: 0.0000029 | Ortho Loss: 63624.4190845 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,683 INFO: Epoch 168 | Train Loss: 0.0000029 | Ortho Loss: 63924.7462009 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,787 INFO: Epoch 169 | Train Loss: 0.0000029 | Ortho Loss: 64225.9439321 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:51,911 INFO: Epoch 170 | Train Loss: 0.0000029 | Ortho Loss: 64527.7800398 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,109 INFO: Epoch 171 | Train Loss: 0.0000029 | Ortho Loss: 64829.7972158 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,212 INFO: Epoch 172 | Train Loss: 0.0000029 | Ortho Loss: 65130.7747018 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,336 INFO: Epoch 173 | Train Loss: 0.0000029 | Ortho Loss: 65430.4730074 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,454 INFO: Epoch 174 | Train Loss: 0.0000029 | Ortho Loss: 65730.7430014 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,574 INFO: Epoch 175 | Train Loss: 0.0000029 | Ortho Loss: 66031.3293309 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,689 INFO: Epoch 176 | Train Loss: 0.0000029 | Ortho Loss: 66333.4920193 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,800 INFO: Epoch 177 | Train Loss: 0.0000029 | Ortho Loss: 66637.4146676 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:52,907 INFO: Epoch 178 | Train Loss: 0.0000029 | Ortho Loss: 66939.3135230 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,012 INFO: Epoch 179 | Train Loss: 0.0000029 | Ortho Loss: 67238.9766925 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,127 INFO: Epoch 180 | Train Loss: 0.0000029 | Ortho Loss: 67537.9943263 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,231 INFO: Epoch 181 | Train Loss: 0.0000029 | Ortho Loss: 67838.0171475 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,346 INFO: Epoch 182 | Train Loss: 0.0000029 | Ortho Loss: 68140.9275093 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,461 INFO: Epoch 183 | Train Loss: 0.0000029 | Ortho Loss: 68445.9050865 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,575 INFO: Epoch 184 | Train Loss: 0.0000029 | Ortho Loss: 68750.0694168 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,690 INFO: Epoch 185 | Train Loss: 0.0000029 | Ortho Loss: 69052.5188668 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,793 INFO: Epoch 186 | Train Loss: 0.0000029 | Ortho Loss: 69354.7594503 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:53,908 INFO: Epoch 187 | Train Loss: 0.0000029 | Ortho Loss: 69658.0208475 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,106 INFO: Epoch 188 | Train Loss: 0.0000029 | Ortho Loss: 69962.1407515 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,220 INFO: Epoch 189 | Train Loss: 0.0000029 | Ortho Loss: 70266.7187679 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,323 INFO: Epoch 190 | Train Loss: 0.0000029 | Ortho Loss: 70570.1641592 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,427 INFO: Epoch 191 | Train Loss: 0.0000029 | Ortho Loss: 70873.1158325 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,542 INFO: Epoch 192 | Train Loss: 0.0000029 | Ortho Loss: 71175.2107782 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,659 INFO: Epoch 193 | Train Loss: 0.0000029 | Ortho Loss: 71478.0989686 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,780 INFO: Epoch 194 | Train Loss: 0.0000029 | Ortho Loss: 71782.4722943 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:54,904 INFO: Epoch 195 | Train Loss: 0.0000029 | Ortho Loss: 72088.5393224 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,025 INFO: Epoch 196 | Train Loss: 0.0000029 | Ortho Loss: 72393.1130660 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,136 INFO: Epoch 197 | Train Loss: 0.0000029 | Ortho Loss: 72695.9445194 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,247 INFO: Epoch 198 | Train Loss: 0.0000029 | Ortho Loss: 72998.3573159 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,351 INFO: Epoch 199 | Train Loss: 0.0000029 | Ortho Loss: 73302.7766275 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,468 INFO: Epoch 200 | Train Loss: 0.0000029 | Ortho Loss: 73611.9749174 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,579 INFO: Epoch 201 | Train Loss: 0.0000028 | Ortho Loss: 73921.6819476 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,693 INFO: Epoch 202 | Train Loss: 0.0000028 | Ortho Loss: 74229.6695931 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,883 INFO: Epoch 203 | Train Loss: 0.0000028 | Ortho Loss: 74536.5642566 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:55,988 INFO: Epoch 204 | Train Loss: 0.0000028 | Ortho Loss: 74842.2616002 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,093 INFO: Epoch 205 | Train Loss: 0.0000028 | Ortho Loss: 75150.0145973 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,208 INFO: Epoch 206 | Train Loss: 0.0000028 | Ortho Loss: 75458.1914332 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,321 INFO: Epoch 207 | Train Loss: 0.0000028 | Ortho Loss: 75766.3024096 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,435 INFO: Epoch 208 | Train Loss: 0.0000028 | Ortho Loss: 76072.6471231 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,549 INFO: Epoch 209 | Train Loss: 0.0000028 | Ortho Loss: 76377.3600695 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,658 INFO: Epoch 210 | Train Loss: 0.0000028 | Ortho Loss: 76682.3183192 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,768 INFO: Epoch 211 | Train Loss: 0.0000028 | Ortho Loss: 76988.2020480 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,871 INFO: Epoch 212 | Train Loss: 0.0000028 | Ortho Loss: 77294.5236878 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:56,986 INFO: Epoch 213 | Train Loss: 0.0000028 | Ortho Loss: 77601.5254978 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,099 INFO: Epoch 214 | Train Loss: 0.0000028 | Ortho Loss: 77908.1240098 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,224 INFO: Epoch 215 | Train Loss: 0.0000028 | Ortho Loss: 78211.2986273 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,338 INFO: Epoch 216 | Train Loss: 0.0000028 | Ortho Loss: 78514.9482271 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,452 INFO: Epoch 217 | Train Loss: 0.0000028 | Ortho Loss: 78820.9504343 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,641 INFO: Epoch 218 | Train Loss: 0.0000028 | Ortho Loss: 79127.0184075 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,755 INFO: Epoch 219 | Train Loss: 0.0000028 | Ortho Loss: 79432.3280879 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,858 INFO: Epoch 220 | Train Loss: 0.0000028 | Ortho Loss: 79737.2102342 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:57,975 INFO: Epoch 221 | Train Loss: 0.0000028 | Ortho Loss: 80042.6593985 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:58,084 INFO: Epoch 222 | Train Loss: 0.0000028 | Ortho Loss: 80349.7438893 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:58,189 INFO: Epoch 223 | Train Loss: 0.0000028 | Ortho Loss: 80656.9963617 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:58,303 INFO: Epoch 224 | Train Loss: 0.0000028 | Ortho Loss: 80965.6053584 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:58,406 INFO: Epoch 225 | Train Loss: 0.0000028 | Ortho Loss: 81274.8849857 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:58,521 INFO: Epoch 226 | Train Loss: 0.0000028 | Ortho Loss: 81585.0179503 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:39:58,634 INFO: Epoch 227 | Train Loss: 0.0000028 | Ortho Loss: 81896.1423965 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:58,740 INFO: Epoch 228 | Train Loss: 0.0000028 | Ortho Loss: 82207.8341100 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:58,852 INFO: Epoch 229 | Train Loss: 0.0000028 | Ortho Loss: 82518.7588320 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:58,964 INFO: Epoch 230 | Train Loss: 0.0000028 | Ortho Loss: 82828.4748265 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,070 INFO: Epoch 231 | Train Loss: 0.0000028 | Ortho Loss: 83136.9860644 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,183 INFO: Epoch 232 | Train Loss: 0.0000028 | Ortho Loss: 83443.3046256 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,298 INFO: Epoch 233 | Train Loss: 0.0000028 | Ortho Loss: 83748.7335829 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,494 INFO: Epoch 234 | Train Loss: 0.0000028 | Ortho Loss: 84054.0238614 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,599 INFO: Epoch 235 | Train Loss: 0.0000028 | Ortho Loss: 84362.8047008 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,724 INFO: Epoch 236 | Train Loss: 0.0000028 | Ortho Loss: 84674.6916382 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,827 INFO: Epoch 237 | Train Loss: 0.0000028 | Ortho Loss: 84987.8012729 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:39:59,935 INFO: Epoch 238 | Train Loss: 0.0000028 | Ortho Loss: 85299.3470049 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,045 INFO: Epoch 239 | Train Loss: 0.0000028 | Ortho Loss: 85609.9538723 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,160 INFO: Epoch 240 | Train Loss: 0.0000028 | Ortho Loss: 85920.7907178 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,263 INFO: Epoch 241 | Train Loss: 0.0000028 | Ortho Loss: 86232.1591594 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,377 INFO: Epoch 242 | Train Loss: 0.0000028 | Ortho Loss: 86544.8149885 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,473 INFO: Epoch 243 | Train Loss: 0.0000028 | Ortho Loss: 86858.4778725 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,582 INFO: Epoch 244 | Train Loss: 0.0000028 | Ortho Loss: 87170.2424368 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,692 INFO: Epoch 245 | Train Loss: 0.0000028 | Ortho Loss: 87484.5484679 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,798 INFO: Epoch 246 | Train Loss: 0.0000028 | Ortho Loss: 87800.2164906 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:00,910 INFO: Epoch 247 | Train Loss: 0.0000028 | Ortho Loss: 88116.0376830 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:01,013 INFO: Epoch 248 | Train Loss: 0.0000028 | Ortho Loss: 88430.3550016 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:01,119 INFO: Epoch 249 | Train Loss: 0.0000028 | Ortho Loss: 88743.7595637 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:01,303 INFO: Epoch 250 | Train Loss: 0.0000028 | Ortho Loss: 89057.0942097 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:40:01,303 INFO: Final model saved to tests/20250831/20M/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt 
+2025-08-30 18:40:01,303 INFO: model train time: 29.030790 s 
+2025-08-30 18:40:01,687 INFO: SMW signal transmission finished! 
+2025-08-30 18:40:06,998 INFO: Successfully captured IQ data! 
+2025-08-30 18:40:09,054 INFO: NMSE: -29.564 dB 
+2025-08-30 18:40:09,054 INFO: ACPR1_L: -42.046 dBc, ACPR1_U: -42.288 dBc 
+2025-08-30 18:40:09,054 INFO: Start the 2th iteration 
+2025-08-30 18:40:09,316 INFO: SMW signal transmission finished! 
+2025-08-30 18:40:14,660 INFO: Successfully captured IQ data! 
+2025-08-30 18:40:16,733 INFO: NMSE: -35.154 dB 
+2025-08-30 18:40:16,733 INFO: ACPR1_L: -47.243 dBc, ACPR1_U: -47.512 dBc 
+2025-08-30 18:40:16,733 INFO: Start the 3th iteration 
+2025-08-30 18:40:17,021 INFO: SMW signal transmission finished! 
+2025-08-30 18:40:22,415 INFO: Successfully captured IQ data! 
+2025-08-30 18:40:24,479 INFO: NMSE: -36.969 dB 
+2025-08-30 18:40:24,479 INFO: ACPR1_L: -49.050 dBc, ACPR1_U: -48.874 dBc 
+2025-08-30 18:40:24,479 INFO: Start the 4th iteration 
+2025-08-30 18:40:24,769 INFO: SMW signal transmission finished! 
+2025-08-30 18:40:30,164 INFO: Successfully captured IQ data! 
+2025-08-30 18:40:32,216 INFO: NMSE: -37.128 dB 
+2025-08-30 18:40:32,216 INFO: ACPR1_L: -49.352 dBc, ACPR1_U: -49.129 dBc 
+2025-08-30 18:40:32,216 INFO: Start the 5th iteration 
+2025-08-30 18:40:32,506 INFO: SMW signal transmission finished! 
+2025-08-30 18:40:37,926 INFO: Successfully captured IQ data! 
+2025-08-30 18:40:39,994 INFO: NMSE: -37.257 dB 
+2025-08-30 18:40:39,994 INFO: ACPR1_L: -49.064 dBc, ACPR1_U: -49.097 dBc 
+2025-08-30 18:44:48,953 INFO: save ilc file to tests/20250831/20M/data/ILAOUT_DVR_NN_202508301844.mat 
+2025-08-30 18:45:45,239 INFO: ================ ILA ================== 
+2025-08-30 18:45:45,504 INFO: SMW signal transmission finished! 
+2025-08-30 18:45:50,989 INFO: Successfully captured IQ data! 
+2025-08-30 18:45:53,052 INFO: NMSE: -23.020 dB 
+2025-08-30 18:45:53,052 INFO: Start the 1th iteration 
+2025-08-30 18:45:53,311 INFO: SMW signal transmission finished! 
+2025-08-30 18:45:58,682 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:00,743 INFO: NMSE: -29.467 dB 
+2025-08-30 18:46:00,748 INFO: ACPR1_L: -42.171 dBc, ACPR1_U: -42.164 dBc 
+2025-08-30 18:46:00,748 INFO: Start the 2th iteration 
+2025-08-30 18:46:01,013 INFO: SMW signal transmission finished! 
+2025-08-30 18:46:06,316 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:08,382 INFO: NMSE: -35.236 dB 
+2025-08-30 18:46:08,382 INFO: ACPR1_L: -47.413 dBc, ACPR1_U: -47.468 dBc 
+2025-08-30 18:46:08,382 INFO: Start the 3th iteration 
+2025-08-30 18:46:08,624 INFO: SMW signal transmission finished! 
+2025-08-30 18:46:14,033 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:16,108 INFO: NMSE: -36.858 dB 
+2025-08-30 18:46:16,108 INFO: ACPR1_L: -48.884 dBc, ACPR1_U: -49.020 dBc 
+2025-08-30 18:46:16,108 INFO: Start the 4th iteration 
+2025-08-30 18:46:16,377 INFO: SMW signal transmission finished! 
+2025-08-30 18:46:21,770 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:23,841 INFO: NMSE: -37.455 dB 
+2025-08-30 18:46:23,841 INFO: ACPR1_L: -49.300 dBc, ACPR1_U: -49.192 dBc 
+2025-08-30 18:46:23,841 INFO: Start the 5th iteration 
+2025-08-30 18:46:24,100 INFO: SMW signal transmission finished! 
+2025-08-30 18:46:29,555 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:31,620 INFO: NMSE: -37.250 dB 
+2025-08-30 18:46:31,620 INFO: ACPR1_L: -49.024 dBc, ACPR1_U: -48.885 dBc 
+2025-08-30 18:46:31,620 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:46:31,620 INFO: Start the 6th iteration 
+2025-08-30 18:46:31,878 INFO: SMW signal transmission finished! 
+2025-08-30 18:46:37,320 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:39,384 INFO: NMSE: -37.298 dB 
+2025-08-30 18:46:39,384 INFO: ACPR1_L: -49.533 dBc, ACPR1_U: -49.300 dBc 
+2025-08-30 18:46:39,384 INFO: Start the 7th iteration 
+2025-08-30 18:46:39,656 INFO: SMW signal transmission finished! 
+2025-08-30 18:46:45,185 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:47,252 INFO: NMSE: -37.495 dB 
+2025-08-30 18:46:47,252 INFO: ACPR1_L: -49.468 dBc, ACPR1_U: -49.438 dBc 
+2025-08-30 18:46:47,252 INFO: Start the 8th iteration 
+2025-08-30 18:46:47,510 INFO: SMW signal transmission finished! 
+2025-08-30 18:46:53,057 INFO: Successfully captured IQ data! 
+2025-08-30 18:46:55,117 INFO: NMSE: -37.498 dB 
+2025-08-30 18:46:55,119 INFO: ACPR1_L: -49.214 dBc, ACPR1_U: -49.018 dBc 
+2025-08-30 18:46:55,119 INFO: Start the 9th iteration 
+2025-08-30 18:46:55,395 INFO: SMW signal transmission finished! 
+2025-08-30 18:47:00,678 INFO: Successfully captured IQ data! 
+2025-08-30 18:47:02,749 INFO: NMSE: -37.298 dB 
+2025-08-30 18:47:02,749 INFO: ACPR1_L: -49.455 dBc, ACPR1_U: -49.221 dBc 
+2025-08-30 18:47:02,749 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:47:02,749 INFO: Start the 10th iteration 
+2025-08-30 18:47:03,008 INFO: SMW signal transmission finished! 
+2025-08-30 18:47:08,329 INFO: Successfully captured IQ data! 
+2025-08-30 18:47:10,399 INFO: NMSE: -37.568 dB 
+2025-08-30 18:47:10,399 INFO: ACPR1_L: -49.551 dBc, ACPR1_U: -49.500 dBc 
+2025-08-30 18:47:10,405 INFO: save ilc file to tests/20250831/20M/data/ILAOUT_GMP_202508301847.mat 
+2025-08-30 18:47:49,059 INFO: ================ ILA ================== 
+2025-08-30 18:47:49,320 INFO: SMW signal transmission finished! 
+2025-08-30 18:47:54,683 INFO: Successfully captured IQ data! 
+2025-08-30 18:47:56,752 INFO: NMSE: -23.026 dB 
+2025-08-30 18:47:56,752 INFO: Start the 1th iteration 
+2025-08-30 18:47:57,035 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:02,411 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:04,480 INFO: NMSE: -29.673 dB 
+2025-08-30 18:48:04,480 INFO: ACPR1_L: -42.109 dBc, ACPR1_U: -42.626 dBc 
+2025-08-30 18:48:04,480 INFO: Start the 2th iteration 
+2025-08-30 18:48:04,758 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:10,108 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:12,169 INFO: NMSE: -35.057 dB 
+2025-08-30 18:48:12,169 INFO: ACPR1_L: -47.860 dBc, ACPR1_U: -47.458 dBc 
+2025-08-30 18:48:12,169 INFO: Start the 3th iteration 
+2025-08-30 18:48:12,438 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:17,846 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:19,913 INFO: NMSE: -36.824 dB 
+2025-08-30 18:48:19,913 INFO: ACPR1_L: -48.875 dBc, ACPR1_U: -48.906 dBc 
+2025-08-30 18:48:19,913 INFO: Start the 4th iteration 
+2025-08-30 18:48:20,184 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:25,654 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:27,717 INFO: NMSE: -36.795 dB 
+2025-08-30 18:48:27,717 INFO: ACPR1_L: -49.079 dBc, ACPR1_U: -48.783 dBc 
+2025-08-30 18:48:27,717 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:48:27,717 INFO: Start the 5th iteration 
+2025-08-30 18:48:27,991 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:33,540 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:35,615 INFO: NMSE: -37.019 dB 
+2025-08-30 18:48:35,615 INFO: ACPR1_L: -49.233 dBc, ACPR1_U: -48.969 dBc 
+2025-08-30 18:48:35,615 INFO: Start the 6th iteration 
+2025-08-30 18:48:35,885 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:41,162 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:43,231 INFO: NMSE: -36.867 dB 
+2025-08-30 18:48:43,233 INFO: ACPR1_L: -49.192 dBc, ACPR1_U: -48.958 dBc 
+2025-08-30 18:48:43,233 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:48:43,233 INFO: Start the 7th iteration 
+2025-08-30 18:48:43,510 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:48,841 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:50,912 INFO: NMSE: -37.286 dB 
+2025-08-30 18:48:50,912 INFO: ACPR1_L: -49.220 dBc, ACPR1_U: -49.200 dBc 
+2025-08-30 18:48:50,912 INFO: Start the 8th iteration 
+2025-08-30 18:48:51,186 INFO: SMW signal transmission finished! 
+2025-08-30 18:48:56,528 INFO: Successfully captured IQ data! 
+2025-08-30 18:48:58,597 INFO: NMSE: -37.247 dB 
+2025-08-30 18:48:58,597 INFO: ACPR1_L: -49.291 dBc, ACPR1_U: -49.305 dBc 
+2025-08-30 18:48:58,597 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:48:58,597 INFO: Start the 9th iteration 
+2025-08-30 18:48:58,860 INFO: SMW signal transmission finished! 
+2025-08-30 18:49:04,250 INFO: Successfully captured IQ data! 
+2025-08-30 18:49:06,317 INFO: NMSE: -37.047 dB 
+2025-08-30 18:49:06,319 INFO: ACPR1_L: -49.073 dBc, ACPR1_U: -48.738 dBc 
+2025-08-30 18:49:06,319 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:49:06,319 INFO: Start the 10th iteration 
+2025-08-30 18:49:06,592 INFO: SMW signal transmission finished! 
+2025-08-30 18:49:11,969 INFO: Successfully captured IQ data! 
+2025-08-30 18:49:14,028 INFO: NMSE: -36.866 dB 
+2025-08-30 18:49:14,028 INFO: ACPR1_L: -49.255 dBc, ACPR1_U: -49.076 dBc 
+2025-08-30 18:49:14,028 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:49:14,035 INFO: save ilc file to tests/20250831/20M/data/ILAOUT_DVR_202508301849.mat 
+2025-08-30 18:49:35,487 INFO: ------signal BW20.0M fs100.0MHz------ 
+2025-08-30 18:49:35,487 INFO: ------------------------DVR_NN_M5_K2_GELU------------------------------- 
+2025-08-30 18:49:35,487 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:49:35,487 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-08-30 18:49:35,487 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:49:35,487 INFO: | DVR_layers.linear 0.weight                         | torch.Size([12, 6])  | 72         | 
+2025-08-30 18:49:35,487 INFO: | DVR_layers.linear 0.bias                           | torch.Size([12])     | 12         | 
+2025-08-30 18:49:35,487 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:49:35,487 INFO: The total number of parameters: 84 
+2025-08-30 18:49:35,487 INFO: The parameters of Model Orth_Basis_DVR_NN: 0.000084M 
+2025-08-30 18:49:35,487 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-08-30 18:49:46,363 INFO: ================ ILA ================== 
+2025-08-30 18:49:48,661 INFO: SMW signal transmission finished! 
+2025-08-30 18:49:54,102 INFO: Successfully captured IQ data! 
+2025-08-30 18:49:55,480 INFO: NMSE: -23.026 dB 
+2025-08-30 18:49:55,480 INFO: Start the 1th iteration 
+2025-08-30 18:49:55,480 INFO: ------------------------Joint Training with Orthogonal Loss------------------------------- 
+2025-08-30 18:49:55,613 INFO: Epoch 001 | Train Loss: 0.0000055 | Ortho Loss: 7887.2189408 | Val Loss: 0.0000050 | save:1 
+2025-08-30 18:49:55,727 INFO: Epoch 002 | Train Loss: 0.0000052 | Ortho Loss: 8377.7604246 | Val Loss: 0.0000048 | save:1 
+2025-08-30 18:49:55,830 INFO: Epoch 003 | Train Loss: 0.0000050 | Ortho Loss: 8809.0537452 | Val Loss: 0.0000046 | save:1 
+2025-08-30 18:49:55,943 INFO: Epoch 004 | Train Loss: 0.0000048 | Ortho Loss: 9198.0540588 | Val Loss: 0.0000044 | save:1 
+2025-08-30 18:49:56,047 INFO: Epoch 005 | Train Loss: 0.0000046 | Ortho Loss: 9581.6458967 | Val Loss: 0.0000042 | save:1 
+2025-08-30 18:49:56,154 INFO: Epoch 006 | Train Loss: 0.0000044 | Ortho Loss: 9976.2064841 | Val Loss: 0.0000040 | save:1 
+2025-08-30 18:49:56,268 INFO: Epoch 007 | Train Loss: 0.0000042 | Ortho Loss: 10378.3077722 | Val Loss: 0.0000038 | save:1 
+2025-08-30 18:49:56,382 INFO: Epoch 008 | Train Loss: 0.0000041 | Ortho Loss: 10746.3614624 | Val Loss: 0.0000037 | save:1 
+2025-08-30 18:49:56,495 INFO: Epoch 009 | Train Loss: 0.0000040 | Ortho Loss: 11050.6500276 | Val Loss: 0.0000036 | save:1 
+2025-08-30 18:49:56,612 INFO: Epoch 010 | Train Loss: 0.0000039 | Ortho Loss: 11304.1119054 | Val Loss: 0.0000036 | save:1 
+2025-08-30 18:49:56,714 INFO: Epoch 011 | Train Loss: 0.0000039 | Ortho Loss: 11531.7602466 | Val Loss: 0.0000035 | save:1 
+2025-08-30 18:49:56,833 INFO: Epoch 012 | Train Loss: 0.0000038 | Ortho Loss: 11744.1146699 | Val Loss: 0.0000035 | save:1 
+2025-08-30 18:49:56,951 INFO: Epoch 013 | Train Loss: 0.0000038 | Ortho Loss: 11946.3812324 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:49:57,157 INFO: Epoch 014 | Train Loss: 0.0000037 | Ortho Loss: 12150.5641204 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:49:57,260 INFO: Epoch 015 | Train Loss: 0.0000037 | Ortho Loss: 12359.7263977 | Val Loss: 0.0000034 | save:1 
+2025-08-30 18:49:57,363 INFO: Epoch 016 | Train Loss: 0.0000037 | Ortho Loss: 12569.6228132 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:49:57,467 INFO: Epoch 017 | Train Loss: 0.0000036 | Ortho Loss: 12780.3100864 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:49:57,576 INFO: Epoch 018 | Train Loss: 0.0000036 | Ortho Loss: 12996.8815022 | Val Loss: 0.0000033 | save:1 
+2025-08-30 18:49:57,676 INFO: Epoch 019 | Train Loss: 0.0000036 | Ortho Loss: 13217.0776613 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:49:57,776 INFO: Epoch 020 | Train Loss: 0.0000035 | Ortho Loss: 13438.4445075 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:49:57,879 INFO: Epoch 021 | Train Loss: 0.0000035 | Ortho Loss: 13659.8936009 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:49:57,982 INFO: Epoch 022 | Train Loss: 0.0000035 | Ortho Loss: 13884.7012258 | Val Loss: 0.0000032 | save:1 
+2025-08-30 18:49:58,086 INFO: Epoch 023 | Train Loss: 0.0000035 | Ortho Loss: 14111.8079213 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:49:58,199 INFO: Epoch 024 | Train Loss: 0.0000035 | Ortho Loss: 14340.5284950 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:49:58,293 INFO: Epoch 025 | Train Loss: 0.0000034 | Ortho Loss: 14566.9818608 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:49:58,393 INFO: Epoch 026 | Train Loss: 0.0000034 | Ortho Loss: 14793.8349662 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:49:58,496 INFO: Epoch 027 | Train Loss: 0.0000034 | Ortho Loss: 15021.7164277 | Val Loss: 0.0000031 | save:1 
+2025-08-30 18:49:58,600 INFO: Epoch 028 | Train Loss: 0.0000034 | Ortho Loss: 15251.0026139 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:49:58,704 INFO: Epoch 029 | Train Loss: 0.0000034 | Ortho Loss: 15481.2522273 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:49:58,890 INFO: Epoch 030 | Train Loss: 0.0000034 | Ortho Loss: 15711.6013270 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:49:58,993 INFO: Epoch 031 | Train Loss: 0.0000033 | Ortho Loss: 15940.6307682 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:49:59,107 INFO: Epoch 032 | Train Loss: 0.0000033 | Ortho Loss: 16169.7168387 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:49:59,219 INFO: Epoch 033 | Train Loss: 0.0000033 | Ortho Loss: 16399.2762442 | Val Loss: 0.0000030 | save:1 
+2025-08-30 18:49:59,331 INFO: Epoch 034 | Train Loss: 0.0000033 | Ortho Loss: 16628.9425896 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:49:59,446 INFO: Epoch 035 | Train Loss: 0.0000033 | Ortho Loss: 16859.6846057 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:49:59,560 INFO: Epoch 036 | Train Loss: 0.0000033 | Ortho Loss: 17093.5375866 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:49:59,675 INFO: Epoch 037 | Train Loss: 0.0000033 | Ortho Loss: 17328.6835908 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:49:59,791 INFO: Epoch 038 | Train Loss: 0.0000032 | Ortho Loss: 17562.3837851 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:49:59,914 INFO: Epoch 039 | Train Loss: 0.0000032 | Ortho Loss: 17795.8098446 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:50:00,028 INFO: Epoch 040 | Train Loss: 0.0000032 | Ortho Loss: 18030.4528223 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:50:00,152 INFO: Epoch 041 | Train Loss: 0.0000032 | Ortho Loss: 18268.2064239 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:50:00,260 INFO: Epoch 042 | Train Loss: 0.0000032 | Ortho Loss: 18507.5539243 | Val Loss: 0.0000029 | save:1 
+2025-08-30 18:50:00,370 INFO: Epoch 043 | Train Loss: 0.0000032 | Ortho Loss: 18749.5740265 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:00,480 INFO: Epoch 044 | Train Loss: 0.0000032 | Ortho Loss: 18989.4964583 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:00,671 INFO: Epoch 045 | Train Loss: 0.0000032 | Ortho Loss: 19230.3273035 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:00,781 INFO: Epoch 046 | Train Loss: 0.0000032 | Ortho Loss: 19473.4773683 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:00,890 INFO: Epoch 047 | Train Loss: 0.0000032 | Ortho Loss: 19714.7497729 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,005 INFO: Epoch 048 | Train Loss: 0.0000032 | Ortho Loss: 19956.2063830 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,108 INFO: Epoch 049 | Train Loss: 0.0000031 | Ortho Loss: 20196.2755489 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,213 INFO: Epoch 050 | Train Loss: 0.0000031 | Ortho Loss: 20433.3430475 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,327 INFO: Epoch 051 | Train Loss: 0.0000031 | Ortho Loss: 20671.5735875 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,440 INFO: Epoch 052 | Train Loss: 0.0000031 | Ortho Loss: 20909.4219273 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,548 INFO: Epoch 053 | Train Loss: 0.0000031 | Ortho Loss: 21146.0016292 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,655 INFO: Epoch 054 | Train Loss: 0.0000031 | Ortho Loss: 21384.8525525 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,769 INFO: Epoch 055 | Train Loss: 0.0000031 | Ortho Loss: 21622.1517639 | Val Loss: 0.0000028 | save:1 
+2025-08-30 18:50:01,884 INFO: Epoch 056 | Train Loss: 0.0000031 | Ortho Loss: 21856.0209272 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,008 INFO: Epoch 057 | Train Loss: 0.0000031 | Ortho Loss: 22091.4497655 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,111 INFO: Epoch 058 | Train Loss: 0.0000031 | Ortho Loss: 22327.0220553 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,225 INFO: Epoch 059 | Train Loss: 0.0000031 | Ortho Loss: 22562.2402461 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,339 INFO: Epoch 060 | Train Loss: 0.0000031 | Ortho Loss: 22804.9454189 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,442 INFO: Epoch 061 | Train Loss: 0.0000031 | Ortho Loss: 23050.4692472 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,640 INFO: Epoch 062 | Train Loss: 0.0000031 | Ortho Loss: 23301.1237198 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,749 INFO: Epoch 063 | Train Loss: 0.0000031 | Ortho Loss: 23565.1650258 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,853 INFO: Epoch 064 | Train Loss: 0.0000030 | Ortho Loss: 23841.1435665 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:02,965 INFO: Epoch 065 | Train Loss: 0.0000030 | Ortho Loss: 24134.7131731 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,068 INFO: Epoch 066 | Train Loss: 0.0000030 | Ortho Loss: 24436.3049862 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,184 INFO: Epoch 067 | Train Loss: 0.0000030 | Ortho Loss: 24725.1081639 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,288 INFO: Epoch 068 | Train Loss: 0.0000030 | Ortho Loss: 24985.6868184 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,392 INFO: Epoch 069 | Train Loss: 0.0000030 | Ortho Loss: 25227.7471598 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,502 INFO: Epoch 070 | Train Loss: 0.0000030 | Ortho Loss: 25460.9526836 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,611 INFO: Epoch 071 | Train Loss: 0.0000030 | Ortho Loss: 25694.1222635 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,715 INFO: Epoch 072 | Train Loss: 0.0000030 | Ortho Loss: 25939.1410336 | Val Loss: 0.0000027 | save:1 
+2025-08-30 18:50:03,820 INFO: Epoch 073 | Train Loss: 0.0000030 | Ortho Loss: 26199.6048921 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:03,935 INFO: Epoch 074 | Train Loss: 0.0000030 | Ortho Loss: 26456.6475140 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,049 INFO: Epoch 075 | Train Loss: 0.0000030 | Ortho Loss: 26700.2549296 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,162 INFO: Epoch 076 | Train Loss: 0.0000030 | Ortho Loss: 26938.6551604 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,276 INFO: Epoch 077 | Train Loss: 0.0000030 | Ortho Loss: 27185.4800249 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,485 INFO: Epoch 078 | Train Loss: 0.0000030 | Ortho Loss: 27440.6127233 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,587 INFO: Epoch 079 | Train Loss: 0.0000030 | Ortho Loss: 27703.3749967 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,701 INFO: Epoch 080 | Train Loss: 0.0000030 | Ortho Loss: 27967.5295097 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,806 INFO: Epoch 081 | Train Loss: 0.0000030 | Ortho Loss: 28227.3568539 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:04,911 INFO: Epoch 082 | Train Loss: 0.0000030 | Ortho Loss: 28487.2860339 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,028 INFO: Epoch 083 | Train Loss: 0.0000030 | Ortho Loss: 28756.0695429 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,139 INFO: Epoch 084 | Train Loss: 0.0000030 | Ortho Loss: 29038.5629795 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,252 INFO: Epoch 085 | Train Loss: 0.0000030 | Ortho Loss: 29332.9246852 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,360 INFO: Epoch 086 | Train Loss: 0.0000030 | Ortho Loss: 29637.6305833 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,471 INFO: Epoch 087 | Train Loss: 0.0000029 | Ortho Loss: 29955.3431050 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,587 INFO: Epoch 088 | Train Loss: 0.0000029 | Ortho Loss: 30275.5907897 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,700 INFO: Epoch 089 | Train Loss: 0.0000029 | Ortho Loss: 30608.4536088 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,809 INFO: Epoch 090 | Train Loss: 0.0000029 | Ortho Loss: 30970.4187469 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:05,919 INFO: Epoch 091 | Train Loss: 0.0000029 | Ortho Loss: 31320.0643853 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,116 INFO: Epoch 092 | Train Loss: 0.0000029 | Ortho Loss: 31665.9178856 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,220 INFO: Epoch 093 | Train Loss: 0.0000029 | Ortho Loss: 32050.8018939 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,333 INFO: Epoch 094 | Train Loss: 0.0000029 | Ortho Loss: 32462.1348983 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,438 INFO: Epoch 095 | Train Loss: 0.0000029 | Ortho Loss: 32857.7360795 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,552 INFO: Epoch 096 | Train Loss: 0.0000029 | Ortho Loss: 33263.3494727 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,667 INFO: Epoch 097 | Train Loss: 0.0000029 | Ortho Loss: 33680.2042822 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,788 INFO: Epoch 098 | Train Loss: 0.0000029 | Ortho Loss: 34110.1003815 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:06,907 INFO: Epoch 099 | Train Loss: 0.0000029 | Ortho Loss: 34521.7942791 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:07,013 INFO: Epoch 100 | Train Loss: 0.0000029 | Ortho Loss: 34902.8401330 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:07,128 INFO: Epoch 101 | Train Loss: 0.0000029 | Ortho Loss: 35265.4750972 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:07,248 INFO: Epoch 102 | Train Loss: 0.0000029 | Ortho Loss: 35619.0214798 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:07,353 INFO: Epoch 103 | Train Loss: 0.0000029 | Ortho Loss: 35970.7926974 | Val Loss: 0.0000026 | save:1 
+2025-08-30 18:50:07,464 INFO: Epoch 104 | Train Loss: 0.0000029 | Ortho Loss: 36322.3094257 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:07,577 INFO: Epoch 105 | Train Loss: 0.0000029 | Ortho Loss: 36674.8514080 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:07,691 INFO: Epoch 106 | Train Loss: 0.0000029 | Ortho Loss: 37026.6626926 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:07,800 INFO: Epoch 107 | Train Loss: 0.0000029 | Ortho Loss: 37375.2234258 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:07,904 INFO: Epoch 108 | Train Loss: 0.0000029 | Ortho Loss: 37723.8531557 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,101 INFO: Epoch 109 | Train Loss: 0.0000029 | Ortho Loss: 38075.4923330 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,210 INFO: Epoch 110 | Train Loss: 0.0000029 | Ortho Loss: 38429.5218665 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,326 INFO: Epoch 111 | Train Loss: 0.0000029 | Ortho Loss: 38782.9660694 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,432 INFO: Epoch 112 | Train Loss: 0.0000029 | Ortho Loss: 39135.8387958 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,535 INFO: Epoch 113 | Train Loss: 0.0000029 | Ortho Loss: 39483.6382242 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,637 INFO: Epoch 114 | Train Loss: 0.0000029 | Ortho Loss: 39830.8357173 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,752 INFO: Epoch 115 | Train Loss: 0.0000029 | Ortho Loss: 40179.6582154 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,866 INFO: Epoch 116 | Train Loss: 0.0000029 | Ortho Loss: 40527.5908157 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:08,969 INFO: Epoch 117 | Train Loss: 0.0000029 | Ortho Loss: 40877.0403078 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,092 INFO: Epoch 118 | Train Loss: 0.0000029 | Ortho Loss: 41224.1456995 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,206 INFO: Epoch 119 | Train Loss: 0.0000029 | Ortho Loss: 41569.3365813 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,321 INFO: Epoch 120 | Train Loss: 0.0000029 | Ortho Loss: 41917.0452581 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,424 INFO: Epoch 121 | Train Loss: 0.0000029 | Ortho Loss: 42266.7121544 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,540 INFO: Epoch 122 | Train Loss: 0.0000028 | Ortho Loss: 42614.3008977 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,645 INFO: Epoch 123 | Train Loss: 0.0000028 | Ortho Loss: 42960.5152658 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,851 INFO: Epoch 124 | Train Loss: 0.0000028 | Ortho Loss: 43308.3927614 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:09,965 INFO: Epoch 125 | Train Loss: 0.0000028 | Ortho Loss: 43657.6333935 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,079 INFO: Epoch 126 | Train Loss: 0.0000028 | Ortho Loss: 44003.9562096 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,193 INFO: Epoch 127 | Train Loss: 0.0000028 | Ortho Loss: 44348.7453066 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,302 INFO: Epoch 128 | Train Loss: 0.0000028 | Ortho Loss: 44695.3621920 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,407 INFO: Epoch 129 | Train Loss: 0.0000028 | Ortho Loss: 45041.2448811 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,520 INFO: Epoch 130 | Train Loss: 0.0000028 | Ortho Loss: 45383.1673443 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,635 INFO: Epoch 131 | Train Loss: 0.0000028 | Ortho Loss: 45722.7327323 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,739 INFO: Epoch 132 | Train Loss: 0.0000028 | Ortho Loss: 46062.9107886 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,852 INFO: Epoch 133 | Train Loss: 0.0000028 | Ortho Loss: 46402.7278484 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:10,956 INFO: Epoch 134 | Train Loss: 0.0000028 | Ortho Loss: 46742.8462457 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,069 INFO: Epoch 135 | Train Loss: 0.0000028 | Ortho Loss: 47083.5322635 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,173 INFO: Epoch 136 | Train Loss: 0.0000028 | Ortho Loss: 47423.0825494 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,287 INFO: Epoch 137 | Train Loss: 0.0000028 | Ortho Loss: 47766.0710220 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,399 INFO: Epoch 138 | Train Loss: 0.0000028 | Ortho Loss: 48109.3739033 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,604 INFO: Epoch 139 | Train Loss: 0.0000028 | Ortho Loss: 48451.6041368 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,720 INFO: Epoch 140 | Train Loss: 0.0000028 | Ortho Loss: 48791.9766272 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,824 INFO: Epoch 141 | Train Loss: 0.0000028 | Ortho Loss: 49131.2040305 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:11,938 INFO: Epoch 142 | Train Loss: 0.0000028 | Ortho Loss: 49469.5072643 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,042 INFO: Epoch 143 | Train Loss: 0.0000028 | Ortho Loss: 49805.5593142 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,156 INFO: Epoch 144 | Train Loss: 0.0000028 | Ortho Loss: 50140.9915127 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,270 INFO: Epoch 145 | Train Loss: 0.0000028 | Ortho Loss: 50475.4063815 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,375 INFO: Epoch 146 | Train Loss: 0.0000028 | Ortho Loss: 50811.2385910 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,489 INFO: Epoch 147 | Train Loss: 0.0000028 | Ortho Loss: 51147.1797661 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,599 INFO: Epoch 148 | Train Loss: 0.0000028 | Ortho Loss: 51482.7595061 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,700 INFO: Epoch 149 | Train Loss: 0.0000028 | Ortho Loss: 51816.4586045 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,818 INFO: Epoch 150 | Train Loss: 0.0000028 | Ortho Loss: 52151.5705529 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:12,929 INFO: Epoch 151 | Train Loss: 0.0000028 | Ortho Loss: 52486.3620029 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,043 INFO: Epoch 152 | Train Loss: 0.0000028 | Ortho Loss: 52820.6059054 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,147 INFO: Epoch 153 | Train Loss: 0.0000028 | Ortho Loss: 53152.2741851 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,262 INFO: Epoch 154 | Train Loss: 0.0000028 | Ortho Loss: 53479.1380037 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,370 INFO: Epoch 155 | Train Loss: 0.0000028 | Ortho Loss: 53805.0057831 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,556 INFO: Epoch 156 | Train Loss: 0.0000028 | Ortho Loss: 54133.0354024 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,670 INFO: Epoch 157 | Train Loss: 0.0000028 | Ortho Loss: 54463.5067427 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,785 INFO: Epoch 158 | Train Loss: 0.0000028 | Ortho Loss: 54796.3290611 | Val Loss: 0.0000025 | save:1 
+2025-08-30 18:50:13,898 INFO: Epoch 159 | Train Loss: 0.0000028 | Ortho Loss: 55127.0682287 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,022 INFO: Epoch 160 | Train Loss: 0.0000028 | Ortho Loss: 55453.3933892 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,135 INFO: Epoch 161 | Train Loss: 0.0000028 | Ortho Loss: 55779.2862718 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,240 INFO: Epoch 162 | Train Loss: 0.0000028 | Ortho Loss: 56106.7063101 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,355 INFO: Epoch 163 | Train Loss: 0.0000028 | Ortho Loss: 56435.0584666 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,461 INFO: Epoch 164 | Train Loss: 0.0000028 | Ortho Loss: 56763.9042278 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,574 INFO: Epoch 165 | Train Loss: 0.0000028 | Ortho Loss: 57090.0313766 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,678 INFO: Epoch 166 | Train Loss: 0.0000028 | Ortho Loss: 57412.2343973 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,792 INFO: Epoch 167 | Train Loss: 0.0000028 | Ortho Loss: 57735.3046646 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,899 INFO: Epoch 168 | Train Loss: 0.0000028 | Ortho Loss: 58063.5676168 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:14,999 INFO: Epoch 169 | Train Loss: 0.0000028 | Ortho Loss: 58393.0835924 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,114 INFO: Epoch 170 | Train Loss: 0.0000028 | Ortho Loss: 58720.3897302 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,228 INFO: Epoch 171 | Train Loss: 0.0000028 | Ortho Loss: 59044.1960746 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,427 INFO: Epoch 172 | Train Loss: 0.0000028 | Ortho Loss: 59370.3475662 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,534 INFO: Epoch 173 | Train Loss: 0.0000028 | Ortho Loss: 59695.7802607 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,654 INFO: Epoch 174 | Train Loss: 0.0000028 | Ortho Loss: 60024.4173126 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,758 INFO: Epoch 175 | Train Loss: 0.0000028 | Ortho Loss: 60353.9851456 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,872 INFO: Epoch 176 | Train Loss: 0.0000028 | Ortho Loss: 60680.3717944 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:15,976 INFO: Epoch 177 | Train Loss: 0.0000028 | Ortho Loss: 61008.3265452 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,091 INFO: Epoch 178 | Train Loss: 0.0000028 | Ortho Loss: 61337.0997052 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,211 INFO: Epoch 179 | Train Loss: 0.0000028 | Ortho Loss: 61663.3565748 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,331 INFO: Epoch 180 | Train Loss: 0.0000028 | Ortho Loss: 61989.8563809 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,447 INFO: Epoch 181 | Train Loss: 0.0000028 | Ortho Loss: 62315.6321859 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,570 INFO: Epoch 182 | Train Loss: 0.0000028 | Ortho Loss: 62645.0726736 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,678 INFO: Epoch 183 | Train Loss: 0.0000027 | Ortho Loss: 62976.1773356 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,802 INFO: Epoch 184 | Train Loss: 0.0000027 | Ortho Loss: 63305.1803312 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:16,917 INFO: Epoch 185 | Train Loss: 0.0000027 | Ortho Loss: 63634.0332035 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,115 INFO: Epoch 186 | Train Loss: 0.0000027 | Ortho Loss: 63959.1676699 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,219 INFO: Epoch 187 | Train Loss: 0.0000027 | Ortho Loss: 64285.1792795 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,333 INFO: Epoch 188 | Train Loss: 0.0000027 | Ortho Loss: 64612.4679439 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,445 INFO: Epoch 189 | Train Loss: 0.0000027 | Ortho Loss: 64935.0759546 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,565 INFO: Epoch 190 | Train Loss: 0.0000027 | Ortho Loss: 65260.1825991 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,681 INFO: Epoch 191 | Train Loss: 0.0000027 | Ortho Loss: 65587.5947540 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,791 INFO: Epoch 192 | Train Loss: 0.0000027 | Ortho Loss: 65915.6262271 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:17,906 INFO: Epoch 193 | Train Loss: 0.0000027 | Ortho Loss: 66243.3226807 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,010 INFO: Epoch 194 | Train Loss: 0.0000027 | Ortho Loss: 66570.3533493 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,115 INFO: Epoch 195 | Train Loss: 0.0000027 | Ortho Loss: 66897.2251424 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,229 INFO: Epoch 196 | Train Loss: 0.0000027 | Ortho Loss: 67223.9322935 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,343 INFO: Epoch 197 | Train Loss: 0.0000027 | Ortho Loss: 67548.6389950 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,457 INFO: Epoch 198 | Train Loss: 0.0000027 | Ortho Loss: 67871.7095935 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,568 INFO: Epoch 199 | Train Loss: 0.0000027 | Ortho Loss: 68190.5283827 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,685 INFO: Epoch 200 | Train Loss: 0.0000027 | Ortho Loss: 68511.1428333 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,807 INFO: Epoch 201 | Train Loss: 0.0000027 | Ortho Loss: 68833.5031338 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:18,924 INFO: Epoch 202 | Train Loss: 0.0000027 | Ortho Loss: 69151.3118498 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,123 INFO: Epoch 203 | Train Loss: 0.0000027 | Ortho Loss: 69466.9944780 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,239 INFO: Epoch 204 | Train Loss: 0.0000027 | Ortho Loss: 69783.6312670 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,353 INFO: Epoch 205 | Train Loss: 0.0000027 | Ortho Loss: 70105.8455728 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,475 INFO: Epoch 206 | Train Loss: 0.0000027 | Ortho Loss: 70432.5924799 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,589 INFO: Epoch 207 | Train Loss: 0.0000027 | Ortho Loss: 70752.5497059 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,693 INFO: Epoch 208 | Train Loss: 0.0000027 | Ortho Loss: 71067.4504636 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,808 INFO: Epoch 209 | Train Loss: 0.0000027 | Ortho Loss: 71381.0622390 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:19,920 INFO: Epoch 210 | Train Loss: 0.0000027 | Ortho Loss: 71695.9297458 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,024 INFO: Epoch 211 | Train Loss: 0.0000027 | Ortho Loss: 72015.4925128 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,138 INFO: Epoch 212 | Train Loss: 0.0000027 | Ortho Loss: 72338.3608530 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,242 INFO: Epoch 213 | Train Loss: 0.0000027 | Ortho Loss: 72652.0950149 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,357 INFO: Epoch 214 | Train Loss: 0.0000027 | Ortho Loss: 72963.6022404 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,471 INFO: Epoch 215 | Train Loss: 0.0000027 | Ortho Loss: 73283.6174973 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,586 INFO: Epoch 216 | Train Loss: 0.0000027 | Ortho Loss: 73607.3416476 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,690 INFO: Epoch 217 | Train Loss: 0.0000027 | Ortho Loss: 73930.6201395 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:20,889 INFO: Epoch 218 | Train Loss: 0.0000027 | Ortho Loss: 74244.5210130 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,001 INFO: Epoch 219 | Train Loss: 0.0000027 | Ortho Loss: 74547.6256620 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,119 INFO: Epoch 220 | Train Loss: 0.0000027 | Ortho Loss: 74848.1803074 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,240 INFO: Epoch 221 | Train Loss: 0.0000027 | Ortho Loss: 75156.2758533 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,365 INFO: Epoch 222 | Train Loss: 0.0000027 | Ortho Loss: 75477.2140593 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,479 INFO: Epoch 223 | Train Loss: 0.0000027 | Ortho Loss: 75792.4489748 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,582 INFO: Epoch 224 | Train Loss: 0.0000027 | Ortho Loss: 76100.6730885 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,696 INFO: Epoch 225 | Train Loss: 0.0000027 | Ortho Loss: 76406.9377003 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,811 INFO: Epoch 226 | Train Loss: 0.0000027 | Ortho Loss: 76716.1218837 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:21,925 INFO: Epoch 227 | Train Loss: 0.0000027 | Ortho Loss: 77033.9161462 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,040 INFO: Epoch 228 | Train Loss: 0.0000027 | Ortho Loss: 77345.0058428 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,147 INFO: Epoch 229 | Train Loss: 0.0000027 | Ortho Loss: 77649.3756194 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,259 INFO: Epoch 230 | Train Loss: 0.0000027 | Ortho Loss: 77953.7712437 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,376 INFO: Epoch 231 | Train Loss: 0.0000027 | Ortho Loss: 78265.2978889 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,480 INFO: Epoch 232 | Train Loss: 0.0000027 | Ortho Loss: 78569.9942805 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,674 INFO: Epoch 233 | Train Loss: 0.0000027 | Ortho Loss: 78871.6888494 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,789 INFO: Epoch 234 | Train Loss: 0.0000027 | Ortho Loss: 79176.0052223 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:22,903 INFO: Epoch 235 | Train Loss: 0.0000027 | Ortho Loss: 79487.7755487 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,014 INFO: Epoch 236 | Train Loss: 0.0000027 | Ortho Loss: 79795.9551116 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,125 INFO: Epoch 237 | Train Loss: 0.0000027 | Ortho Loss: 80105.3958100 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,234 INFO: Epoch 238 | Train Loss: 0.0000027 | Ortho Loss: 80419.0183494 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,348 INFO: Epoch 239 | Train Loss: 0.0000027 | Ortho Loss: 80736.4976815 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,472 INFO: Epoch 240 | Train Loss: 0.0000027 | Ortho Loss: 81043.5922659 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,588 INFO: Epoch 241 | Train Loss: 0.0000027 | Ortho Loss: 81349.0960096 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,715 INFO: Epoch 242 | Train Loss: 0.0000027 | Ortho Loss: 81650.8073165 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,825 INFO: Epoch 243 | Train Loss: 0.0000027 | Ortho Loss: 81947.3381360 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:23,939 INFO: Epoch 244 | Train Loss: 0.0000027 | Ortho Loss: 82251.3144391 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:24,053 INFO: Epoch 245 | Train Loss: 0.0000027 | Ortho Loss: 82561.6849859 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:24,167 INFO: Epoch 246 | Train Loss: 0.0000027 | Ortho Loss: 82874.7802327 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:24,292 INFO: Epoch 247 | Train Loss: 0.0000027 | Ortho Loss: 83187.0833612 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:24,407 INFO: Epoch 248 | Train Loss: 0.0000027 | Ortho Loss: 83494.9141150 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:24,515 INFO: Epoch 249 | Train Loss: 0.0000027 | Ortho Loss: 83800.0355857 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:24,718 INFO: Epoch 250 | Train Loss: 0.0000027 | Ortho Loss: 84108.4259458 | Val Loss: 0.0000024 | save:1 
+2025-08-30 18:50:24,718 INFO: Final model saved to tests/20250831/20M/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt 
+2025-08-30 18:50:24,718 INFO: model train time: 29.237745 s 
+2025-08-30 18:50:25,070 INFO: SMW signal transmission finished! 
+2025-08-30 18:50:30,343 INFO: Successfully captured IQ data! 
+2025-08-30 18:50:31,276 INFO: NMSE: -29.641 dB 
+2025-08-30 18:50:31,277 INFO: ACPR1_L: -42.067 dBc, ACPR1_U: -42.278 dBc 
+2025-08-30 18:50:31,277 INFO: Start the 2th iteration 
+2025-08-30 18:50:31,557 INFO: SMW signal transmission finished! 
+2025-08-30 18:50:36,833 INFO: Successfully captured IQ data! 
+2025-08-30 18:50:37,808 INFO: NMSE: -35.510 dB 
+2025-08-30 18:50:37,808 INFO: ACPR1_L: -47.651 dBc, ACPR1_U: -47.769 dBc 
+2025-08-30 18:50:37,808 INFO: Start the 3th iteration 
+2025-08-30 18:50:38,101 INFO: SMW signal transmission finished! 
+2025-08-30 18:50:43,383 INFO: Successfully captured IQ data! 
+2025-08-30 18:50:44,552 INFO: NMSE: -36.893 dB 
+2025-08-30 18:50:44,552 INFO: ACPR1_L: -48.590 dBc, ACPR1_U: -48.429 dBc 
+2025-08-30 18:50:44,552 INFO: Start the 4th iteration 
+2025-08-30 18:50:44,843 INFO: SMW signal transmission finished! 
+2025-08-30 18:50:50,183 INFO: Successfully captured IQ data! 
+2025-08-30 18:50:51,355 INFO: NMSE: -37.183 dB 
+2025-08-30 18:50:51,356 INFO: ACPR1_L: -48.795 dBc, ACPR1_U: -48.880 dBc 
+2025-08-30 18:50:51,356 INFO: Start the 5th iteration 
+2025-08-30 18:50:51,646 INFO: SMW signal transmission finished! 
+2025-08-30 18:50:57,058 INFO: Successfully captured IQ data! 
+2025-08-30 18:50:58,325 INFO: NMSE: -37.286 dB 
+2025-08-30 18:50:58,325 INFO: ACPR1_L: -49.127 dBc, ACPR1_U: -48.936 dBc 
+2025-08-30 18:50:58,325 INFO: Start the 6th iteration 
+2025-08-30 18:50:58,616 INFO: SMW signal transmission finished! 
+2025-08-30 18:51:04,040 INFO: Successfully captured IQ data! 
+2025-08-30 18:51:05,349 INFO: NMSE: -37.674 dB 
+2025-08-30 18:51:05,349 INFO: ACPR1_L: -49.305 dBc, ACPR1_U: -49.297 dBc 
+2025-08-30 18:51:05,349 INFO: Start the 7th iteration 
+2025-08-30 18:51:05,629 INFO: SMW signal transmission finished! 
+2025-08-30 18:51:11,165 INFO: Successfully captured IQ data! 
+2025-08-30 18:51:12,545 INFO: NMSE: -37.538 dB 
+2025-08-30 18:51:12,545 INFO: ACPR1_L: -49.125 dBc, ACPR1_U: -49.173 dBc 
+2025-08-30 18:51:12,545 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:51:12,545 INFO: Start the 8th iteration 
+2025-08-30 18:51:12,831 INFO: SMW signal transmission finished! 
+2025-08-30 18:51:18,327 INFO: Successfully captured IQ data! 
+2025-08-30 18:51:19,853 INFO: NMSE: -37.472 dB 
+2025-08-30 18:51:19,853 INFO: ACPR1_L: -49.063 dBc, ACPR1_U: -49.067 dBc 
+2025-08-30 18:51:19,853 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:51:19,853 INFO: Start the 9th iteration 
+2025-08-30 18:51:20,141 INFO: SMW signal transmission finished! 
+2025-08-30 18:51:25,676 INFO: Successfully captured IQ data! 
+2025-08-30 18:51:27,316 INFO: NMSE: -37.794 dB 
+2025-08-30 18:51:27,316 INFO: ACPR1_L: -49.480 dBc, ACPR1_U: -49.273 dBc 
+2025-08-30 18:51:27,316 INFO: Start the 10th iteration 
+2025-08-30 18:51:27,596 INFO: SMW signal transmission finished! 
+2025-08-30 18:51:33,188 INFO: Successfully captured IQ data! 
+2025-08-30 18:51:34,819 INFO: NMSE: -37.306 dB 
+2025-08-30 18:51:34,819 INFO: ACPR1_L: -48.825 dBc, ACPR1_U: -48.837 dBc 
+2025-08-30 18:51:34,819 INFO: NMSE BAD NonSAVE 
+2025-08-30 18:51:34,819 INFO: save ilc file to tests/20250831/20M/data/ILAOUT_DVR_NN_202508301851.mat 
