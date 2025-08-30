@@ -20,7 +20,7 @@ from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
 
 
-filepath = f'tests/20250831/40M'
+filepath = f'tests/20250831/20M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -48,20 +48,20 @@ NMSE_state_list = []
 # signal = 'ILC'
 # signal = 'YU'
 # signal = '20M'
-signal = '40M'
+signal = '20M'
 
-x_train, x, fs, BW = fun.get_waveform(signal,rate=0.9)
+x_train, x, fs, BW = fun.get_waveform(signal,rate=0.6)
 
 params = {
-    'pow': -10,  # output power in dB
+    'pow': -22,  # output power in dB
     'VSG_IP': '192.168.1.30',  # IP of Vector Signal Generator (VSG)
     'VSA_IP': '192.168.1.36',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'k',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
     'waveformfile': 'waveform_crz',
     'fs': fs,  # sampling rate = 160 MHz
     'fc': 3.5e9,  # carrier frequency = 2.14 GHz
-    'att': 10,  # attenuation level of (VSA) in dB
-    'type': 0  # test type
+    'att': 20,  # attenuation level of (VSA) in dB
+    'type': 1  # test type
 }
 
 
@@ -96,7 +96,7 @@ savemat(mat_filename, ilc_out)
 
 
 # 模型设置
-Model_map = ['DVR_NN']
+Model_map = ['DVR']
 # Model = "GMP"
 # Model = 'DVC_NN'
 # Model = 'GMP_NN'
@@ -126,6 +126,18 @@ for Model in Model_map:
         print(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
         savemat(f'{mat_path}/{Model}_K{K}_L{L}_M{M}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
+
+    if Model == 'DVR':
+        # 参数设置
+        K = 2  # 分段数，可修改
+        M = 15
+        threshold = np.array([0.2, 0.6])
+        model = DVR.DVR(M=M, threshold=threshold)
+        model.coef = model.DVR_e(x_train, ilc_out['u_ideal'])
+        pa_input = model.DVR_v(x_train, model.coef)
+        print(f'COEF number: {len(model.coef)} ')
+        pa_output = PA_board.transmit(pa_input, logger)
+        savemat(f'{mat_path}/{Model}_K{K}_M{M}_thres{threshold}.mat', {'x':x_train,'u':pa_input,'y_withDPD':pa_output})
 
     if Model == 'DVR_NN':
         model = ['Tanh', 2, 12, 40]
@@ -168,7 +180,7 @@ for Model in Model_map:
 
     if Model == 'VDTDNN':
         # 参数设置
-        model = ['Tanh', 10, 5, 12, 12]
+        model = ['Tanh', 20, 5, 24, 24]
         activation = model[0]
         # K = model_map[1]  # 分段数，可修改
         M = model[1]
@@ -208,7 +220,7 @@ for Model in Model_map:
 
     if Model == 'RVTDNN':
         # 参数设置
-        model = ['Tanh', 10, 7, 24, 24]
+        model = ['ReLU', 15, 3, 32,32]
         activation = model[0]
         # K = model_map[1]  # 分段数，可修改
         M = model[1]
@@ -230,11 +242,11 @@ for Model in Model_map:
         logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
         logger.info(f'------------------------{Model}_M{M}_{activation}-------------------------------')
         # 初始化模型
-        model = RVTDNN.RVTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
+        model = RVTDNN.RVTDNN(layer_dims, M=M, K=K, activation=activation).double().to(device)
         fun.model_structure(model, logger)
 
         # model.load_state_dict(torch.load(trained_model))
-        model.model_train(x_train, ilc_out['u_ideal'], model_path, logger, 1)
+        model.model_train(x_train, ilc_out['u_ideal'], model_path, logger)
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间

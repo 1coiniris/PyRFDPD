@@ -71,7 +71,7 @@ class VDTDNN(nn.Module):
 
     def model_train(self,x,y,model_path,logger=None,total_train = 1):
         learning_rate = 0.001
-        epochs = 200
+        epochs = 400
         batch_size = 512
         device = self.device
 
