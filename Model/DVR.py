@@ -166,7 +166,7 @@ class DVR():
         # y = X.dot(coef)
 
         y[0:M+1+10] = x[0:M+1+10]
-        y[abs(y) > 1] = x[abs(y) > 1]
+        # y[abs(y) > 1] = x[abs(y) > 1]
         # a = np.where(abs(y) > 1)
         # indices = np.where(a == 1)
         return y

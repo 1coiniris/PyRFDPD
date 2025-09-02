@@ -31,6 +31,9 @@ def ILC(board, ilc_in,logger=None):
     In = []  # Will be a list of arrays
     Out = []  # Will be a list of arrays
 
+    fs = ilc_in['fs']
+    BW = ilc_in['BW']
+
     u_ideal = ilc_in['u_k'].copy()  # ideal estimated inputs
     u_k = ilc_in['u_k'].copy()
 
@@ -48,9 +51,9 @@ def ILC(board, ilc_in,logger=None):
     for k in range(ilc_in['nIterations']):
         iteration = k + 1  # Python is 0-indexed, MATLAB is 1-indexed
         if logger:
-            logger.info(f"Iteration: {iteration}")
+            logger.info(f"ILC Iteration: {iteration}")
         else:
-            print(f"Iteration: {iteration}")
+            print(f"ILC Iteration: {iteration}")
 
         try:
             # Transmit the signal through the board
@@ -76,7 +79,7 @@ def ILC(board, ilc_in,logger=None):
         y_d_trimmed = ilc_in['y_d'][10:-10]  # Python uses 0-indexing, so 10:end-10
         y_k_trimmed = y_k[10:-10]
         ilc_out['NMSE'][k] = cal.nmse(y_d_trimmed, y_k_trimmed,logger,1)
-        ACLR = cal.acpr(y_k_trimmed, 100e6, 20e6, 20e6, logger)
+        ACLR = cal.acpr(y_k_trimmed, fs, BW, BW*0.98, logger)
         # Store input and output for this iteration
         In.append(u_k.copy())
         Out.append(y_k.copy())

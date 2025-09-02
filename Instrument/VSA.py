@@ -57,22 +57,22 @@ class VSA:
                 data = instr.read_binary_values(
                     datatype="f", is_big_endian=True
                 )  # Attention! big endian. not like RS
+                instr.write(":INIT:CONT ON")
                 # data = instr.read_raw()
-                instr.write(":INSTrument:SELect SA")
+                # instr.write(":INSTrument:SELect SA")
                 # Go back to saved state 8
                 # instr.write("*RCL 8")
                 # instr.write("*TRG")
                 I_data = data[0::2]
                 Q_data = data[1::2]
                 IQ_data = np.array([complex(I, Q) for I, Q in zip(I_data, Q_data)], dtype='complex')
-                if logger:
-                    logger.info("Successfully captured IQ data!")
+                # if logger:
+                #     logger.info("Successfully captured IQ data!")
                 return IQ_data / max(abs(IQ_data))
 
             if name.lower() == "fsw":
-                # TODO: 问题待修复
-                instr.write("*RST")
-                instr.query("*OPC?")  # 等待操作完成
+                # instr.write("*RST")
+                # instr.query("*OPC?")  # 等待操作完成
 
                 instr.write(
                     "INSTrument:CREate IQ, 'IQANALYZER'"
@@ -85,7 +85,7 @@ class VSA:
                 instr.write(":FORM:DATA REAL, 32")  # set saved data format
                 instr.write("INIT:CONT OFF")  # select single sweep mode
 
-                # instr.write("LAYout:REPLace:WINDow '1',RIMAG") # code from lz
+                instr.write("LAYout:REPLace:WINDow '1',RIMAG") # code from lz
 
                 # 频率设置
                 instr.write("FREQ:CENT " + str(fc) + "Hz")  # centre frequency
@@ -109,22 +109,29 @@ class VSA:
                 instr.write("INIT;*WAI")
                 instr.query("*OPC?")  # 等待采集完成
                 # Retrieve the data
-                # instr.write("TRAC:DATA? TRACE1") # code from lz
+                instr.write("TRAC:DATA? TRACE1") # code from lz
 
                 # 读取数据
-                instr.write("TRAC:IQ:DATA?")
-                data = instr.read_binary_values(datatype='f', is_big_endian=True)  # 明确字节序
-                # data = instr.read_binary_values(datatype="f")  # return float
+                # instr.write("TRAC:IQ:DATA?")
+                # data = instr.read_binary_values(datatype='f', is_big_endian=True)  # 明确字节序
+                data = instr.read_binary_values(datatype="f")  # return float
                 # instr.query('TRAC1:X? TRACE1')
                 # x = instr.read_binary_values(datatype = 'b')
                 instr.write("INIT:CONT ON")  # select continue sweep mode
 
+                instr.write("INSTrument:SELect ''Spectrum''")
+                # instr.write('MMEM:LOAD:STAT 1, "C:\R_S\Instr\user\QuickSave\QuickSave1"')
+                #
+                # %display
+                # settings
+                # fprintf(FSW, 'INSTrument:SELect ''Spectrum''');
+                # fprintf(FSW, 'MMEM:LOAD:STAT 1, "C:\R_S\Instr\user\QuickSave\QuickSave1"');
                 I_data = data[0: len(data) // 2]
                 Q_data = data[len(data) // 2:]
-                IQ_data = np.array([complex(I, Q) for I, Q in zip(I_data, Q_data)], dtype='complex_')
+                IQ_data = np.array([complex(I, Q) for I, Q in zip(I_data, Q_data)], dtype='complex')
                 # data = [int(binary_str, 2) for binary_str in raw_data]
                 # IQ_data = complex(data[0:len(data)//2], data[len(data)//2+1:])
-                return IQ_data
+                return IQ_data / max(abs(IQ_data))
 
             if name.lower() == "fpl":
                 # 未验证，因为FPL带宽太窄无法做DPD
@@ -159,7 +166,11 @@ class VSA:
                 instr.write("INIT:CONT ON")  # select single sweep mode
 
                 data = [int(binary_str, 2) for binary_str in raw_data]
-                IQ_data = complex(data[0: len(data) // 2], data[len(data) // 2:])
+
+                I_data = data[0: len(data) // 2]
+                Q_data = data[len(data) // 2:]
+                IQ_data = np.array([complex(I, Q) for I, Q in zip(I_data, Q_data)], dtype='complex')
+                # IQ_data = complex(data[0: len(data) // 2], data[len(data) // 2:])
                 return IQ_data
         except:
             print('!!!!!!!!!!!! error read !!!!!!!!!!')

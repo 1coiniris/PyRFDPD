@@ -20,7 +20,7 @@ from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
 from scipy.io import loadmat
 
-filepath = f'tests/20250831/20M'
+filepath = f'tests/20250902/20M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -53,15 +53,15 @@ signal = '20M'
 x_train, x, fs, BW = fun.get_waveform(signal,rate=0.6)
 
 params = {
-    'pow': -28,  # output power in dB
+    'pow': -8,  # output power in dB
     'VSG_IP': '192.168.1.30',  # IP of Vector Signal Generator (VSG)
     'VSA_IP': '192.168.1.36',  # IP of Vector Signal Analyzer (VSA)
-    'VSA_type': 'k',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
+    'VSA_type': 'keysight',#'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
     'waveformfile': 'waveform_crz',
     'fs': fs,  # sampling rate = 160 MHz
     'fc': 3.5e9,  # carrier frequency = 2.14 GHz
-    'att': 20,  # attenuation level of (VSA) in dB
-    'type': 0  # test type
+    'att': 10,  # attenuation level of (VSA) in dB
+    'type': 1  # test type
 }
 
 
@@ -71,7 +71,7 @@ y_train = PA_board.transmit(x_train,logger)
 
 NMSE_woDPD = cal.nmse(x_train,y_train)
 logger.info(f'NMSE_WO_DPD: {NMSE_woDPD} dB')
-ACP = cal.acpr(y_train,fs,BW,BW,logger)
+ACP = cal.acpr(y_train,fs,BW,BW*0.98,logger)
 
 if plot_swich:
     fun.PA_figure(x_train, y_train, fs, figure_path)
@@ -84,7 +84,9 @@ logger.info(f"save ilc file to {mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}
 ilc_in = {
     'y_d': x_train,
     'u_k': x_train,
-    'nIterations': 60,
+    'fs': fs,
+    'BW': BW,
+    'nIterations': 30,
     'type': 'linear',
     'eta': 0.2
 }
@@ -124,8 +126,8 @@ for Model in Model_map:
     iteration = 1
     if Model == 'GMP':
         K = [7, 7, 7]
-        L = [5, 5, 5]
-        M = [3, 3]
+        L = [8, 7, 7]
+        M = [2, 2]
         model = gmp.GMP(K,L,M)
         # coef = GMP.GMP_e(x_train,ilc_out['u_ideal'])
         model.coef = model.model_e(x_train,ilc_out['u_ideal'])
@@ -138,8 +140,8 @@ for Model in Model_map:
     if Model == 'DVR':
         # 参数设置
         K = 4  # 分段数，可修改
-        M = 10
-        threshold = np.array([0.2,0.4,0.6,0.8])
+        M = 20
+        threshold = np.array([0.2,0.4,0.6,0.9])
         model = DVR.DVR(M=M, threshold=threshold)
         model.coef = model.DVR_e(x_train, ilc_out['u_ideal'])
         pa_input = model.DVR_v(x_train, model.coef)
@@ -190,7 +192,7 @@ for Model in Model_map:
 
     if Model == 'VDTDNN':
         # 参数设置
-        model = ['Tanh', 10, 5, 16,16]
+        model = ['Tanh', 10, 3, 16,16]
         activation = model[0]
         # K = model_map[1]  # 分段数，可修改
         M = model[1]
@@ -231,7 +233,7 @@ for Model in Model_map:
 
     if Model == 'RVTDNN':
         # 参数设置
-        model = ['ReLU', 10, 5, 24,24]
+        model = ['ReLU', 10, 3, 24,24]
         activation = model[0]
         # K = model_map[1]  # 分段数，可修改
         M = model[1]
@@ -272,7 +274,7 @@ for Model in Model_map:
 
 
 
-    NMSE, ACLR, NMSE_pred, ACLR_pred = fun.calculate_CRZ(x_train, y_train, pa_output, fs, BW, figure_path, Model, 1, logger)
+    NMSE, ACLR, NMSE_pred, ACLR_pred = fun.calculate_CRZ(x_train, y_train, pa_output, fs, BW, figure_path, Model, 1, logger,type='DPD')
 
 
 # DPD iteration

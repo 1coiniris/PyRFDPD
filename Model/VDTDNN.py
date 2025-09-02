@@ -151,7 +151,7 @@ class VDTDNN(nn.Module):
                 best_model = self.state_dict()
             # print(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
             logger.info(
-                f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
+                f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.7f} | Val Loss: {val_loss / len(val_loader):.7f} | save:{save}')
             if save == 0:
                 nosave_count = nosave_count + 1
             else:

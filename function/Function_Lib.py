@@ -357,17 +357,17 @@ def calculate_CRZ(x,y,y_with_DPD,fs,BW, filepath='figures',Model=None, plot_swic
     # 评估结果（示例）
     logger.info(f"signal without DPD")
     NMSE = cal.nmse(x_train, y_train, logger, 1)
-    ACLR = cal.acpr(y_train, fs, BW, BW, logger)
+    ACLR = cal.acpr(y_train, fs, BW, BW*0.98, logger)
 
     # 评估结果（示例）
     if type == 'model':
         logger.info(f"signal with {Model} Model:")
         NMSE_pred = cal.nmse(y_train, pa_output, logger, 1)
-        ACLR_pred = cal.acpr(pa_output, fs, BW, BW, logger)
+        ACLR_pred = cal.acpr(pa_output, fs, BW, BW*0.98, logger)
     else:
         logger.info(f"signal with {Model} DPD:")
         NMSE_pred = cal.nmse(x_train, pa_output, logger, 1)
-        ACLR_pred = cal.acpr(pa_output, fs, BW, BW, logger)
+        ACLR_pred = cal.acpr(pa_output, fs, BW, BW*0.98, logger)
 
     if plot_swich:
         plot.psd(

@@ -49,7 +49,7 @@ class SingleBandPA:
         self.pow = params.get('pow', -28)
         self.VSG_IP = params.get('VSG_IP', '192.168.0.29')
         self.VSA_IP = params.get('VSA_IP', '192.168.0.30')
-        self.VSA_type = params.get('VSA_type', 'rs')
+        self.VSA_type = params.get('VSA_type', 'fsw')
         self.waveformfile = params.get('waveformfile', 'waveform_crz')
         self.BW = params.get('BW', 20e6)
         self.fs = params.get('fs', 160e6)
@@ -89,17 +89,21 @@ class SingleBandPA:
             try:
                 self.VSG_1.transmit(brand="rohde-schwarz", x=x, fc=self.fc,fs=self.fs, power=self.pow, logger=logger)
 
-                y0 = self.VSA_1.collect_signal(fc=self.fc, fs=self.fs, att=self.att,logger=logger)
-                # Time alignment and normalization (assuming align_coarse_norm and upsample_nrmse are implemented)
-                # _, y = align_coarse_norm(x, y0)
-                # _, y = upsample_nrmse(x, y, 16)
+                y_collect = np.zeros(len(x))
+                for i in range(5):
+                    y0 = self.VSA_1.collect_signal(fc=self.fc, fs=self.fs, att=self.att,logger=logger)
+                    # Time alignment and normalization (assuming align_coarse_norm and upsample_nrmse are implemented)
+                    # _, y = align_coarse_norm(x, y0)
+                    # _, y = upsample_nrmse(x, y, 16)
 
-                # Simplified implementation for demonstration
-                y = align.align(x, y0,'PCF')
-                # y = align.coarse_align(x,y0)
-                # y = y0
-                y = y / np.max(np.abs(y))
+                    # Simplified implementation for demonstration
+                    y_i = align.align(x, y0,'PCF')
+                    # y = align.coarse_align(x,y0)
+                    # y = y0
+                    y_i = y_i / np.max(np.abs(y_i))
+                    y_collect = y_collect + y_i
 
+                y = y_collect/5
                 # Normalize to input norm (commented out in original)
                 # y = y * np.linalg.norm(x) / np.linalg.norm(y)
             except:
