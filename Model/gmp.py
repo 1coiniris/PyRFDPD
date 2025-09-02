@@ -83,7 +83,7 @@ class GMP:
 
         X = self.get_basis(x_target)
         XH = np.conjugate(X.T)
-        coef = np.linalg.pinv(XH.dot(X) + 0.00001*np.eye(X.shape[1])).dot(XH).dot(y_target)
+        coef = np.linalg.inv(XH.dot(X) + 1e-5*np.eye(X.shape[1])).dot(XH).dot(y_target)
 
         y_model = self.model_v(x_target, coef)
         NMSE = cal.nmse(y_target, y_model)

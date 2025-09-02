@@ -10,7 +10,7 @@ import Model.DVR as DVR
 import Model.Orth_NN as ORTH_NN
 import Model.VDTDNN as VDTDNN
 import Model.RVTDNN as RVTDNN
-import Model.PARA_VD_NN as VD_NN
+import Model.KFC_NN as VD_NN
 import argparse
 import time
 from function import align
@@ -20,7 +20,7 @@ from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
 from scipy.io import loadmat
 
-filepath = f'tests/20250831/40M'
+filepath = f'tests/20250831/20M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -47,8 +47,8 @@ NMSE_state_list = []
 # signal = 'ILC_120M'
 # signal = 'ILC'
 # signal = 'YU'
-# signal = '20M'
-signal = '40M'
+signal = '20M'
+# signal = '40M'
 
 x_train, x, fs, BW = fun.get_waveform(signal,rate=0.6)
 
@@ -61,7 +61,7 @@ params = {
     'fs': fs,  # sampling rate = 160 MHz
     'fc': 3.5e9,  # carrier frequency = 2.14 GHz
     'att': 20,  # attenuation level of (VSA) in dB
-    'type': 1  # test type
+    'type': 0  # test type
 }
 
 
@@ -78,15 +78,15 @@ if plot_swich:
 
 
 savemat(f"{mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x_train,'y':y_train})
-logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
+logger.info(f"save ilc file to {mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat")
 
 
 ilc_in = {
     'y_d': x_train,
     'u_k': x_train,
-    'nIterations': 30,
+    'nIterations': 60,
     'type': 'linear',
-    'eta': 0.1
+    'eta': 0.2
 }
 
 ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)

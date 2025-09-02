@@ -67,7 +67,7 @@ class Orth_Basis_DVR_NN(nn.Module):
     def model_train(self,x,y,model_path,logger=None,total_train = 1):
         learning_rate = 0.001
         epochs = 250
-        batch_size = 1024
+        batch_size = 512
         device = self.device
 
         # optim

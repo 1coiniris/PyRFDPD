@@ -350,7 +350,7 @@ def PA_figure(x,y,fs,filepath):
     plot.amam(x, {"PAout":y}, filename=f"{filepath}/PA_amam.png")
     plot.ampm(x, {"PAout":y}, filename=f"{filepath}/PA_ampm.png")
 
-def calculate_CRZ(x,y,y_with_DPD,fs,BW, filepath='figures',Model=None, plot_swich = 1,logger=None):
+def calculate_CRZ(x,y,y_with_DPD,fs,BW, filepath='figures',Model=None, plot_swich = 1,logger=None,type = 'model'):
     x_train = x
     y_train = y
     pa_output = y_with_DPD
@@ -360,9 +360,14 @@ def calculate_CRZ(x,y,y_with_DPD,fs,BW, filepath='figures',Model=None, plot_swic
     ACLR = cal.acpr(y_train, fs, BW, BW, logger)
 
     # 评估结果（示例）
-    logger.info(f"signal with {Model} DPD:")
-    NMSE_pred = cal.nmse(x_train, pa_output, logger, 1)
-    ACLR_pred = cal.acpr(pa_output, fs, BW, BW, logger)
+    if type == 'model':
+        logger.info(f"signal with {Model} Model:")
+        NMSE_pred = cal.nmse(y_train, pa_output, logger, 1)
+        ACLR_pred = cal.acpr(pa_output, fs, BW, BW, logger)
+    else:
+        logger.info(f"signal with {Model} DPD:")
+        NMSE_pred = cal.nmse(x_train, pa_output, logger, 1)
+        ACLR_pred = cal.acpr(pa_output, fs, BW, BW, logger)
 
     if plot_swich:
         plot.psd(

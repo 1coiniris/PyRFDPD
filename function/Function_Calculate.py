@@ -1,7 +1,3 @@
-__author__ = "Yizhuo Wu, Chang Gao"
-__license__ = "Apache-2.0 License"
-__email__ = "yizhuo.wu@tudelft.nl, chang.gao@tudelft.nl"
-
 import matplotlib
 matplotlib.use('Agg')
 import numpy as np
@@ -9,6 +5,25 @@ from scipy import signal
 from typing import Tuple
 import argparse
 from typing import Dict, Any, Callable
+import torch
+import torch.nn as nn
+
+
+class NMSELoss(nn.Module):
+    # ""
+    # code from YLA
+    # ""
+    def __init__(self):
+        super(NMSELoss, self).__init__()
+
+    def forward(self, y_pred, y_true):
+        y_pred_complex = torch.complex(y_pred[:, 0], y_pred[:, 1])
+        y_true_complex = torch.complex(y_true[:, 0], y_true[:, 1])
+        error = y_pred_complex - y_true_complex
+        error_power = torch.mean(torch.abs(error) ** 2)
+        signal_power = torch.mean(torch.abs(y_true_complex) ** 2)
+        nmse_linear = error_power / (signal_power + 1e-10)
+        return nmse_linear
 
 def rms(x):
     return np.sqrt(np.mean(np.square(abs(x))))

@@ -36,7 +36,7 @@ class SingleBandPA:
                 'pow': -28,  # output power in dB
                 'VSG_IP': '192.168.0.29',  # IP of Vector Signal Generator (VSG)
                 'VSA_IP': '192.168.0.30',  # IP of Vector Signal Analyzer (VSA)
-                'VSA_type': 'rs',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
+                'VSA_type': 'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
                 'waveformfile': 'waveform_crz',
                 'BW': 20e6,
                 'fs': 160e6,  # sampling rate = 160 MHz
@@ -57,8 +57,9 @@ class SingleBandPA:
         self.att = params.get('att', 20)
         self.type = params.get('type', 1)
 
-        self.VSG_1 = VSG.VSG(self.VSG_IP)
-        self.VSA_1 = VSA.VSA(self.VSA_IP)
+        if self.type == 1:
+            self.VSG_1 = VSG.VSG(self.VSG_IP)
+            self.VSA_1 = VSA.VSA(self.VSA_IP,self.VSA_type)
 
 
     def transmit(self, x: np.ndarray, logger=None) -> np.ndarray:
@@ -88,7 +89,7 @@ class SingleBandPA:
             try:
                 self.VSG_1.transmit(brand="rohde-schwarz", x=x, fc=self.fc,fs=self.fs, power=self.pow, logger=logger)
 
-                y0 = self.VSA_1.collect_signal(name="keysight",fc=self.fc, fs=self.fs, att=self.att,logger=logger)
+                y0 = self.VSA_1.collect_signal(fc=self.fc, fs=self.fs, att=self.att,logger=logger)
                 # Time alignment and normalization (assuming align_coarse_norm and upsample_nrmse are implemented)
                 # _, y = align_coarse_norm(x, y0)
                 # _, y = upsample_nrmse(x, y, 16)
@@ -108,17 +109,7 @@ class SingleBandPA:
 
         elif self.type == 0:  # MATLAB-defined PA mode
             # Apply PA model (assuming PA function is implemented)
-            # y0 = PA(x, self.pow)
-
-            # Simplified implementation for demonstration
-
             y0 = PA_DVR.PA_DVR_v1(x)
-            # Time alignment and normalization
-            # _, y = align_coarse_norm(x, y0.T)
-            # _, y = upsample_nrmse(x, y, 16)
-
-            # Simplified implementation for demonstration
-            # y = align.align(x, y0,'PCF')
             y = y0
             y = y / np.max(np.abs(y))
 

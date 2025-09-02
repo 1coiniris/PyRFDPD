@@ -10,11 +10,11 @@ from tqdm import tqdm
 from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
 
-class VD_DVR_NN(nn.Module):
+class KFC_NN(nn.Module):
     def __init__(self, K, M, M2,  activation="ReLU"):
         super().__init__()
         # self.total_train = 1
-        self.name = 'VD_DVR_NN'
+        self.name = 'KFCNN'
         self.M = M
         self.M2 = M2
         self.K = K
@@ -27,7 +27,7 @@ class VD_DVR_NN(nn.Module):
         # self.DDR_layers = nn.Sequential()
         # layer_dims = [M+1,16,16,(M+1)*K]
         layer_dims_amp = [M2 + 1,(M + 1) * K]
-        layer_dims_phase = [2 * (M2 + 1),(M + 1) * K * 2]
+        layer_dims_phase = [2 * (M2 + 1),(M + 1),(M + 1),(M + 1) * K * 2]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims_amp[:-1], layer_dims_amp[1:])):
             self.DVR_layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
             if activation == "ReLU":
@@ -91,7 +91,7 @@ class VD_DVR_NN(nn.Module):
 
     def model_train(self,x,y,model_path,logger=None,total_train = 1):
         learning_rate = 0.001
-        epochs = 200
+        epochs = 400
         batch_size = 1024
         device = self.device
 
@@ -229,27 +229,27 @@ class VD_DVR_NN(nn.Module):
         logger.info(f"model train time: {elapsed_time:.6f} s")
 
 
-        if 1:
-            y_train_loss = train_loss_list  # loss值，即y轴
-            x_train_loss = range(len(y_train_loss))  # loss的数量，即x轴
-
-            plt.figure()
-
-            # 去除顶部和右边框框
-            ax = plt.axes()
-            ax.spines['top'].set_visible(False)
-            ax.spines['right'].set_visible(False)
-
-            plt.xlabel('iters')  # x轴标签
-            plt.ylabel('loss')  # y轴标签
-
-            # 以x_train_loss为横坐标，y_train_loss为纵坐标，曲线宽度为1，实线，增加标签，训练损失，
-            # 默认颜色，如果想更改颜色，可以增加参数color='red',这是红色。
-            plt.plot(x_train_loss, y_train_loss, linewidth=1, linestyle="solid", label="train loss")
-            plt.legend()
-            plt.title('Loss curve')
-            plt.savefig(f'figures/MCP_NN/DVR_NN_loss_curve.png')
-            plt.close()
+        # if 1:
+        #     y_train_loss = train_loss_list  # loss值，即y轴
+        #     x_train_loss = range(len(y_train_loss))  # loss的数量，即x轴
+        #
+        #     plt.figure()
+        #
+        #     # 去除顶部和右边框框
+        #     ax = plt.axes()
+        #     ax.spines['top'].set_visible(False)
+        #     ax.spines['right'].set_visible(False)
+        #
+        #     plt.xlabel('iters')  # x轴标签
+        #     plt.ylabel('loss')  # y轴标签
+        #
+        #     # 以x_train_loss为横坐标，y_train_loss为纵坐标，曲线宽度为1，实线，增加标签，训练损失，
+        #     # 默认颜色，如果想更改颜色，可以增加参数color='red',这是红色。
+        #     plt.plot(x_train_loss, y_train_loss, linewidth=1, linestyle="solid", label="train loss")
+        #     plt.legend()
+        #     plt.title('Loss curve')
+        #     plt.savefig(f'figures/MCP_NN/DVR_NN_loss_curve.png')
+        #     plt.close()
 
     def get_basis(self,x_window):
         """
@@ -322,27 +322,27 @@ class VD_DVR_NN(nn.Module):
 
         # DVR basis
         DVR_out_linear = X_tensor_M  # (16384,M+1)
-        DVR_out_1 = DVR_core * DVR_phase  # (16384,(M+1)*K)
-        DVR_out_21 = DVR_core * DVR_phase * DVR_xn_amp  # (16384,(M+1)*K)
-        DVR_out_22 = DVR_core * DVR_xn
-        DVR_out_23 = DVR_core * DVR_X
+        # DVR_out_1 = DVR_core * DVR_phase  # (16384,(M+1)*K)
+        # DVR_out_21 = DVR_core * DVR_phase * DVR_xn_amp  # (16384,(M+1)*K)
+        # DVR_out_22 = DVR_core * DVR_xn
+        # DVR_out_23 = DVR_core * DVR_X
 
         # DVR_out_MP_3 = DVR_core * DVR_xn * DVR_xn_amp ** 2
         # DVR_out_MP_5 = DVR_core * DVR_xn * DVR_xn_amp ** 4
 
         # DVR_out_DDR_1 = DDR_core * DVR_X
         # DVR_out_DDR_2 = DDR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
-        DVR_out_DDR_1 = DVR_core * DVR_X
-        DVR_out_DDR_2 = DVR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
+        # DVR_out_DDR_1 = DVR_core * DVR_X
+        # DVR_out_DDR_2 = DVR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
         #
-        DVR_out_full = torch.concatenate((DVR_out_full, DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
+        # DVR_out_full = torch.concatenate((DVR_out_full, DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
         # # 添加正交化层
         # # 使用QR分解（更稳定）
         # # Q, R = torch.linalg.qr(DVR_out_full,mode='reduced')
         # # return Q
         return DVR_out_full
 
-    def DVR_NN_e(self,x_window,y,alpha=5e-3,pri = 0):
+    def DVR_NN_e(self,x_window,y,alpha=1e-2,pri = 0):
         """使用最小二乘法提取系数（冻结基函数网络）"""
         # self.eval()  # 设置为评估模式
         M = self.M
@@ -390,7 +390,7 @@ class VD_DVR_NN(nn.Module):
         self.coef = coef
         NMSE = cal.nmse(np_y, y_model)
         if pri==1:
-            print(f"NMSE: {NMSE:.3f} dB")
+            print(f"train NMSE: {NMSE:.3f} dB")
         return coef
 
     def DVR_NN_v(self, x_window, coef):
