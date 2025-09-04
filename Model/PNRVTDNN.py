@@ -9,11 +9,11 @@ from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
 from function import Function_Lib as fun
 
-class RVTDNN(nn.Module):
+class PNRVTDNN(nn.Module):
     def __init__(self, layer_dims, M, K=1, activation="ReLU"):
         super().__init__()
         # self.total_train = 1
-        self.name = 'RVTDNN'
+        self.name = 'PNRVTDNN'
         self.M = M
         self.K = K
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -37,14 +37,25 @@ class RVTDNN(nn.Module):
         """
         x_window: 当前窗口的记忆输入 [batch, (M+1)]
         """
-        X = x_window
-        for i in range(2,self.K+1):
-            X_k = x_window.pow(i)
-            X = torch.concat((X,X_k), dim=1)
-        x_real = X.real
-        x_imag = X.imag
+
+        # 相位归一化
+        X_norm, r, A = self.phase_normalization(x_window)
+        # X_norm_real = torch.view_as_real(X_norm).view(len(X_norm), -1)
+
+        # 2. 添加包络及其幂次项
+        envelope_features = A
+        for order in range(2,self.K+1):
+            envelope_features = torch.concat((envelope_features, A ** order), dim=1)
+            # envelope_features.append(A ** order)
+
+        # X = x_window
+        # for i in range(2,self.K+1):
+        #     X_k = x_window.pow(i)
+        #     X = torch.concat((X,X_k), dim=1)
+        x_real = X_norm.real
+        x_imag = X_norm.imag
         # x_real = x_real.view(len(x_real), -1)
-        x = torch.cat((x_real, x_imag), dim=1)
+        x = torch.cat((x_real, x_imag,envelope_features), dim=1)
         y_pred = self.layers(x)
 
         return y_pred
@@ -177,3 +188,27 @@ class RVTDNN(nn.Module):
         return y_pred
     # def train(self):
     #     self.train()
+
+    def phase_normalization(self, z):
+        """
+        相位归一化处理
+
+        参数:
+            z: 复数输入张量，形状为(batch_size, M+1)
+
+        返回:
+            X_norm: 归一化后的复数张量
+            r: 归一化因子
+            A: 包络张量
+        """
+        # 计算当前时刻的归一化因子 r(k) = z*(k)/|z(k)|
+        z_current = z[:, -1]  # 当前时刻样本
+        r = torch.conj(z_current) / (torch.abs(z_current) + 1e-10)
+
+        # 对整个记忆窗口应用相位归一化
+        X_norm = r.unsqueeze(1) * z
+
+        # 计算包络向量 A(k) = [|z(k)|, |z(k-1)|, ..., |z(k-M)|]
+        A = torch.abs(z)
+
+        return X_norm, r, A

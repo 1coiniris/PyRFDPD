@@ -19,15 +19,14 @@ class KFC_NN(nn.Module):
         self.M2 = M2
         self.K = K
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # self.threshold = threshold
+
         assert activation == "ReLU" or "Tanh" or "GELU" or "None"
         self.activation = activation
         self.DVR_layers = nn.Sequential()
         self.phase_layers = nn.Sequential()
-        # self.DDR_layers = nn.Sequential()
-        # layer_dims = [M+1,16,16,(M+1)*K]
+
         layer_dims_amp = [M2 + 1,(M + 1) * K]
-        layer_dims_phase = [2 * (M2 + 1),(M + 1),(M + 1),(M + 1) * K * 2]
+        layer_dims_phase = [2 * (M2 + 1),(M + 1),(M + 1) * K * 2]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims_amp[:-1], layer_dims_amp[1:])):
             self.DVR_layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
             if activation == "ReLU":
@@ -89,10 +88,10 @@ class KFC_NN(nn.Module):
         return y_pred
 
 
-    def model_train(self,x,y,model_path,logger=None,total_train = 1):
-        learning_rate = 0.001
-        epochs = 400
-        batch_size = 1024
+    def model_train(self,x,y,model_path,logger=None,total_train = 1,para = [0.001,150,512]):
+        learning_rate = para[0]
+        epochs = para[1]
+        batch_size = para[2]
         device = self.device
 
         # optim
@@ -258,10 +257,12 @@ class KFC_NN(nn.Module):
         M = self.M
         K = self.K
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # threshold
-        # threshold = torch.from_numpy(self.threshold)
-        # threshold_matrix = threshold.unsqueeze(1).t().expand(M + 1, -1)  # (M+1,K) K维度延拓 -1 表示保持K维度不变
-        # threshold_matrix = threshold_matrix.to(device) # x_windows已移动到设备
+
+        # 相位归一化
+        X_norm, r, A = self.phase_normalization(x_window)
+        X_norm_real = torch.view_as_real(X_norm).view(len(X_norm), -1)
+
+
         # x(n)
         xn = x_window[:,-1] #当前信号x(n) (16384,1)
         xn_amp = torch.abs(xn)  #当前信号|x(n)| (16384,1)
@@ -295,10 +296,11 @@ class KFC_NN(nn.Module):
         #     DVR_core = self.act(DVR_amp)
 
         # Phase net
-        Phase_out_real = self.phase_layers(X_tensor_real)
+        Phase_out_real = self.phase_layers(X_norm_real)
         Phase_out_real = Phase_out_real.view(-1, (M + 1) * K, 2)  # [batch, (M+1)*k, 2]
-        Phase_out = torch.view_as_complex(Phase_out_real)
-
+        Phase_out_norm = torch.view_as_complex(Phase_out_real)
+        Phase_out = torch.conj(r).view(len(r), -1) * Phase_out_norm
+        # a = torch.conj(r).view(len(r), -1)
         DVR_out_full = DVR_core * Phase_out
 
         # theta(n-i) DVR PHASE
@@ -410,6 +412,30 @@ class KFC_NN(nn.Module):
         # X = self.get_basis(x_window).cpu().detach().numpy()
         y = X @ coef
         return y
+
+    def phase_normalization(self, z):
+        """
+        相位归一化处理
+
+        参数:
+            z: 复数输入张量，形状为(batch_size, M+1)
+
+        返回:
+            X_norm: 归一化后的复数张量
+            r: 归一化因子
+            A: 包络张量
+        """
+        # 计算当前时刻的归一化因子 r(k) = z*(k)/|z(k)|
+        z_current = z[:, -1]  # 当前时刻样本
+        r = torch.conj(z_current) / (torch.abs(z_current) + 1e-10)
+
+        # 对整个记忆窗口应用相位归一化
+        X_norm = r.unsqueeze(1) * z
+
+        # 计算包络向量 A(k) = [|z(k)|, |z(k-1)|, ..., |z(k-M)|]
+        A = torch.abs(z)
+
+        return X_norm, r, A
 
     # 数据预处理函数
     def create_dataset(self,x, y, test_size=0.2):

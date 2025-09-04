@@ -560,7 +560,7 @@ class DVR_NN(nn.Module):
             # self.layers.add_module("dropout" + str(index), nn.Dropout(0.2))
         self.DVR_layers = self.DVR_layers[:-1]  # remove the last activation layer
         # self.amp_linear = nn.Linear(M+1, (M+1)*K).double()
-        self.DDR_linear = nn.Linear(1, (M+1)*K).double()
+        # self.DDR_linear = nn.Linear(1, (M+1)*K).double()
         # self.amp_act = nn.()
         self.linear = nn.Linear((K*(M+1)*6+M+1)*2, 2,bias=False).double()
         if self.activation != "ABS":
@@ -594,10 +594,10 @@ class DVR_NN(nn.Module):
         return y_pred
 
 
-    def model_train(self,x,y,model_path,logger=None,total_train = 1):
-        learning_rate = 0.001
-        epochs = 150
-        batch_size = 512
+    def model_train(self,x,y,model_path,logger=None,total_train = 1,para = [0.001,150,512]):
+        learning_rate = para[0]
+        epochs = para[1]
+        batch_size = para[2]
         device = self.device
 
         # optim
@@ -763,12 +763,12 @@ class DVR_NN(nn.Module):
         # DDR_amp_matrix = xn_amp_matrix - threshold_matrix #(16384,M+1,K)
         # ABS_DDR_amp = torch.abs(DDR_amp_matrix)     # (16384,M+1,K)
         # DDR_core = ABS_DDR_amp.view(len(ABS_DDR_amp), -1) # (16384,(M+1)*K)
-        DDR_amp = self.DDR_linear(xn_amp.unsqueeze(1)) # (16384,(M+1)*K)
-        # DDR_amp = self.DDR_layers(xn_amp.unsqueeze(1))
-        if self.activation == "ABS":
-            DDR_core = torch.abs(DDR_amp)  # (16384,(M+1)*K)
-        else:
-            DDR_core = self.act(DDR_amp)
+        # DDR_amp = self.DDR_linear(xn_amp.unsqueeze(1)) # (16384,(M+1)*K)
+        # # DDR_amp = self.DDR_layers(xn_amp.unsqueeze(1))
+        # if self.activation == "ABS":
+        #     DDR_core = torch.abs(DDR_amp)  # (16384,(M+1)*K)
+        # else:
+        #     DDR_core = self.act(DDR_amp)
 
         # DVR basis
         DVR_out_linear = X_tensor  # (16384,M+1)
@@ -776,8 +776,8 @@ class DVR_NN(nn.Module):
         DVR_out_21 = DVR_core * DVR_phase * DVR_xn_amp  # (16384,(M+1)*K)
         DVR_out_22 = DVR_core * DVR_xn
         DVR_out_23 = DVR_core * DVR_X
-        DVR_out_DDR_1 = DDR_core * DVR_X
-        DVR_out_DDR_2 = DDR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
+        DVR_out_DDR_1 = DVR_core * DVR_X
+        DVR_out_DDR_2 = DVR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
 
         DVR_out_full = torch.concatenate((DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
         return DVR_out_full

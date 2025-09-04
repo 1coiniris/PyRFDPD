@@ -73,7 +73,7 @@ class VSA:
             if name.lower() == "fsw":
                 # instr.write("*RST")
                 # instr.query("*OPC?")  # 等待操作完成
-
+                instr.write("SYST:DISP:UPD ON")
                 instr.write(
                     "INSTrument:CREate IQ, 'IQANALYZER'"
                 )  # new channel in IQ analysis mode
@@ -120,6 +120,10 @@ class VSA:
                 instr.write("INIT:CONT ON")  # select continue sweep mode
 
                 instr.write("INSTrument:SELect ''Spectrum''")
+                # 确保最终返回本地控制
+                instr.write("SYST:DISP:UPD ON")
+                instr.write("LOCal")  # 返回本地控制模式
+
                 # instr.write('MMEM:LOAD:STAT 1, "C:\R_S\Instr\user\QuickSave\QuickSave1"')
                 #
                 # %display
