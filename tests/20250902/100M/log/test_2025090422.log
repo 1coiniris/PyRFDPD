@@ -1,0 +1,429 @@
+2025-09-04 22:30:54,191 INFO: SMW signal transmission finished! 
+2025-09-04 22:31:00,767 INFO: SMW signal transmission finished! 
+2025-09-04 22:31:05,669 INFO: NMSE_WO_DPD: -16.868560289589844 dB 
+2025-09-04 22:31:05,671 INFO: ACPR1_L: -27.476 dBc, ACPR1_U: -27.832 dBc 
+2025-09-04 22:31:07,990 INFO: save ilc file to tests/20250902/100M/data/PA_inout_202509042231.mat 
+2025-09-04 22:31:07,990 INFO: ================ ILC ================== 
+2025-09-04 22:31:07,990 INFO: ILC Iteration: 1 
+2025-09-04 22:31:14,626 INFO: NMSE: -16.873 dB 
+2025-09-04 22:31:14,626 INFO: ACPR1_L: -27.472 dBc, ACPR1_U: -27.835 dBc 
+2025-09-04 22:31:14,626 INFO: ILC Iteration: 2 
+2025-09-04 22:31:21,252 INFO: NMSE: -18.723 dB 
+2025-09-04 22:31:21,257 INFO: ACPR1_L: -29.123 dBc, ACPR1_U: -29.666 dBc 
+2025-09-04 22:31:21,257 INFO: ILC Iteration: 3 
+2025-09-04 22:31:27,970 INFO: NMSE: -19.870 dB 
+2025-09-04 22:31:27,976 INFO: ACPR1_L: -30.627 dBc, ACPR1_U: -31.614 dBc 
+2025-09-04 22:31:27,978 INFO: ILC Iteration: 4 
+2025-09-04 22:31:34,694 INFO: NMSE: -21.765 dB 
+2025-09-04 22:31:34,694 INFO: ACPR1_L: -32.371 dBc, ACPR1_U: -33.470 dBc 
+2025-09-04 22:31:34,694 INFO: ILC Iteration: 5 
+2025-09-04 22:31:41,356 INFO: NMSE: -23.670 dB 
+2025-09-04 22:31:41,366 INFO: ACPR1_L: -34.057 dBc, ACPR1_U: -35.290 dBc 
+2025-09-04 22:31:41,366 INFO: ILC Iteration: 6 
+2025-09-04 22:31:48,028 INFO: NMSE: -25.520 dB 
+2025-09-04 22:31:48,037 INFO: ACPR1_L: -35.766 dBc, ACPR1_U: -37.032 dBc 
+2025-09-04 22:31:48,038 INFO: ILC Iteration: 7 
+2025-09-04 22:31:54,674 INFO: NMSE: -27.354 dB 
+2025-09-04 22:31:54,679 INFO: ACPR1_L: -37.402 dBc, ACPR1_U: -38.754 dBc 
+2025-09-04 22:31:54,679 INFO: ILC Iteration: 8 
+2025-09-04 22:32:01,310 INFO: NMSE: -29.199 dB 
+2025-09-04 22:32:01,315 INFO: ACPR1_L: -39.003 dBc, ACPR1_U: -40.397 dBc 
+2025-09-04 22:32:01,315 INFO: ILC Iteration: 9 
+2025-09-04 22:32:07,929 INFO: NMSE: -31.061 dB 
+2025-09-04 22:32:07,936 INFO: ACPR1_L: -40.558 dBc, ACPR1_U: -41.959 dBc 
+2025-09-04 22:32:07,938 INFO: ILC Iteration: 10 
+2025-09-04 22:32:14,578 INFO: NMSE: -32.782 dB 
+2025-09-04 22:32:14,578 INFO: ACPR1_L: -42.054 dBc, ACPR1_U: -43.517 dBc 
+2025-09-04 22:32:14,578 INFO: ILC Iteration: 11 
+2025-09-04 22:32:21,199 INFO: NMSE: -34.567 dB 
+2025-09-04 22:32:21,204 INFO: ACPR1_L: -43.485 dBc, ACPR1_U: -44.889 dBc 
+2025-09-04 22:32:21,208 INFO: ILC Iteration: 12 
+2025-09-04 22:32:27,829 INFO: NMSE: -36.366 dB 
+2025-09-04 22:32:27,829 INFO: ACPR1_L: -44.798 dBc, ACPR1_U: -46.200 dBc 
+2025-09-04 22:32:27,840 INFO: ILC Iteration: 13 
+2025-09-04 22:32:34,538 INFO: NMSE: -37.896 dB 
+2025-09-04 22:32:34,538 INFO: ACPR1_L: -45.969 dBc, ACPR1_U: -47.255 dBc 
+2025-09-04 22:32:34,538 INFO: ILC Iteration: 14 
+2025-09-04 22:32:41,180 INFO: NMSE: -39.626 dB 
+2025-09-04 22:32:41,184 INFO: ACPR1_L: -46.936 dBc, ACPR1_U: -48.157 dBc 
+2025-09-04 22:32:41,184 INFO: ILC Iteration: 15 
+2025-09-04 22:32:47,826 INFO: NMSE: -40.972 dB 
+2025-09-04 22:32:47,838 INFO: ACPR1_L: -47.757 dBc, ACPR1_U: -48.760 dBc 
+2025-09-04 22:32:47,838 INFO: ILC Iteration: 16 
+2025-09-04 22:32:54,491 INFO: NMSE: -42.435 dB 
+2025-09-04 22:32:54,491 INFO: ACPR1_L: -48.508 dBc, ACPR1_U: -49.357 dBc 
+2025-09-04 22:32:54,491 INFO: ILC Iteration: 17 
+2025-09-04 22:33:01,137 INFO: NMSE: -43.621 dB 
+2025-09-04 22:33:01,143 INFO: ACPR1_L: -49.005 dBc, ACPR1_U: -49.862 dBc 
+2025-09-04 22:33:01,143 INFO: ILC Iteration: 18 
+2025-09-04 22:33:07,765 INFO: NMSE: -44.634 dB 
+2025-09-04 22:33:07,770 INFO: ACPR1_L: -49.397 dBc, ACPR1_U: -50.240 dBc 
+2025-09-04 22:33:07,770 INFO: ILC Iteration: 19 
+2025-09-04 22:33:14,385 INFO: NMSE: -45.477 dB 
+2025-09-04 22:33:14,390 INFO: ACPR1_L: -49.667 dBc, ACPR1_U: -50.351 dBc 
+2025-09-04 22:33:14,390 INFO: ILC Iteration: 20 
+2025-09-04 22:33:21,067 INFO: NMSE: -45.665 dB 
+2025-09-04 22:33:21,076 INFO: ACPR1_L: -49.887 dBc, ACPR1_U: -50.816 dBc 
+2025-09-04 22:33:21,077 INFO: ILC Iteration: 21 
+2025-09-04 22:33:27,704 INFO: NMSE: -45.994 dB 
+2025-09-04 22:33:27,710 INFO: ACPR1_L: -50.071 dBc, ACPR1_U: -50.747 dBc 
+2025-09-04 22:33:27,711 INFO: ILC Iteration: 22 
+2025-09-04 22:33:34,351 INFO: NMSE: -47.047 dB 
+2025-09-04 22:33:34,358 INFO: ACPR1_L: -50.211 dBc, ACPR1_U: -50.837 dBc 
+2025-09-04 22:33:34,360 INFO: ILC Iteration: 23 
+2025-09-04 22:33:41,003 INFO: NMSE: -46.959 dB 
+2025-09-04 22:33:41,003 INFO: ACPR1_L: -50.253 dBc, ACPR1_U: -51.014 dBc 
+2025-09-04 22:33:41,003 INFO: ILC Iteration: 24 
+2025-09-04 22:33:47,660 INFO: NMSE: -47.468 dB 
+2025-09-04 22:33:47,660 INFO: ACPR1_L: -50.335 dBc, ACPR1_U: -50.954 dBc 
+2025-09-04 22:33:47,660 INFO: ILC Iteration: 25 
+2025-09-04 22:33:54,274 INFO: NMSE: -47.347 dB 
+2025-09-04 22:33:54,284 INFO: ACPR1_L: -50.400 dBc, ACPR1_U: -51.038 dBc 
+2025-09-04 22:33:54,284 INFO: ILC Iteration: 26 
+2025-09-04 22:34:00,905 INFO: NMSE: -47.685 dB 
+2025-09-04 22:34:00,909 INFO: ACPR1_L: -50.412 dBc, ACPR1_U: -51.124 dBc 
+2025-09-04 22:34:00,909 INFO: ILC Iteration: 27 
+2025-09-04 22:34:07,534 INFO: NMSE: -47.793 dB 
+2025-09-04 22:34:07,543 INFO: ACPR1_L: -50.359 dBc, ACPR1_U: -51.050 dBc 
+2025-09-04 22:34:07,545 INFO: ILC Iteration: 28 
+2025-09-04 22:34:14,211 INFO: NMSE: -47.765 dB 
+2025-09-04 22:34:14,211 INFO: ACPR1_L: -50.471 dBc, ACPR1_U: -51.086 dBc 
+2025-09-04 22:34:14,221 INFO: ILC Iteration: 29 
+2025-09-04 22:34:20,851 INFO: NMSE: -47.140 dB 
+2025-09-04 22:34:20,854 INFO: ACPR1_L: -50.241 dBc, ACPR1_U: -50.745 dBc 
+2025-09-04 22:34:20,854 INFO: ILC Iteration: 30 
+2025-09-04 22:34:27,482 INFO: NMSE: -47.762 dB 
+2025-09-04 22:34:27,486 INFO: ACPR1_L: -50.444 dBc, ACPR1_U: -51.135 dBc 
+2025-09-04 22:34:27,523 INFO: save ilc file to tests/20250902/100M/data/ILCOUT_202509042234.mat 
+2025-09-04 22:34:27,523 INFO: signal without DPD 
+2025-09-04 22:34:27,523 INFO: NMSE: -16.869 dB 
+2025-09-04 22:34:27,533 INFO: ACPR1_L: -27.476 dBc, ACPR1_U: -27.832 dBc 
+2025-09-04 22:34:27,533 INFO: signal with ILC DPD: 
+2025-09-04 22:34:27,533 INFO: NMSE: -47.617 dB 
+2025-09-04 22:34:27,538 INFO: ACPR1_L: -50.368 dBc, ACPR1_U: -51.049 dBc 
+2025-09-04 22:34:29,795 INFO: ================ ILC Done ================ 
+2025-09-04 22:34:44,497 INFO: ----------------GMP_[17, 17, 17]_[11, 11, 11]_[11, 11]-------------------- 
+2025-09-04 22:36:35,851 INFO: COEF number: 4301  
+2025-09-04 22:36:36,512 INFO: SMW signal transmission finished! 
+2025-09-04 22:36:41,471 INFO: save mat_file to tests/20250902/100M/data/GMP_K[17, 17, 17]_L[11, 11, 11]_M[11, 11]_202509042236.mat 
+2025-09-04 22:36:41,471 INFO: signal without DPD 
+2025-09-04 22:36:41,479 INFO: NMSE: -16.802 dB 
+2025-09-04 22:36:41,489 INFO: ACPR1_L: -27.475 dBc, ACPR1_U: -27.910 dBc 
+2025-09-04 22:36:41,489 INFO: signal with GMP DPD: 
+2025-09-04 22:36:41,490 INFO: NMSE: -31.837 dB 
+2025-09-04 22:36:41,490 INFO: ACPR1_L: -44.087 dBc, ACPR1_U: -42.730 dBc 
+2025-09-04 22:36:43,644 INFO: ----------------GMP_[11, 7, 7]_[17, 17, 17]_[11, 11]-------------------- 
+2025-09-04 22:39:38,151 INFO: SMW signal transmission finished! 
+2025-09-04 22:39:44,727 INFO: SMW signal transmission finished! 
+2025-09-04 22:39:49,626 INFO: NMSE_WO_DPD: -16.858773669880325 dB 
+2025-09-04 22:39:49,636 INFO: ACPR1_L: -27.475 dBc, ACPR1_U: -27.842 dBc 
+2025-09-04 22:39:51,988 INFO: save ilc file to tests/20250902/100M/data/PA_inout_202509042239.mat 
+2025-09-04 22:39:56,592 INFO: ----------------GMP_[17, 17, 17]_[11, 11, 11]_[11, 11]-------------------- 
+2025-09-04 22:41:48,425 INFO: COEF number: 4301  
+2025-09-04 22:41:49,124 INFO: SMW signal transmission finished! 
+2025-09-04 22:41:54,127 INFO: save mat_file to tests/20250902/100M/data/GMP_K[17, 17, 17]_L[11, 11, 11]_M[11, 11]_202509042241.mat 
+2025-09-04 22:41:54,127 INFO: signal without DPD 
+2025-09-04 22:41:54,127 INFO: NMSE: -16.804 dB 
+2025-09-04 22:41:54,147 INFO: ACPR1_L: -27.475 dBc, ACPR1_U: -27.915 dBc 
+2025-09-04 22:41:54,147 INFO: signal with GMP DPD: 
+2025-09-04 22:41:54,147 INFO: NMSE: -33.507 dB 
+2025-09-04 22:41:54,147 INFO: ACPR1_L: -42.561 dBc, ACPR1_U: -40.946 dBc 
+2025-09-04 22:41:56,347 INFO: ----------------GMP_[11, 7, 7]_[17, 17, 17]_[11, 11]-------------------- 
+2025-09-04 22:42:41,366 INFO: ----------------GMP_[11, 7, 7]_[11, 7, 7]_[5, 5]-------------------- 
+2025-09-04 22:42:57,945 INFO: COEF number: 611  
+2025-09-04 22:42:58,265 INFO: SMW signal transmission finished! 
+2025-09-04 22:43:02,341 INFO: save mat_file to tests/20250902/100M/data/GMP_K[11, 7, 7]_L[11, 7, 7]_M[5, 5]_202509042243.mat 
+2025-09-04 22:43:12,182 INFO: signal without DPD 
+2025-09-04 22:43:12,182 INFO: NMSE: -16.804 dB 
+2025-09-04 22:43:12,182 INFO: ACPR1_L: -27.475 dBc, ACPR1_U: -27.915 dBc 
+2025-09-04 22:43:12,182 INFO: signal with GMP DPD: 
+2025-09-04 22:43:12,182 INFO: NMSE: -32.270 dB 
+2025-09-04 22:43:12,192 INFO: ACPR1_L: -41.730 dBc, ACPR1_U: -40.077 dBc 
+2025-09-04 22:43:54,622 INFO: ----------------GMP_[17, 11, 11]_[11, 7, 7]_[5, 5]-------------------- 
+2025-09-04 22:44:09,897 INFO: COEF number: 957  
+2025-09-04 22:44:10,218 INFO: SMW signal transmission finished! 
+2025-09-04 22:44:14,158 INFO: save mat_file to tests/20250902/100M/data/GMP_K[17, 11, 11]_L[11, 7, 7]_M[5, 5]_202509042244.mat 
+2025-09-04 22:44:17,854 INFO: signal without DPD 
+2025-09-04 22:44:17,854 INFO: NMSE: -16.804 dB 
+2025-09-04 22:44:17,854 INFO: ACPR1_L: -27.475 dBc, ACPR1_U: -27.915 dBc 
+2025-09-04 22:44:17,854 INFO: signal with GMP DPD: 
+2025-09-04 22:44:17,854 INFO: NMSE: -32.766 dB 
+2025-09-04 22:44:17,865 INFO: ACPR1_L: -42.437 dBc, ACPR1_U: -40.883 dBc 
+2025-09-04 22:45:41,140 INFO: SMW signal transmission finished! 
+2025-09-04 22:45:47,755 INFO: SMW signal transmission finished! 
+2025-09-04 22:45:52,677 INFO: NMSE_WO_DPD: -16.874554200089907 dB 
+2025-09-04 22:45:52,684 INFO: ACPR1_L: -27.484 dBc, ACPR1_U: -27.834 dBc 
+2025-09-04 22:45:55,022 INFO: save ilc file to tests/20250902/100M/data/PA_inout_202509042245.mat 
+2025-09-04 22:46:04,907 INFO: ----------------DVR_9_30_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]-------------------- 
+2025-09-04 22:47:36,542 INFO: SMW signal transmission finished! 
+2025-09-04 22:47:43,051 INFO: SMW signal transmission finished! 
+2025-09-04 22:47:47,928 INFO: NMSE_WO_DPD: -16.874406954127547 dB 
+2025-09-04 22:47:47,931 INFO: ACPR1_L: -27.484 dBc, ACPR1_U: -27.844 dBc 
+2025-09-04 22:47:50,254 INFO: save ilc file to tests/20250902/100M/data/PA_inout_202509042247.mat 
+2025-09-04 22:47:56,689 INFO: ----------------DVR_9_30_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]-------------------- 
+2025-09-04 22:49:03,920 INFO: SMW signal transmission finished! 
+2025-09-04 22:49:10,501 INFO: SMW signal transmission finished! 
+2025-09-04 22:49:15,396 INFO: NMSE_WO_DPD: -16.858213305047904 dB 
+2025-09-04 22:49:15,401 INFO: ACPR1_L: -27.481 dBc, ACPR1_U: -27.837 dBc 
+2025-09-04 22:49:17,711 INFO: save ilc file to tests/20250902/100M/data/PA_inout_202509042249.mat 
+2025-09-04 22:50:13,450 INFO: ----------------DVR_9_30_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]-------------------- 
+2025-09-04 22:50:38,586 INFO: COEF number: 1669  
+2025-09-04 22:50:39,077 INFO: SMW signal transmission finished! 
+2025-09-04 22:50:44,128 INFO: save mat_file to tests/20250902/100M/data/DVR_K9_M30_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202509042250.mat 
+2025-09-04 22:50:44,128 INFO: signal without DPD 
+2025-09-04 22:50:44,130 INFO: NMSE: -16.794 dB 
+2025-09-04 22:50:44,134 INFO: ACPR1_L: -27.481 dBc, ACPR1_U: -27.914 dBc 
+2025-09-04 22:50:44,134 INFO: signal with DVR DPD: 
+2025-09-04 22:50:44,134 INFO: NMSE: -41.425 dB 
+2025-09-04 22:50:44,138 INFO: ACPR1_L: -47.853 dBc, ACPR1_U: -46.538 dBc 
+2025-09-04 22:50:46,330 INFO: ----------------DVR_9_20_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]-------------------- 
+2025-09-04 22:50:59,398 INFO: COEF number: 1119  
+2025-09-04 22:50:59,832 INFO: SMW signal transmission finished! 
+2025-09-04 22:51:05,998 INFO: save mat_file to tests/20250902/100M/data/DVR_K9_M20_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202509042251.mat 
+2025-09-04 22:51:05,998 INFO: signal without DPD 
+2025-09-04 22:51:05,998 INFO: NMSE: -16.794 dB 
+2025-09-04 22:51:06,008 INFO: ACPR1_L: -27.481 dBc, ACPR1_U: -27.914 dBc 
+2025-09-04 22:51:06,008 INFO: signal with DVR DPD: 
+2025-09-04 22:51:06,008 INFO: NMSE: -41.745 dB 
+2025-09-04 22:51:06,014 INFO: ACPR1_L: -47.731 dBc, ACPR1_U: -46.414 dBc 
+2025-09-04 22:51:08,486 INFO: ----------------DVR_9_10_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]-------------------- 
+2025-09-04 22:51:13,427 INFO: COEF number: 569  
+2025-09-04 22:51:13,832 INFO: SMW signal transmission finished! 
+2025-09-04 22:51:19,150 INFO: save mat_file to tests/20250902/100M/data/DVR_K9_M10_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202509042251.mat 
+2025-09-04 22:51:19,150 INFO: signal without DPD 
+2025-09-04 22:51:19,150 INFO: NMSE: -16.794 dB 
+2025-09-04 22:51:19,150 INFO: ACPR1_L: -27.481 dBc, ACPR1_U: -27.914 dBc 
+2025-09-04 22:51:19,150 INFO: signal with DVR DPD: 
+2025-09-04 22:51:19,150 INFO: NMSE: -40.987 dB 
+2025-09-04 22:51:19,160 INFO: ACPR1_L: -47.377 dBc, ACPR1_U: -45.959 dBc 
+2025-09-04 22:51:21,212 INFO: ----------------DVR_9_5_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]-------------------- 
+2025-09-04 22:51:23,397 INFO: COEF number: 294  
+2025-09-04 22:51:23,810 INFO: SMW signal transmission finished! 
+2025-09-04 22:51:28,968 INFO: save mat_file to tests/20250902/100M/data/DVR_K9_M5_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202509042251.mat 
+2025-09-04 22:51:28,968 INFO: signal without DPD 
+2025-09-04 22:51:28,968 INFO: NMSE: -16.794 dB 
+2025-09-04 22:51:28,972 INFO: ACPR1_L: -27.481 dBc, ACPR1_U: -27.914 dBc 
+2025-09-04 22:51:28,972 INFO: signal with DVR DPD: 
+2025-09-04 22:51:28,974 INFO: NMSE: -37.944 dB 
+2025-09-04 22:51:28,977 INFO: ACPR1_L: -46.236 dBc, ACPR1_U: -45.174 dBc 
+2025-09-04 22:51:31,203 INFO: ----------------DVR_7_30_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]-------------------- 
+2025-09-04 22:51:47,152 INFO: COEF number: 1305  
+2025-09-04 22:51:47,744 INFO: SMW signal transmission finished! 
+2025-09-04 22:51:52,836 INFO: save mat_file to tests/20250902/100M/data/DVR_K7_M30_thres[0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8]_202509042251.mat 
+2025-09-04 22:51:52,836 INFO: signal without DPD 
+2025-09-04 22:51:52,844 INFO: NMSE: -16.794 dB 
+2025-09-04 22:51:52,848 INFO: ACPR1_L: -27.481 dBc, ACPR1_U: -27.914 dBc 
+2025-09-04 22:51:52,848 INFO: signal with DVR DPD: 
+2025-09-04 22:51:52,848 INFO: NMSE: -41.539 dB 
+2025-09-04 22:51:52,848 INFO: ACPR1_L: -47.853 dBc, ACPR1_U: -46.493 dBc 
+2025-09-04 22:51:55,248 INFO: ----------------DVR_7_20_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]-------------------- 
+2025-09-04 22:52:22,862 INFO: ----------------VDTDNN_Tanh_10_3_16_16-------------------- 
+2025-09-04 22:52:43,522 INFO: ------signal BW100.0M fs1000.0MHz------ 
+2025-09-04 22:52:43,634 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:52:43,634 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-09-04 22:52:43,634 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:52:43,634 INFO: | amp_layers.linear 0.weight                         | torch.Size([16, 33]) | 528        | 
+2025-09-04 22:52:43,634 INFO: | amp_layers.linear 0.bias                           | torch.Size([16])     | 16         | 
+2025-09-04 22:52:43,634 INFO: | amp_layers.linear 1.weight                         | torch.Size([16, 16]) | 256        | 
+2025-09-04 22:52:43,634 INFO: | amp_layers.linear 1.bias                           | torch.Size([16])     | 16         | 
+2025-09-04 22:52:43,634 INFO: | amp_layers.linear 2.weight                         | torch.Size([11, 16]) | 176        | 
+2025-09-04 22:52:43,634 INFO: | amp_layers.linear 2.bias                           | torch.Size([11])     | 11         | 
+2025-09-04 22:52:43,634 INFO: | linear.weight                                      | torch.Size([2, 22])  | 44         | 
+2025-09-04 22:52:43,634 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:52:43,634 INFO: The total number of parameters: 1047 
+2025-09-04 22:52:43,634 INFO: The parameters of Model VDTDNN: 0.001047M 
+2025-09-04 22:52:43,634 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:52:45,498 INFO: ------------------------Train Stage------------------------------- 
+2025-09-04 22:52:46,688 INFO: Epoch 01 | Train Loss: 0.0665520 | Val Loss: 0.0640883 | save:1 
+2025-09-04 22:52:47,213 INFO: Epoch 02 | Train Loss: 0.0660446 | Val Loss: 0.0640513 | save:1 
+2025-09-04 22:52:47,836 INFO: Epoch 03 | Train Loss: 0.0660296 | Val Loss: 0.0640412 | save:1 
+2025-09-04 22:52:48,381 INFO: Epoch 04 | Train Loss: 0.0660241 | Val Loss: 0.0640361 | save:1 
+2025-09-04 22:52:48,903 INFO: Epoch 05 | Train Loss: 0.0660206 | Val Loss: 0.0640331 | save:1 
+2025-09-04 22:52:49,439 INFO: Epoch 06 | Train Loss: 0.0660178 | Val Loss: 0.0640310 | save:1 
+2025-09-04 22:52:50,080 INFO: Epoch 07 | Train Loss: 0.0660155 | Val Loss: 0.0640296 | save:1 
+2025-09-04 22:52:50,604 INFO: Epoch 08 | Train Loss: 0.0660134 | Val Loss: 0.0640286 | save:1 
+2025-09-04 22:52:51,139 INFO: Epoch 09 | Train Loss: 0.0660116 | Val Loss: 0.0640280 | save:1 
+2025-09-04 22:52:51,681 INFO: Epoch 10 | Train Loss: 0.0660099 | Val Loss: 0.0640275 | save:1 
+2025-09-04 22:52:52,206 INFO: Epoch 11 | Train Loss: 0.0660085 | Val Loss: 0.0640272 | save:1 
+2025-09-04 22:52:52,824 INFO: Epoch 12 | Train Loss: 0.0660072 | Val Loss: 0.0640271 | save:1 
+2025-09-04 22:52:53,351 INFO: Epoch 13 | Train Loss: 0.0660061 | Val Loss: 0.0640270 | save:1 
+2025-09-04 22:52:53,877 INFO: Epoch 14 | Train Loss: 0.0660051 | Val Loss: 0.0640271 | save:0 
+2025-09-04 22:52:54,487 INFO: Epoch 15 | Train Loss: 0.0660043 | Val Loss: 0.0640272 | save:0 
+2025-09-04 22:52:55,005 INFO: Epoch 16 | Train Loss: 0.0660036 | Val Loss: 0.0640274 | save:0 
+2025-09-04 22:52:55,531 INFO: Epoch 17 | Train Loss: 0.0660030 | Val Loss: 0.0640277 | save:0 
+2025-09-04 22:52:56,148 INFO: Epoch 18 | Train Loss: 0.0660025 | Val Loss: 0.0640279 | save:0 
+2025-09-04 22:52:56,675 INFO: Epoch 19 | Train Loss: 0.0660020 | Val Loss: 0.0640281 | save:0 
+2025-09-04 22:52:57,194 INFO: Epoch 20 | Train Loss: 0.0660016 | Val Loss: 0.0640282 | save:0 
+2025-09-04 22:52:57,762 INFO: Epoch 21 | Train Loss: 0.0660013 | Val Loss: 0.0640283 | save:0 
+2025-09-04 22:52:58,236 INFO: Epoch 22 | Train Loss: 0.0660010 | Val Loss: 0.0640283 | save:0 
+2025-09-04 22:52:58,695 INFO: Epoch 23 | Train Loss: 0.0660007 | Val Loss: 0.0640283 | save:0 
+2025-09-04 22:52:59,246 INFO: Epoch 24 | Train Loss: 0.0660005 | Val Loss: 0.0640283 | save:0 
+2025-09-04 22:52:59,709 INFO: Epoch 25 | Train Loss: 0.0660002 | Val Loss: 0.0640282 | save:0 
+2025-09-04 22:53:00,182 INFO: Epoch 26 | Train Loss: 0.0660000 | Val Loss: 0.0640280 | save:0 
+2025-09-04 22:53:00,748 INFO: Epoch 27 | Train Loss: 0.0659999 | Val Loss: 0.0640278 | save:0 
+2025-09-04 22:53:01,211 INFO: Epoch 28 | Train Loss: 0.0659997 | Val Loss: 0.0640277 | save:0 
+2025-09-04 22:53:01,671 INFO: Epoch 29 | Train Loss: 0.0659995 | Val Loss: 0.0640275 | save:0 
+2025-09-04 22:53:02,224 INFO: Epoch 30 | Train Loss: 0.0659994 | Val Loss: 0.0640273 | save:0 
+2025-09-04 22:53:02,682 INFO: Epoch 31 | Train Loss: 0.0659992 | Val Loss: 0.0640271 | save:0 
+2025-09-04 22:53:03,149 INFO: Epoch 32 | Train Loss: 0.0659991 | Val Loss: 0.0640268 | save:1 
+2025-09-04 22:53:03,611 INFO: Epoch 33 | Train Loss: 0.0659990 | Val Loss: 0.0640266 | save:1 
+2025-09-04 22:53:04,077 INFO: Epoch 34 | Train Loss: 0.0659988 | Val Loss: 0.0640264 | save:1 
+2025-09-04 22:53:04,624 INFO: Epoch 35 | Train Loss: 0.0659987 | Val Loss: 0.0640263 | save:1 
+2025-09-04 22:53:05,094 INFO: Epoch 36 | Train Loss: 0.0659986 | Val Loss: 0.0640261 | save:1 
+2025-09-04 22:53:05,563 INFO: Epoch 37 | Train Loss: 0.0659985 | Val Loss: 0.0640259 | save:1 
+2025-09-04 22:53:06,026 INFO: Epoch 38 | Train Loss: 0.0659983 | Val Loss: 0.0640257 | save:1 
+2025-09-04 22:53:06,582 INFO: Epoch 39 | Train Loss: 0.0659982 | Val Loss: 0.0640256 | save:1 
+2025-09-04 22:53:07,045 INFO: Epoch 40 | Train Loss: 0.0659981 | Val Loss: 0.0640254 | save:1 
+2025-09-04 22:53:07,511 INFO: Epoch 41 | Train Loss: 0.0659980 | Val Loss: 0.0640253 | save:1 
+2025-09-04 22:53:07,990 INFO: Epoch 42 | Train Loss: 0.0659979 | Val Loss: 0.0640253 | save:1 
+2025-09-04 22:53:08,539 INFO: Epoch 43 | Train Loss: 0.0659978 | Val Loss: 0.0640253 | save:1 
+2025-09-04 22:53:09,008 INFO: Epoch 44 | Train Loss: 0.0659977 | Val Loss: 0.0640253 | save:0 
+2025-09-04 22:53:09,471 INFO: Epoch 45 | Train Loss: 0.0659976 | Val Loss: 0.0640253 | save:0 
+2025-09-04 22:53:09,942 INFO: Epoch 46 | Train Loss: 0.0659975 | Val Loss: 0.0640254 | save:0 
+2025-09-04 22:53:10,410 INFO: Epoch 47 | Train Loss: 0.0659974 | Val Loss: 0.0640254 | save:0 
+2025-09-04 22:53:10,875 INFO: Epoch 48 | Train Loss: 0.0659973 | Val Loss: 0.0640254 | save:0 
+2025-09-04 22:53:11,421 INFO: Epoch 49 | Train Loss: 0.0659972 | Val Loss: 0.0640253 | save:0 
+2025-09-04 22:53:11,894 INFO: Epoch 50 | Train Loss: 0.0659971 | Val Loss: 0.0640253 | save:0 
+2025-09-04 22:53:12,358 INFO: Epoch 51 | Train Loss: 0.0659970 | Val Loss: 0.0640252 | save:1 
+2025-09-04 22:53:12,834 INFO: Epoch 52 | Train Loss: 0.0659969 | Val Loss: 0.0640252 | save:1 
+2025-09-04 22:53:13,379 INFO: Epoch 53 | Train Loss: 0.0659969 | Val Loss: 0.0640251 | save:1 
+2025-09-04 22:53:13,853 INFO: Epoch 54 | Train Loss: 0.0659968 | Val Loss: 0.0640250 | save:1 
+2025-09-04 22:53:14,313 INFO: Epoch 55 | Train Loss: 0.0659968 | Val Loss: 0.0640250 | save:1 
+2025-09-04 22:53:14,784 INFO: Epoch 56 | Train Loss: 0.0659967 | Val Loss: 0.0640249 | save:1 
+2025-09-04 22:53:15,332 INFO: Epoch 57 | Train Loss: 0.0659967 | Val Loss: 0.0640249 | save:1 
+2025-09-04 22:53:15,795 INFO: Epoch 58 | Train Loss: 0.0659966 | Val Loss: 0.0640248 | save:1 
+2025-09-04 22:53:16,257 INFO: Epoch 59 | Train Loss: 0.0659966 | Val Loss: 0.0640248 | save:1 
+2025-09-04 22:53:16,728 INFO: Epoch 60 | Train Loss: 0.0659965 | Val Loss: 0.0640247 | save:1 
+2025-09-04 22:53:17,278 INFO: Epoch 61 | Train Loss: 0.0659965 | Val Loss: 0.0640247 | save:1 
+2025-09-04 22:53:17,740 INFO: Epoch 62 | Train Loss: 0.0659964 | Val Loss: 0.0640247 | save:1 
+2025-09-04 22:53:18,204 INFO: Epoch 63 | Train Loss: 0.0659964 | Val Loss: 0.0640246 | save:1 
+2025-09-04 22:53:18,665 INFO: Epoch 64 | Train Loss: 0.0659964 | Val Loss: 0.0640246 | save:1 
+2025-09-04 22:53:19,220 INFO: Epoch 65 | Train Loss: 0.0659963 | Val Loss: 0.0640246 | save:1 
+2025-09-04 22:53:19,693 INFO: Epoch 66 | Train Loss: 0.0659963 | Val Loss: 0.0640245 | save:1 
+2025-09-04 22:53:20,167 INFO: Epoch 67 | Train Loss: 0.0659963 | Val Loss: 0.0640245 | save:1 
+2025-09-04 22:53:20,722 INFO: Epoch 68 | Train Loss: 0.0659962 | Val Loss: 0.0640245 | save:1 
+2025-09-04 22:53:21,202 INFO: Epoch 69 | Train Loss: 0.0659962 | Val Loss: 0.0640244 | save:1 
+2025-09-04 22:53:21,685 INFO: Epoch 70 | Train Loss: 0.0659962 | Val Loss: 0.0640244 | save:0 
+2025-09-04 22:53:22,167 INFO: Epoch 71 | Train Loss: 0.0659961 | Val Loss: 0.0640247 | save:0 
+2025-09-04 22:53:22,644 INFO: Epoch 72 | Train Loss: 0.0659963 | Val Loss: 0.0640229 | save:1 
+2025-09-04 22:53:23,204 INFO: Epoch 73 | Train Loss: 0.0659961 | Val Loss: 0.0640239 | save:0 
+2025-09-04 22:53:23,676 INFO: Epoch 74 | Train Loss: 0.0659959 | Val Loss: 0.0640252 | save:0 
+2025-09-04 22:53:24,138 INFO: Epoch 75 | Train Loss: 0.0659960 | Val Loss: 0.0640231 | save:0 
+2025-09-04 22:53:24,714 INFO: Epoch 76 | Train Loss: 0.0659958 | Val Loss: 0.0640236 | save:0 
+2025-09-04 22:53:25,179 INFO: Epoch 77 | Train Loss: 0.0659958 | Val Loss: 0.0640249 | save:0 
+2025-09-04 22:53:25,657 INFO: Epoch 78 | Train Loss: 0.0659958 | Val Loss: 0.0640234 | save:0 
+2025-09-04 22:53:26,210 INFO: Epoch 79 | Train Loss: 0.0659958 | Val Loss: 0.0640237 | save:0 
+2025-09-04 22:53:26,668 INFO: Epoch 80 | Train Loss: 0.0659958 | Val Loss: 0.0640242 | save:0 
+2025-09-04 22:53:27,135 INFO: Epoch 81 | Train Loss: 0.0659958 | Val Loss: 0.0640232 | save:0 
+2025-09-04 22:53:27,722 INFO: Epoch 82 | Train Loss: 0.0659957 | Val Loss: 0.0640236 | save:0 
+2025-09-04 22:53:28,242 INFO: Epoch 83 | Train Loss: 0.0659957 | Val Loss: 0.0640240 | save:0 
+2025-09-04 22:53:28,788 INFO: Epoch 84 | Train Loss: 0.0659958 | Val Loss: 0.0640226 | save:1 
+2025-09-04 22:53:29,315 INFO: Epoch 85 | Train Loss: 0.0659957 | Val Loss: 0.0640232 | save:0 
+2025-09-04 22:53:29,927 INFO: Epoch 86 | Train Loss: 0.0659957 | Val Loss: 0.0640234 | save:0 
+2025-09-04 22:53:30,468 INFO: Epoch 87 | Train Loss: 0.0659958 | Val Loss: 0.0640228 | save:0 
+2025-09-04 22:53:30,980 INFO: Epoch 88 | Train Loss: 0.0659957 | Val Loss: 0.0640227 | save:0 
+2025-09-04 22:53:31,508 INFO: Epoch 89 | Train Loss: 0.0659956 | Val Loss: 0.0640223 | save:1 
+2025-09-04 22:53:32,047 INFO: Epoch 90 | Train Loss: 0.0659956 | Val Loss: 0.0640231 | save:0 
+2025-09-04 22:53:32,676 INFO: Epoch 91 | Train Loss: 0.0659956 | Val Loss: 0.0640227 | save:0 
+2025-09-04 22:53:33,213 INFO: Epoch 92 | Train Loss: 0.0659956 | Val Loss: 0.0640221 | save:1 
+2025-09-04 22:53:33,745 INFO: Epoch 93 | Train Loss: 0.0659956 | Val Loss: 0.0640223 | save:0 
+2025-09-04 22:53:34,270 INFO: Epoch 94 | Train Loss: 0.0659956 | Val Loss: 0.0640224 | save:0 
+2025-09-04 22:53:34,889 INFO: Epoch 95 | Train Loss: 0.0659956 | Val Loss: 0.0640219 | save:1 
+2025-09-04 22:53:35,415 INFO: Epoch 96 | Train Loss: 0.0659956 | Val Loss: 0.0640220 | save:0 
+2025-09-04 22:53:35,924 INFO: Epoch 97 | Train Loss: 0.0659955 | Val Loss: 0.0640218 | save:1 
+2025-09-04 22:53:36,459 INFO: Epoch 98 | Train Loss: 0.0659956 | Val Loss: 0.0640221 | save:0 
+2025-09-04 22:53:37,091 INFO: Epoch 99 | Train Loss: 0.0659955 | Val Loss: 0.0640219 | save:0 
+2025-09-04 22:53:37,627 INFO: Epoch 100 | Train Loss: 0.0659955 | Val Loss: 0.0640212 | save:1 
+2025-09-04 22:53:38,152 INFO: Epoch 101 | Train Loss: 0.0659955 | Val Loss: 0.0640217 | save:0 
+2025-09-04 22:53:38,683 INFO: Epoch 102 | Train Loss: 0.0659955 | Val Loss: 0.0640219 | save:0 
+2025-09-04 22:53:39,287 INFO: Epoch 103 | Train Loss: 0.0659954 | Val Loss: 0.0640211 | save:1 
+2025-09-04 22:53:39,828 INFO: Epoch 104 | Train Loss: 0.0659954 | Val Loss: 0.0640214 | save:0 
+2025-09-04 22:53:40,365 INFO: Epoch 105 | Train Loss: 0.0659954 | Val Loss: 0.0640217 | save:0 
+2025-09-04 22:53:40,917 INFO: Epoch 106 | Train Loss: 0.0659955 | Val Loss: 0.0640210 | save:1 
+2025-09-04 22:53:41,442 INFO: Epoch 107 | Train Loss: 0.0659955 | Val Loss: 0.0640213 | save:0 
+2025-09-04 22:53:42,078 INFO: Epoch 108 | Train Loss: 0.0659955 | Val Loss: 0.0640211 | save:0 
+2025-09-04 22:53:42,601 INFO: Epoch 109 | Train Loss: 0.0659955 | Val Loss: 0.0640213 | save:0 
+2025-09-04 22:53:43,104 INFO: Epoch 110 | Train Loss: 0.0659954 | Val Loss: 0.0640209 | save:1 
+2025-09-04 22:53:43,640 INFO: Epoch 111 | Train Loss: 0.0659953 | Val Loss: 0.0640208 | save:1 
+2025-09-04 22:53:44,166 INFO: Epoch 112 | Train Loss: 0.0659954 | Val Loss: 0.0640211 | save:0 
+2025-09-04 22:53:44,789 INFO: Epoch 113 | Train Loss: 0.0659954 | Val Loss: 0.0640208 | save:0 
+2025-09-04 22:53:45,310 INFO: Epoch 114 | Train Loss: 0.0659953 | Val Loss: 0.0640202 | save:1 
+2025-09-04 22:53:45,832 INFO: Epoch 115 | Train Loss: 0.0659953 | Val Loss: 0.0640211 | save:0 
+2025-09-04 22:53:46,464 INFO: Epoch 116 | Train Loss: 0.0659955 | Val Loss: 0.0640207 | save:0 
+2025-09-04 22:53:46,994 INFO: Epoch 117 | Train Loss: 0.0659954 | Val Loss: 0.0640203 | save:0 
+2025-09-04 22:53:47,508 INFO: Epoch 118 | Train Loss: 0.0659953 | Val Loss: 0.0640207 | save:0 
+2025-09-04 22:53:48,111 INFO: Epoch 119 | Train Loss: 0.0659953 | Val Loss: 0.0640209 | save:0 
+2025-09-04 22:53:48,641 INFO: Epoch 120 | Train Loss: 0.0659955 | Val Loss: 0.0640199 | save:1 
+2025-09-04 22:53:49,161 INFO: Epoch 121 | Train Loss: 0.0659954 | Val Loss: 0.0640206 | save:0 
+2025-09-04 22:53:49,689 INFO: Epoch 122 | Train Loss: 0.0659954 | Val Loss: 0.0640202 | save:0 
+2025-09-04 22:53:50,301 INFO: Epoch 123 | Train Loss: 0.0659954 | Val Loss: 0.0640202 | save:0 
+2025-09-04 22:53:50,818 INFO: Epoch 124 | Train Loss: 0.0659952 | Val Loss: 0.0640207 | save:0 
+2025-09-04 22:53:51,331 INFO: Epoch 125 | Train Loss: 0.0659953 | Val Loss: 0.0640200 | save:0 
+2025-09-04 22:53:51,848 INFO: Epoch 126 | Train Loss: 0.0659953 | Val Loss: 0.0640203 | save:0 
+2025-09-04 22:53:52,359 INFO: Epoch 127 | Train Loss: 0.0659953 | Val Loss: 0.0640199 | save:0 
+2025-09-04 22:53:52,880 INFO: Epoch 128 | Train Loss: 0.0659953 | Val Loss: 0.0640207 | save:0 
+2025-09-04 22:53:53,485 INFO: Epoch 129 | Train Loss: 0.0659955 | Val Loss: 0.0640197 | save:1 
+2025-09-04 22:53:54,007 INFO: Epoch 130 | Train Loss: 0.0659953 | Val Loss: 0.0640199 | save:0 
+2025-09-04 22:53:54,522 INFO: Epoch 131 | Train Loss: 0.0659952 | Val Loss: 0.0640201 | save:0 
+2025-09-04 22:53:55,141 INFO: Epoch 132 | Train Loss: 0.0659952 | Val Loss: 0.0640197 | save:0 
+2025-09-04 22:53:55,658 INFO: Epoch 133 | Train Loss: 0.0659951 | Val Loss: 0.0640201 | save:0 
+2025-09-04 22:53:56,186 INFO: Epoch 134 | Train Loss: 0.0659952 | Val Loss: 0.0640195 | save:1 
+2025-09-04 22:53:56,715 INFO: Epoch 135 | Train Loss: 0.0659951 | Val Loss: 0.0640199 | save:0 
+2025-09-04 22:53:57,240 INFO: Epoch 136 | Train Loss: 0.0659952 | Val Loss: 0.0640198 | save:0 
+2025-09-04 22:53:57,726 INFO: Epoch 137 | Train Loss: 0.0659951 | Val Loss: 0.0640198 | save:0 
+2025-09-04 22:53:58,285 INFO: Epoch 138 | Train Loss: 0.0659953 | Val Loss: 0.0640195 | save:0 
+2025-09-04 22:53:58,773 INFO: Epoch 139 | Train Loss: 0.0659952 | Val Loss: 0.0640195 | save:0 
+2025-09-04 22:53:59,251 INFO: Epoch 140 | Train Loss: 0.0659952 | Val Loss: 0.0640196 | save:0 
+2025-09-04 22:53:59,819 INFO: Epoch 141 | Train Loss: 0.0659952 | Val Loss: 0.0640196 | save:0 
+2025-09-04 22:54:00,303 INFO: Epoch 142 | Train Loss: 0.0659952 | Val Loss: 0.0640198 | save:0 
+2025-09-04 22:54:00,778 INFO: Epoch 143 | Train Loss: 0.0659952 | Val Loss: 0.0640195 | save:1 
+2025-09-04 22:54:01,259 INFO: Epoch 144 | Train Loss: 0.0659952 | Val Loss: 0.0640196 | save:0 
+2025-09-04 22:54:01,826 INFO: Epoch 145 | Train Loss: 0.0659952 | Val Loss: 0.0640192 | save:1 
+2025-09-04 22:54:02,310 INFO: Epoch 146 | Train Loss: 0.0659952 | Val Loss: 0.0640192 | save:0 
+2025-09-04 22:54:02,777 INFO: Epoch 147 | Train Loss: 0.0659952 | Val Loss: 0.0640195 | save:0 
+2025-09-04 22:54:03,261 INFO: Epoch 148 | Train Loss: 0.0659953 | Val Loss: 0.0640190 | save:1 
+2025-09-04 22:54:03,820 INFO: Epoch 149 | Train Loss: 0.0659951 | Val Loss: 0.0640197 | save:0 
+2025-09-04 22:54:04,303 INFO: Epoch 150 | Train Loss: 0.0659952 | Val Loss: 0.0640193 | save:0 
+2025-09-04 22:54:04,312 INFO: model save: tests/20250902/100M/model/VDTDNN_M10_K3_Layer_[33, 16, 16, 11]_Tanh_202509042252.pt  
+2025-09-04 22:54:04,312 INFO: model train time: 78.814589 s 
+2025-09-04 22:54:04,380 INFO: -------------------load model: tests/20250902/100M/model/VDTDNN_M10_K3_Layer_[33, 16, 16, 11]_Tanh_202509042252.pt--------------------- 
+2025-09-04 22:54:04,406 INFO: model prediction time: 0.026736 s 
+2025-09-04 22:54:04,760 INFO: SMW signal transmission finished! 
+2025-09-04 22:54:08,694 INFO: save mat_file to tests/20250902/100M/data/VDTDNN_K3_M10_Layer_[33, 16, 16, 11]_202509042254.mat 
+2025-09-04 22:54:27,280 INFO: signal without DPD 
+2025-09-04 22:54:27,280 INFO: NMSE: -16.794 dB 
+2025-09-04 22:54:27,280 INFO: ACPR1_L: -27.481 dBc, ACPR1_U: -27.914 dBc 
+2025-09-04 22:54:27,280 INFO: signal with VDTDNN DPD: 
+2025-09-04 22:54:27,280 INFO: NMSE: -2.104 dB 
+2025-09-04 22:54:27,290 INFO: ACPR1_L: -24.556 dBc, ACPR1_U: -23.631 dBc 
+2025-09-04 22:55:03,856 INFO: ----------------RVTDNN_Tanh_10_3_16_16-------------------- 
+2025-09-04 22:55:16,632 INFO: ------signal BW100.0M fs1000.0MHz------ 
+2025-09-04 22:55:16,632 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:55:16,632 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-09-04 22:55:16,632 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:55:16,632 INFO: | layers.linear 0.weight                             | torch.Size([16, 55]) | 880        | 
+2025-09-04 22:55:16,632 INFO: | layers.linear 0.bias                               | torch.Size([16])     | 16         | 
+2025-09-04 22:55:16,632 INFO: | layers.linear 1.weight                             | torch.Size([16, 16]) | 256        | 
+2025-09-04 22:55:16,632 INFO: | layers.linear 1.bias                               | torch.Size([16])     | 16         | 
+2025-09-04 22:55:16,632 INFO: | layers.linear 2.weight                             | torch.Size([2, 16])  | 32         | 
+2025-09-04 22:55:16,632 INFO: | layers.linear 2.bias                               | torch.Size([2])      | 2          | 
+2025-09-04 22:55:16,632 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:55:16,632 INFO: The total number of parameters: 1202 
+2025-09-04 22:55:16,632 INFO: The parameters of Model RVTDNN: 0.001202M 
+2025-09-04 22:55:16,632 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:55:16,674 INFO: ------------------------Train Stage------------------------------- 
+2025-09-04 22:56:11,942 INFO: ------signal BW100.0M fs1000.0MHz------ 
+2025-09-04 22:56:11,942 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:56:11,942 INFO: |                    weight name                              |          weight shape          |     number     | 
+2025-09-04 22:56:11,942 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:56:11,942 INFO: | layers.linear 0.weight                             | torch.Size([16, 55]) | 880        | 
+2025-09-04 22:56:11,942 INFO: | layers.linear 0.bias                               | torch.Size([16])     | 16         | 
+2025-09-04 22:56:11,942 INFO: | layers.linear 1.weight                             | torch.Size([16, 16]) | 256        | 
+2025-09-04 22:56:11,942 INFO: | layers.linear 1.bias                               | torch.Size([16])     | 16         | 
+2025-09-04 22:56:11,942 INFO: | layers.linear 2.weight                             | torch.Size([2, 16])  | 32         | 
+2025-09-04 22:56:11,942 INFO: | layers.linear 2.bias                               | torch.Size([2])      | 2          | 
+2025-09-04 22:56:11,942 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:56:11,942 INFO: The total number of parameters: 1202 
+2025-09-04 22:56:11,942 INFO: The parameters of Model RVTDNN: 0.001202M 
+2025-09-04 22:56:11,942 INFO: ------------------------------------------------------------------------------------------------------------------------ 
+2025-09-04 22:56:11,982 INFO: ------------------------Train Stage------------------------------- 

@@ -134,7 +134,7 @@ class DVR():
         self.threshold = threshold
         self.K = len(self.threshold)
 
-    def DVR_e(self,x, y):
+    def DVR_e(self,x, y,alpha=1e-5):
         M = self.M
         # 设置起始索引（跳过前M+10个样本）
         start = M + 1 + 10
@@ -150,10 +150,10 @@ class DVR():
 
         # 正则化最小二乘求解
         I = np.eye(X1.shape[1])
-        coef = pinv(X1.conj().T @ X1 + 1e-5 * I) @ X1.conj().T @ y1 #np.linalg.inv
+        coef = pinv(X1.conj().T @ X1 + alpha * I) @ X1.conj().T @ y1 #np.linalg.inv
         y_model = self.DVR_v(x1, coef)
-        NMSE = cal.nmse(y1, y_model)
-        # print(f'NMSE-with-model = {NMSE:.6f} dB')
+        NMSE = cal.nmse(y1.squeeze(), y_model)
+        print(f'NMSE-with-model = {NMSE:.6f} dB')
         return coef
 
 

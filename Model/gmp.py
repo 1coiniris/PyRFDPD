@@ -26,7 +26,7 @@ class GMP:
         self.coef = None
 
 
-    def model_e(self,x_target: np.ndarray, y_target: np.ndarray, ratio: float=1)->np.ndarray:
+    def model_e(self,x_target: np.ndarray, y_target: np.ndarray, alpha=5e-2,ratio: float=1)->np.ndarray:
         """
         This is the coefficient extraction file based on GMP DPD
         designed by Qianyun Lu, Oct 12, 2019, qianyun.lu@seu.edu.cn
@@ -83,11 +83,11 @@ class GMP:
 
         X = self.get_basis(x_target)
         XH = np.conjugate(X.T)
-        coef = np.linalg.inv(XH.dot(X) + 1e-5*np.eye(X.shape[1])).dot(XH).dot(y_target)
+        coef = np.linalg.inv(XH.dot(X) + alpha*np.eye(X.shape[1])).dot(XH).dot(y_target)
 
         y_model = self.model_v(x_target, coef)
         NMSE = cal.nmse(y_target, y_model)
-        # print(f'NMSE-with-model = {NMSE:.6f} dB')
+        print(f'NMSE-with-model = {NMSE:.6f} dB')
         return coef
 
     def model_v(self,x_target: np.ndarray, coef)->np.ndarray:

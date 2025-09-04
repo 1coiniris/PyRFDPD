@@ -38,13 +38,15 @@ class RVTDNN(nn.Module):
         x_window: 当前窗口的记忆输入 [batch, (M+1)]
         """
         X = x_window
-        for i in range(2,self.K+1):
-            X_k = x_window.pow(i)
-            X = torch.concat((X,X_k), dim=1)
         x_real = X.real
         x_imag = X.imag
+        X_abs = torch.abs(x_window)
+        for i in range(2,self.K+1):
+            X_k = torch.abs(x_window).pow(i)
+            X_abs = torch.concat((X_abs,X_k), dim=1)
+
         # x_real = x_real.view(len(x_real), -1)
-        x = torch.cat((x_real, x_imag), dim=1)
+        x = torch.cat((x_real, x_imag, X_abs), dim=1)
         y_pred = self.layers(x)
 
         return y_pred
@@ -129,7 +131,7 @@ class RVTDNN(nn.Module):
                 best_model = self.state_dict()
             # print(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
             logger.info(
-                f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
+                f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.7f} | Val Loss: {val_loss / len(val_loader):.7f} | save:{save}')
             if save == 0:
                 nosave_count = nosave_count + 1
             else:
