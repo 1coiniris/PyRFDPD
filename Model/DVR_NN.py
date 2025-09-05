@@ -529,7 +529,7 @@ class ADVR_NN(nn.Module):
         return AMP_Core
 
 class DVR_NN(nn.Module):
-    def __init__(self, K, M, activation="ReLU"):
+    def __init__(self, layer_dims,K, M, activation="ReLU"):
         super().__init__()
         # self.total_train = 1
         self.M = M
@@ -540,7 +540,7 @@ class DVR_NN(nn.Module):
         self.activation = activation
         self.DVR_layers = nn.Sequential()
         # self.DDR_layers = nn.Sequential()
-        layer_dims = [M+1,(M+1),(M+1),(M+1)*K]
+        # layer_dims = [M+1,(M+1),(M+1),(M+1)*K]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
             # self.layers.add_module(
             #     f"res_{index}",
@@ -559,9 +559,6 @@ class DVR_NN(nn.Module):
                 # self.DDR_layers.add_module("actFunc " + str(index), nn.GELU())
             # self.layers.add_module("dropout" + str(index), nn.Dropout(0.2))
         self.DVR_layers = self.DVR_layers[:-1]  # remove the last activation layer
-        # self.amp_linear = nn.Linear(M+1, (M+1)*K).double()
-        # self.DDR_linear = nn.Linear(1, (M+1)*K).double()
-        # self.amp_act = nn.()
         self.linear = nn.Linear((K*(M+1)*6+M+1)*2, 2,bias=False).double()
         if self.activation != "ABS":
             if self.activation == "ReLU":
@@ -782,7 +779,7 @@ class DVR_NN(nn.Module):
         DVR_out_full = torch.concatenate((DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
         return DVR_out_full
 
-    def DVR_NN_e(self,x,y):
+    def DVR_NN_e(self,x,y,alpha = 1e-2):
         M = self.M
         # threshold = self.threshold
         K = self.K
@@ -791,7 +788,7 @@ class DVR_NN(nn.Module):
         x_window = torch.from_numpy(sequences).to(device)
         X = self.get_basis(x_window).cpu().detach().numpy()
         XH = np.conjugate(X.T)
-        coef = np.linalg.pinv(XH.dot(X) + 0.01 * np.eye(X.shape[1])).dot(XH).dot(y)
+        coef = np.linalg.pinv(XH.dot(X) + alpha * np.eye(X.shape[1])).dot(XH).dot(y)
 
         y_model = X.dot(coef)
         NMSE = cal.nmse(y, y_model)

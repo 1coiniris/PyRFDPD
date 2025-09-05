@@ -13,7 +13,7 @@ import Model.volterra_nn as volterra_nn
 
 
 class Orth_Basis_DVR_NN(nn.Module):
-    def __init__(self, K, M, activation="ReLU"):
+    def __init__(self, layer_dims,K, M, activation="ReLU"):
         super().__init__()
         # self.total_train = 1
         self.name = 'DVR_NN'
@@ -25,7 +25,7 @@ class Orth_Basis_DVR_NN(nn.Module):
         assert activation == "ReLU" or "Tanh" or "GELU" or "None"
         self.activation = activation
         self.DVR_layers = nn.Sequential()
-        layer_dims = [M + 1, (M + 1) * K]
+        # layer_dims = [M + 1, M+1 ,(M + 1) * K]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
             # self.layers.add_module(
             #     f"res_{index}",

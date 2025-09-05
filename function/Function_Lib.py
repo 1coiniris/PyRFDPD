@@ -73,14 +73,16 @@ def get_data(signal,rate=0.6,state=3):
             xorg = data['uBB']
             # ILCOut = data['x']
             yorg = data['xBB']
-        elif signal == 'ILC':
-            fs = 1.2288e9
-            BW = 200e6
-            data_file = 'data/ILC_[0  1  1  1  0]_G1_forpython.mat'
-            data = loadmat(data_file)
-            xorg = data['x']
+        elif signal == 'ILC_100M':
+            fs = 1e9
+            BW = 100e6
+            data_file = './tests/20250902/100M/data/ILCOUT_202509042234.mat '
+            ilc_out = loadmat(data_file)
+            #
+            ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+            xorg = ilc_out['u_k'].T.squeeze()
             # ILCOut = data['x']
-            yorg = data['y_ILC']
+            yorg = ilc_out['u_ideal'].T.squeeze()
 
         N = len(xorg)
         last_train = int(N * rate - 1)

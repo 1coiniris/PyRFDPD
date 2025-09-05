@@ -31,14 +31,14 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 
 
-plot_swich = 0
+plot_swich = 1
 NMSE_state_list = []
 ########################## 信号描述 ################################
-signal = '400M' #'LMBA200M'
+# signal = '400M' #'LMBA200M'
 # signal = 'LMBA200M'
 # signal = '100M'
 # signal = 'ILC_120M'
-# signal = 'ILC'
+signal = 'ILC_100M'
 # signal = 'YU'
 count = 0
 for state in range(1):
@@ -49,19 +49,46 @@ for state in range(1):
 
     # 模型设置
     test_map = [
-        'DVRNN_Tanh_5_30',
-        'DVRNN_Tanh_5_25',
-        'DVRNN_Tanh_5_20',
-        'DVRNN_Tanh_5_15',
-        'DVRNN_Tanh_5_10',
-        'DVRNN_Tanh_3_30',
-        'DVRNN_Tanh_3_25',
-        'DVRNN_Tanh_3_20',
-        'DVRNN_Tanh_3_15',
-        'DVRNN_Tanh_2_30',
-        'DVRNN_Tanh_2_25',
-        'DVRNN_Tanh_2_20',
-        'DVRNN_Tanh_2_15',
+        # 'RVTDNN_Tanh_30_5_32_32',
+        # 'RVTDNN_Tanh_30_5_16_16',
+        # 'RVTDNN_Tanh_20_5_32_32',
+        # 'RVTDNN_Tanh_20_5_16_16',
+        #
+        # 'RVTDNN_Tanh_30_5_32_32_32',
+        # 'RVTDNN_Tanh_30_5_16_16_16',
+        # 'RVTDNN_Tanh_20_5_32_32_32',
+        # 'RVTDNN_Tanh_20_5_16_16_16',
+        #
+        # 'VDTDNN_Tanh_30_5_32_32_32',
+        # 'VDTDNN_Tanh_30_5_16_16_16',
+        # 'VDTDNN_Tanh_20_5_32_32_32',
+        # 'VDTDNN_Tanh_20_5_16_16_16',
+        #
+        # 'VDTDNN_Tanh_30_5_32_32',
+        # 'VDTDNN_Tanh_30_5_16_16',
+        # 'VDTDNN_Tanh_20_5_32_32',
+        # 'VDTDNN_Tanh_20_5_16_16',
+
+        # 'DVRNN_ReLU_9_30_20_20',
+        # 'DVRNN_ReLU_9_30_10_20',
+        # 'DVRNN_ReLU_9_30_10_10',
+        # 'DVRNN_ReLU_9_30_10',
+        # 'DVRNN_ReLU_7_30_10',
+        # 'DVRNN_ReLU_5_30_10',
+        #
+        # 'DVRNN_Tanh_9_30_10',
+        # 'DVRNN_Tanh_7_30_10',
+        # 'DVRNN_Tanh_5_30_10',
+        # 'KFCNN_Tanh_9_40_30',
+        # 'KFCNN_Tanh_9_30_30',
+        # 'KFCNN_Tanh_9_20_30',
+        # 'KFCNN_Tanh_9_10_30',
+        # 'KFCNN_Tanh_9_5_30',
+        # 'KFCNN_Tanh_7_40_30',
+        # 'KFCNN_Tanh_7_30_30',
+        # 'KFCNN_Tanh_7_20_30',
+        # 'KFCNN_Tanh_7_10_30',
+        # 'KFCNN_Tanh_7_5_30',
         # 'KFCNN_Tanh_3_10_30',
         # 'KFCNN_Tanh_3_5_30',
         # 'KFCNN_Tanh_5_20_20',
@@ -80,8 +107,34 @@ for state in range(1):
         # 'KFCNN_Tanh_1_5_30',
         # 'KFCNN_Tanh_1_5_20',
         # 'KFCNN_Tanh_1_5_10',
-        # 'VDTDNN_Tanh_10_3_16_16',
-        # 'RVTDNN_Tanh_10_3_16_16',
+        'OBDVRNN_ReLU_4_10_20_20',
+        'OBDVRNN_ReLU_4_20_20_20',
+        'OBDVRNN_ReLU_4_30_20_20',
+
+
+
+        # 'OBDVRNN_ReLU_9_30_20_20',
+        # 'OBDVRNN_ReLU_9_20_20_20',
+        # 'OBDVRNN_ReLU_9_10_20_20',
+        # 'OBDVRNN_ReLU_9_5_20_20',
+        # 'OBDVRNN_ReLU_7_30_20_20',
+        # 'OBDVRNN_ReLU_7_20_20_20',
+        # 'OBDVRNN_ReLU_7_10_20_20',
+        # 'OBDVRNN_ReLU_7_5_20_20',
+        #
+        # # 'OBDVRNN_Tanh_9_30_20_20',
+        # 'OBDVRNN_Tanh_9_20_20_20',
+        # 'OBDVRNN_Tanh_9_10_20_20',
+        # # 'OBDVRNN_Tanh_9_5_20_20',
+        # # 'OBDVRNN_Tanh_7_30_20_20',
+        # 'OBDVRNN_Tanh_7_20_20_20',
+        # 'OBDVRNN_Tanh_7_10_20_20',
+        # 'OBDVRNN_Tanh_7_5_20_20',
+
+        'DVRNN_Tanh_5_30_10',
+        'DVRNN_Tanh_7_30_10',
+        'DVRNN_Tanh_9_30_10'
+
     ]
 
     total_train = 1
@@ -163,10 +216,19 @@ for state in range(1):
 
         if Model[0] == 'OBDVRNN':
             # 参数设置
-            model = ['Tanh',3,20,21]
-            activation = model[0]
-            K = model[1]  # 分段数，可修改
-            M = model[2]
+            activation = Model[1]
+            K = ast.literal_eval(Model[2])
+            M = ast.literal_eval(Model[3])
+
+            layer_dims = []
+
+            input_size = M+1  # 输入维度
+            output_size = (M+1)*K  # 输出维度
+            layer_dims.append(input_size)
+            for size_str in Model[4:]:
+                size = ast.literal_eval(size_str)
+                layer_dims.append(size)
+            layer_dims.append(output_size)
 
             model_path = f"results/20250519/save/{Model}_M{M}_K{K}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
 
@@ -176,13 +238,13 @@ for state in range(1):
             logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
             logger.info(f'------------------------{Model}_M{M}_K{K}_{activation}-------------------------------')
             # 初始化模型
-            model = ORTH_NN.Orth_Basis_DVR_NN( K=K, M=M, activation=activation).to(device)
+            model = ORTH_NN.Orth_Basis_DVR_NN(layer_dims, K=K, M=M, activation=activation).to(device)
             fun.model_structure(model, logger)
 
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
-                model.model_train(x_train,y_train,model_path, logger,1)
+                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,150,4096])
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 start_time = time.time()  # 记录开始时间
@@ -228,12 +290,22 @@ for state in range(1):
             K = ast.literal_eval(Model[2])
             M = ast.literal_eval(Model[3])
 
-            model_path = f"results/20250519/save/{Model[0]}_M{M}_K{K}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
+            layer_dims = []
+
+            input_size = M+1  # 输入维度
+            output_size = (M+1)*K  # 输出维度
+            layer_dims.append(input_size)
+            for size_str in Model[4:]:
+                size = ast.literal_eval(size_str)
+                layer_dims.append(size)
+            layer_dims.append(output_size)
+
+            model_path = f"results/20250519/save/{Model[0]}_M{M}_K{K}_layer_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
             trained_model = 'tests/20250826/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt'  # LMBA
             logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
 
             # 初始化模型
-            model = DVR_NN.DVR_NN( K=K, M=M, activation=activation).to(device)
+            model = DVR_NN.DVR_NN(layer_dims, K=K, M=M, activation=activation).to(device)
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
@@ -279,7 +351,7 @@ for state in range(1):
             # trained_model = 'results/20250519/save/OB_DVR_NN_M30_K1_Tanh_202507262149.pt' #很好
             trained_model = 'results/20250519/save/VDTDNN_M15_Tanh_202507292246.pt'  # 400M
             logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
-            logger.info(f'------------------------{Model[0]}_M{M}_K{K}_{activation}-------------------------------')
+            logger.info(f'------------------------{Model[0]}_M{M}_K{K}_layer{layer_dims}_{activation}-------------------------------')
             # 初始化模型
             model = VDTDNN.VDTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
             fun.model_structure(model, logger)
@@ -311,7 +383,7 @@ for state in range(1):
             K = ast.literal_eval(Model[3])
             layer_dims = []
 
-            input_size = 2 * K * (M + 1)  # 输入维度
+            input_size = 2 * (M + 1) + K * (M + 1)  # 输入维度
             output_size = 2  # 输出维度
             layer_dims.append(input_size)
             for size_str in Model[4:]:
@@ -323,14 +395,14 @@ for state in range(1):
 
             trained_model = 'results/20250519/save/VDTDNN_M15_Tanh_202507292246.pt'  # 400M
             logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
-            logger.info(f'------------------------{Model[0]}_M{M}_{activation}-------------------------------')
+            logger.info(f'------------------------{Model[0]}_M{M}_K{K}_layer{layer_dims}_{activation}-------------------------------')
             # 初始化模型
             model = RVTDNN.RVTDNN(layer_dims, M=M, K=K,activation=activation).double().to(device)
             fun.model_structure(model, logger)
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
-                model.model_train(x_train, y_train, model_path, logger)
+                model.model_train(x_train, y_train, model_path, logger,para = [0.001,350,512])
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 start_time = time.time()  # 记录开始时间

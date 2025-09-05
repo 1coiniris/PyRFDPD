@@ -52,7 +52,8 @@ signal = '100M'
 # signal = '20M'
 # signal = '40M'
 
-x_train, x, fs, BW = fun.get_waveform(signal,rate=0.6)
+xorg, x_2, fs, BW = fun.get_waveform(signal,rate=0.9)
+
 
 params = {
     'pow': -9,  # output power in dB
@@ -69,16 +70,22 @@ params = {
 
 PA_board = Single_Band_PA.SingleBandPA(params)
 
-y_train = PA_board.transmit(x_train,logger)
+yorg = PA_board.transmit(xorg,logger)
 
-y = PA_board.transmit(x,logger)
+# y = PA_board.transmit(x,logger)
 
-NMSE_woDPD = cal.nmse(x_train,y_train)
+NMSE_woDPD = cal.nmse(xorg,yorg)
 logger.info(f'NMSE_WO_DPD: {NMSE_woDPD} dB')
-ACP = cal.acpr(y_train,fs,BW,BW*0.98,logger)
+ACP = cal.acpr(yorg,fs,BW,BW*0.98,logger)
 
 if plot_swich:
-    fun.PA_figure(x_train, y_train, fs, figure_path)
+    fun.PA_figure(xorg, yorg, fs, figure_path)
+
+N = len(xorg)
+x_train = xorg[0:int(N * 0.6 - 1)]
+y_train = yorg[0:int(N * 0.6 - 1)]
+x = xorg[int(N * 0.6):]
+y = yorg[int(N * 0.6):]
 
 
 savemat(f"{mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat", {'x_train':x_train,'y_train':y_train,'x':x,'y':y,})
@@ -86,8 +93,8 @@ logger.info(f"save ilc file to {mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}
 
 
 ilc_in = {
-    'y_d': x_train,
-    'u_k': x_train,
+    'y_d': xorg,
+    'u_k': xorg,
     'fs': fs,
     'BW': BW,
     'nIterations': 30,
@@ -95,21 +102,21 @@ ilc_in = {
     'eta': 0.2
 }
 
-# ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)
-#
-# mat_filename = f"{mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat"
-# savemat(mat_filename, ilc_out)
-# logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
-#
-#
-# NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(x_train, y_train, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
-# logger.info(f"================ ILC Done ================")
+ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)
 
-data_file = './tests/20250902/100M/data/ILCOUT_202509042234.mat '
-ilc_out = loadmat(data_file)
-#
-ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+mat_filename = f"{mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat"
+savemat(mat_filename, ilc_out)
+logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
 
+
+NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(x_train, y_train, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
+logger.info(f"================ ILC Done ================")
+
+# data_file = './tests/20250902/100M/data/ILCOUT_202509042234.mat '
+# ilc_out = loadmat(data_file)
+# #
+# ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+ilc_out_train = ilc_out['u_ideal'][0:int(N * 0.6 - 1)]
 
 # 模型设置
 test_map = [
@@ -171,7 +178,7 @@ for test_state in test_map:
         M = ast.literal_eval(Model[3])  # [int(num) for num in re.findall(r'\d+', Model[3])]
         model = gmp.GMP(K,L,M)
         # coef = GMP.GMP_e(x_train,ilc_out['u_ideal'])
-        model.coef = model.model_e(x_train,ilc_out['u_ideal'],alpha=1e-3)
+        model.coef = model.model_e(x_train,ilc_out_train,alpha=1e-3)
         pa_input = model.model_v(x, model.coef)
         logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
@@ -185,7 +192,7 @@ for test_state in test_map:
         threshold = ast.literal_eval(Model[3])
 
         model = DVR.DVR(M=M, threshold=threshold)
-        model.coef = model.DVR_e(x_train, ilc_out['u_ideal'],alpha=1e-5)
+        model.coef = model.DVR_e(x_train, ilc_out_train,alpha=1e-5)
         pa_input = model.DVR_v(x, model.coef)
         logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
@@ -207,13 +214,13 @@ for test_state in test_map:
         model = KFCNN.KFC_NN(K=K, M=M, M2=M2, activation=activation).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out['u_ideal'], model_path, logger, 1,para=[0.001,250,256])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,250,256])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
         # 提取参数
         x_coef = x_train[:]
-        y_coef = ilc_out['u_ideal'][:]
+        y_coef = ilc_out_train[:]
         x_coef_tensor = torch.from_numpy(x_coef).to(device)
         y_coef_tensor = torch.from_numpy(y_coef).to(device)
         sequences = fun.create_memory_seq(x_coef, M2)  # [N, M+1]
@@ -231,6 +238,54 @@ for test_state in test_map:
         savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
         logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_M2_{M2}_{time.strftime('%Y%m%d%H%M')}.mat")
 
+    if Model[0] == 'OBDVRNN':
+        # 参数设置
+        activation = Model[1]
+        K = ast.literal_eval(Model[2])
+        M = ast.literal_eval(Model[3])
+
+        layer_dims = []
+
+        input_size = M + 1  # 输入维度
+        output_size = (M + 1) * K  # 输出维度
+        layer_dims.append(input_size)
+        for size_str in Model[4:]:
+            size = ast.literal_eval(size_str)
+            layer_dims.append(size)
+        layer_dims.append(output_size)
+
+        model_path = f"{filepath}/model/{Model[0]}_M{M}_K{K}_layer{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
+        trained_model = 'tests/20250826/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt'  # LMBA
+        logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
+        # 初始化模型
+        model = ORTH_NN.Orth_Basis_DVR_NN(layer_dims, K=K, M=M, activation=activation).to(device)
+        fun.model_structure(model, logger)
+
+        # model.load_state_dict(torch.load(trained_model))
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,100,512])
+        model.load_state_dict(torch.load(model_path))
+        logger.info(f"-------------------load model: {model_path}---------------------")
+        start_time = time.time()  # 记录开始时间
+        # 提取参数
+        x_coef = x_train[:]
+        y_coef = ilc_out_train[:]
+        x_coef_tensor = torch.from_numpy(x_coef).to(device)
+        y_coef_tensor = torch.from_numpy(y_coef).to(device)
+        sequences = fun.create_memory_seq(x_coef, M)  # [N, M+1]
+        x_coef_window = torch.from_numpy(sequences).to(device)
+        y_sequences = fun.create_memory_seq(y_coef, M)  # [N, M+1]
+        y_coef_window = torch.from_numpy(y_sequences).to(device)
+        coef = model.model_e(x_train,ilc_out_train,pri=1,alpha=1e-2)
+        pa_input = model.model_v(x, coef)
+        end_time = time.time()  # 记录结束时间
+        elapsed_time = end_time - start_time
+        logger.info(f"model prediction time: {elapsed_time:.6f} s")
+        logger.info(f'COEF number: {len(coef)} ')
+
+        pa_output = PA_board.transmit(pa_input, logger)
+        savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat")
+
     if Model[0] == 'DVRNN':
         # 参数设置
         activation = Model[1]
@@ -245,7 +300,7 @@ for test_state in test_map:
         fun.model_structure(model, logger)
 
         # model.load_state_dict(torch.load(trained_model))
-        model.model_train(x_train, ilc_out['u_ideal'], model_path, logger, 1,para=[0.001,400,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,400,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -258,7 +313,7 @@ for test_state in test_map:
         # x_coef_window = torch.from_numpy(sequences).to(device)
         # y_sequences = MCP_NN.create_memory_seq(y_coef, M)  # [N, M+1]
         # y_coef_window = torch.from_numpy(y_sequences).to(device)
-        coef = model.DVR_NN_e(x_train,ilc_out['u_ideal'])
+        coef = model.DVR_NN_e(x_train,ilc_out_train)
         pa_input = model.DVR_NN_v(x, coef)
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
@@ -292,7 +347,7 @@ for test_state in test_map:
         model = VDTDNN.VDTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out['u_ideal'], model_path, logger, 1,para=[0.001,150,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,150,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -327,7 +382,7 @@ for test_state in test_map:
         model = RVTDNN.RVTDNN(layer_dims, M=M, K=K, activation=activation).double().to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out['u_ideal'], model_path, logger,para=[0.001,150,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger,para=[0.001,150,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
