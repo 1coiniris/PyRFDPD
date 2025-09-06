@@ -14,10 +14,12 @@ from pyrfdpd.utils import plot
 import Model.volterra_nn as MCP_NN
 import Model.Mixed_NN as MIX_NN
 import Model.DVR as DVR
+import Model.gmp as gmp
 import Model.DVR_NN as DVR_NN
 import Model.Orth_NN as ORTH_NN
 import Model.VDTDNN as VDTDNN
 import Model.RVTDNN as RVTDNN
+import Model.PNRVTDNN as PNRVTDNN
 import Model.KFC_NN as KFCNN
 import argparse
 import time
@@ -49,6 +51,9 @@ for state in range(1):
 
     # 模型设置
     test_map = [
+        # 'PNRVTDNN_Tanh_30_5_32_32',
+        # 'RVTDNN_Tanh_30_5_32_32',
+        # 'VDTDNN_Tanh_30_5_32_32',
         # 'RVTDNN_Tanh_30_5_32_32',
         # 'RVTDNN_Tanh_30_5_16_16',
         # 'RVTDNN_Tanh_20_5_32_32',
@@ -107,9 +112,18 @@ for state in range(1):
         # 'KFCNN_Tanh_1_5_30',
         # 'KFCNN_Tanh_1_5_20',
         # 'KFCNN_Tanh_1_5_10',
-        'OBDVRNN_ReLU_4_10_20_20',
-        'OBDVRNN_ReLU_4_20_20_20',
-        'OBDVRNN_ReLU_4_30_20_20',
+        # 'OBDVRNN_ReLU_4_10_20_20',
+        # 'OBDVRNN_Tanh_4_10_20_20',
+        # 'OBDVRNN_ReLU_4_20_20_20',
+        # 'OBDVRNN_Tanh_4_20_20_20',
+        # 'OBDVRNN_ReLU_4_20_20',
+        # 'OBDVRNN_Tanh_4_20_20',
+
+        'DVRNN_ReLU_4_20_20',
+        'DVRNN_Tanh_4_20_20',
+        'OBDVRNN_ReLU_4_20',
+        'OBDVRNN_Tanh_4_20',
+        # 'OBDVRNN_ReLU_4_30_20_20',
 
 
 
@@ -123,17 +137,17 @@ for state in range(1):
         # 'OBDVRNN_ReLU_7_5_20_20',
         #
         # # 'OBDVRNN_Tanh_9_30_20_20',
-        # 'OBDVRNN_Tanh_9_20_20_20',
-        # 'OBDVRNN_Tanh_9_10_20_20',
+
+
         # # 'OBDVRNN_Tanh_9_5_20_20',
         # # 'OBDVRNN_Tanh_7_30_20_20',
         # 'OBDVRNN_Tanh_7_20_20_20',
         # 'OBDVRNN_Tanh_7_10_20_20',
         # 'OBDVRNN_Tanh_7_5_20_20',
 
-        'DVRNN_Tanh_5_30_10',
-        'DVRNN_Tanh_7_30_10',
-        'DVRNN_Tanh_9_30_10'
+        # 'DVRNN_Tanh_5_30_10',
+        # 'DVRNN_Tanh_7_30_10',
+        # 'DVRNN_Tanh_9_30_10'
 
     ]
 
@@ -146,12 +160,51 @@ for state in range(1):
     for test_state in test_map:
         count = count + 1
         Model = test_state.split('_')
-        filename = f"{Model[0]}_{time.strftime('%Y%m%d%H')}"
+        filename = f"Modeling_{time.strftime('%Y%m%d%H')}"
         if count ==1:
             parser = argparse.ArgumentParser(description='configTemplates')
             parser.add_argument('-log_path', default='./results/20250525/log/', type=str, help='log file path to save result')
             args = parser.parse_args()
             logger = fun.create_logger(args.log_path, filename)
+
+        if Model[0] == 'DVR':  # DVR [K,M]
+            # 参数设置
+            M = ast.literal_eval(Model[2])
+            threshold = ast.literal_eval(Model[3])
+            K = len(threshold)
+
+            filename = f"DVR_K{K}_M{M}_threshold{threshold}_{time.strftime('%Y%m%d%H%M')}"
+            logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
+
+            # print(f'------------------------{Model}_M{M}_{layer_dims}_{activation}-------------------------------')
+            logger.info(f'------------------------{Model[0]}_M{M}_K{K}-------------------------------')
+            # 初始化模型
+            dvr = DVR.DVR(M=M, threshold=threshold)
+            coef = dvr.DVR_e(x_train, y_train, alpha=1e-3)
+            y_pred = dvr.DVR_v(x_train, coef)
+            logger.info(f'{Model[0]} train NMSE:')
+            NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
+            y_pred = dvr.DVR_v(x, coef)
+            logger.info(f'{Model[0]} coef num {len(coef)}')
+
+        if Model[0] == 'GMP':
+            K = ast.literal_eval(Model[1])  # [int(num) for num in re.findall(r'\d+', Model[1])]
+            L = ast.literal_eval(Model[2])  # [int(num) for num in re.findall(r'\d+', Model[2])]
+            M = ast.literal_eval(Model[3])  # [int(num) for num in re.findall(r'\d+', Model[3])]
+            GMP = gmp.GMP(K, L, M)
+            filename = f"GMP_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}"
+            logger.info(f'----------------{Model[0]}_K{K}_L{L}_M{M}--------------------')
+            start_time = time.time()  # 记录开始时间
+            coef = GMP.model_e(x_train, y_train)
+            end_time = time.time()  # 记录结束时间
+            elapsed_time = end_time - start_time
+            # logger.info(f"model train time: {elapsed_time:.6f} s")
+            y_pred = GMP.model_v(x_train, coef)
+            logger.info(f'{Model[0]} train NMSE:')
+            NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
+            logger.info(f'{Model[0]} coef num {len(coef)}')
+            y_pred = GMP.model_v(x, coef)
+
 
         if Model[0] == 'KFCNN':
             # 参数设置
@@ -244,7 +297,7 @@ for state in range(1):
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
-                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,150,4096])
+                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,250,4096])
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 start_time = time.time()  # 记录开始时间
@@ -331,6 +384,48 @@ for state in range(1):
                 x_window = torch.from_numpy(sequences).to(device)
                 X = model.get_basis(x_window)
 
+        if Model[0] == 'PNRVTDNN':
+            activation = Model[1]
+            M = ast.literal_eval(Model[2])
+            K = ast.literal_eval(Model[3])
+            layer_dims = []
+
+            input_size = 2 * (M + 1) + K * (M + 1)-1  # 输入维度
+            output_size = 2  # 输出维度
+            layer_dims.append(input_size)
+            for size_str in Model[4:]:
+                size = ast.literal_eval(size_str)
+                layer_dims.append(size)
+            layer_dims.append(output_size)
+            model_path = f"results/20250519/save/{Model[0]}_M{M}_K{K}_Layer_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
+
+            trained_model = 'results/20250519/save/VDTDNN_M15_Tanh_202507292246.pt'  # 400M
+            logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
+            logger.info(f'------------------------{Model[0]}_M{M}_K{K}_layer{layer_dims}_{activation}-------------------------------')
+            # 初始化模型
+            model = PNRVTDNN.PNRVTDNN(layer_dims, M=M, K=K, activation=activation).double().to(device)
+            fun.model_structure(model, logger)
+
+            if total_train == 1:
+                # model.load_state_dict(torch.load(trained_model))
+                model.model_train(x_train, y_train, model_path, logger, [0.001,350,512])
+                model.load_state_dict(torch.load(model_path))
+                logger.info(f"-------------------load model: {model_path}---------------------")
+                start_time = time.time()  # 记录开始时间
+                y_pred = model.apply_dpd(x)#, model.coef)
+                end_time = time.time()  # 记录结束时间
+                elapsed_time = end_time - start_time
+                logger.info(f"model prediction time: {elapsed_time:.6f} s")
+            else:
+                # N_train = min(50000, len(x_train))
+                model.load_state_dict(torch.load(trained_model))
+                logger.info(f"-------------------load model: {model_path}---------------------")
+                start_time = time.time()  # 记录开始时间
+                y_pred = model.apply_dpd(x)#, model.coef)
+                end_time = time.time()  # 记录结束时间
+                elapsed_time = end_time - start_time
+                logger.info(f"model prediction time: {elapsed_time:.6f} s")
+
         if Model[0] == 'VDTDNN':
             activation = Model[1]
             M = ast.literal_eval(Model[2])
@@ -402,7 +497,7 @@ for state in range(1):
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
-                model.model_train(x_train, y_train, model_path, logger,para = [0.001,350,512])
+                model.model_train(x_train, y_train, model_path, logger,para = [0.001,450,512])
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 start_time = time.time()  # 记录开始时间

@@ -13,6 +13,7 @@ import Model.DVR_NN as DVR_NN
 import Model.VDTDNN as VDTDNN
 import Model.RVTDNN as RVTDNN
 import Model.KFC_NN as KFCNN
+import Model.PNRVTDNN as PNRVTDNN
 import argparse
 import time
 from function import align
@@ -323,6 +324,44 @@ for test_state in test_map:
         pa_output = PA_board.transmit(pa_input, logger)
         savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
         logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat")
+
+    if Model[0] == 'PNRVTDNN':
+        activation = Model[1]
+        M = ast.literal_eval(Model[2])
+        K = ast.literal_eval(Model[3])
+        layer_dims = []
+
+        input_size = 2 * (M + 1) + K * (M + 1) -1  # 输入维度
+        output_size = 2  # 输出维度
+        layer_dims.append(input_size)
+        for size_str in Model[4:]:
+            size = ast.literal_eval(size_str)
+            layer_dims.append(size)
+        layer_dims.append(output_size)
+        model_path = f"{filepath}/model/{Model[0]}_M{M}_K{K}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
+
+        trained_model = 'results/20250519/save/VDTDNN_M15_Tanh_202507292246.pt'  # 400M
+        logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
+        logger.info(
+            f'------------------------{Model[0]}_M{M}_K{K}_layer{layer_dims}_{activation}-------------------------------')
+        # 初始化模型
+        model = PNRVTDNN.PNRVTDNN(layer_dims, M=M, K=K, activation=activation).double().to(device)
+        fun.model_structure(model, logger)
+
+        # model.load_state_dict(torch.load(trained_model))
+        model.model_train(x_train, ilc_out_train, model_path, logger, [0.001, 350, 512])
+        model.load_state_dict(torch.load(model_path))
+        logger.info(f"-------------------load model: {model_path}---------------------")
+        start_time = time.time()  # 记录开始时间
+        pa_input = model.apply_dpd(x)  # , model.coef)
+        end_time = time.time()  # 记录结束时间
+        elapsed_time = end_time - start_time
+        logger.info(f"model prediction time: {elapsed_time:.6f} s")
+
+        pa_output = PA_board.transmit(pa_input, logger)
+        savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat",{'x': x, 'u': pa_input, 'y_withDPD': pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat")
+
 
     if Model[0] == 'VDTDNN':
         # 参数设置

@@ -54,10 +54,20 @@ class PNRVTDNN(nn.Module):
         #     X = torch.concat((X,X_k), dim=1)
         x_real = X_norm.real
         x_imag = X_norm.imag
+        # 剪枝当前时刻的虚部 (因为归一化后它为0)
+        x_imag = x_imag[:, :-1]  # 去掉最后一列（当前时刻）
         # x_real = x_real.view(len(x_real), -1)
         x = torch.cat((x_real, x_imag,envelope_features), dim=1)
-        y_pred = self.layers(x)
+        y_norm = self.layers(x)
 
+        # 提取I和Q分量
+        Y_I = y_norm[:, 0]
+        Y_Q = y_norm[:, 1]
+
+        # 相位反归一化 - 关键步骤！
+        y_hat = torch.conj(r) * (Y_I + 1j * Y_Q)
+
+        y_pred = torch.view_as_real(y_hat).view(len(y_hat), -1)
         return y_pred
 
 
@@ -140,7 +150,7 @@ class PNRVTDNN(nn.Module):
                 best_model = self.state_dict()
             # print(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
             logger.info(
-                f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
+                f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.7f} | Val Loss: {val_loss / len(val_loader):.7f} | save:{save}')
             if save == 0:
                 nosave_count = nosave_count + 1
             else:

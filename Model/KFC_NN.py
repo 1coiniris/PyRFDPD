@@ -26,7 +26,7 @@ class KFC_NN(nn.Module):
         self.phase_layers = nn.Sequential()
 
         layer_dims_amp = [M2 + 1, M2+M ,(M + 1) * K]
-        layer_dims_phase = [2 * (M2 + 1),(M2 + 1),(M + 1) * K * 2]
+        layer_dims_phase = [2 * (M2 + 1),(M2 + M),(M + 1) * K * 2]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims_amp[:-1], layer_dims_amp[1:])):
             self.DVR_layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
             if activation == "ReLU":
