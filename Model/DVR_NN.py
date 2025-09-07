@@ -603,7 +603,7 @@ class DVR_NN(nn.Module):
         else:
             optimizer = optim.Adam(self.parameters(), lr=learning_rate)
         criterion = nn.MSELoss()
-        fun.model_structure(self, logger)
+        # fun.model_structure(self, logger)
         best_metric = float('inf')
 
         # dataset

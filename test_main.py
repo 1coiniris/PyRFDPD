@@ -23,7 +23,7 @@ from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
 from scipy.io import loadmat
 
-filepath = f'tests/20250902/100M'
+filepath = f'tests/20250907/100M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -53,11 +53,11 @@ signal = '100M'
 # signal = '20M'
 # signal = '40M'
 
-xorg, x_2, fs, BW = fun.get_waveform(signal,rate=0.9)
+xorg, x_2, fs, BW = fun.get_waveform(signal,rate=0.5)
 
 
 params = {
-    'pow': -9,  # output power in dB
+    'pow': -11,  # output power in dB
     'VSG_IP': '192.168.1.30',  # IP of Vector Signal Generator (VSG)
     'VSA_IP': '192.168.1.40',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'fsw',#'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
@@ -110,60 +110,114 @@ savemat(mat_filename, ilc_out)
 logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
 
 
-NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(x_train, y_train, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
+NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(xorg, yorg, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
 logger.info(f"================ ILC Done ================")
 
-# data_file = './tests/20250902/100M/data/ILCOUT_202509042234.mat '
+# data_file = './tests/20250907/100M/data/ILCOUT_202509072055.mat'
 # ilc_out = loadmat(data_file)
 # #
 # ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+
 ilc_out_train = ilc_out['u_ideal'][0:int(N * 0.6 - 1)]
 
 # 模型设置
 test_map = [
-    'DVR_9_30_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
-    'DVR_9_20_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    # 'DVR_9_30_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    # 'DVR_9_20_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    # 'DVR_9_10_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    # 'DVR_9_5_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    # 'DVR_7_30_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVR_7_20_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVR_7_10_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVR_7_5_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVR_7_30_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVR_4_40_[0.1, 0.3, 0.7, 0.8]',
+    # 'DVR_4_30_[0.1, 0.3, 0.7, 0.8]',
+    # 'DVR_4_20_[0.1, 0.3, 0.7, 0.8]',
+    # 'DVR_4_15_[0.1, 0.3, 0.7, 0.8]',
+    # 'DVR_2_30_[0.3, 0.7]',
+    # 'DVR_2_20_[0.3, 0.7]',
+    # 'DVR_2_10_[0.3, 0.7]',
+    # 'DVR_2_5_[0.3, 0.7]',
+    # 'DVR_1_30_[ 0.5]',
+    # 'DVR_1_20_[ 0.5]',
+    # 'DVR_1_10_[ 0.5]',
+    # 'GMP_[5, 5, 5]_[3, 3, 3]_[3, 3]',
+    # 'GMP_[5, 5, 5]_[5, 5, 5]_[3, 3]',
+    # 'GMP_[7, 7, 7]_[5, 5, 5]_[3, 3]',
+    # 'GMP_[7, 7, 7]_[6, 6, 5]_[5, 5]',
+    # 'GMP_[11, 7, 7]_[11, 7, 7]_[5, 5]',
+    # 'GMP_[11, 11, 11]_[11, 7, 7]_[5, 5]',
+    # 'GMP_[11, 11, 11]_[11, 11, 11]_[7, 7]',
+    # 'GMP_[11, 11, 11]_[11, 11, 11]_[11, 11]',
+
+
+    # 'DVR_2_5_[0.3, 0.7]',
+    # 'DVRNN_ReLU_2_5_10',
+    # 'VDTDNN_Tanh_10_1_16_16',
+    # 'VDTDNN_Tanh_10_3_16',
+    # 'VDTDNN_Tanh_20_3_16',
+    # 'VDTDNN_Tanh_20_5_16',
+    # 'VDTDNN_Tanh_10_3_16_16',
+    # 'VDTDNN_Tanh_20_3_16_16',
+    # 'VDTDNN_Tanh_20_5_16_16',
+    # 'VDTDNN_Tanh_25_3_16_16',
+    # 'VDTDNN_Tanh_25_5_16_16',
+    # 'VDTDNN_Tanh_20_5_32_32',
+    # 'VDTDNN_Tanh_20_5_32_32_32',
+    # 'VDTDNN_Tanh_25_5_32_32_32_16',
+
+    # 'RVTDNN_Tanh_10_3_16',
+    # 'RVTDNN_Tanh_10_5_16',
+    # 'RVTDNN_ReLU_10_3_16_16',
+    # 'RVTDNN_ReLU_10_5_16_16',
+    # 'RVTDNN_ReLU_20_3_16_16',
+    # 'RVTDNN_ReLU_20_5_16_16',
+    # 'RVTDNN_ReLU_20_5_32_32',
+    # 'RVTDNN_ReLU_20_5_16_16_16',
+    # 'RVTDNN_ReLU_20_5_32_32_32',
+    #
+    # 'PNRVTDNN_Tanh_10_3_16',
+    # 'PNRVTDNN_Tanh_10_5_16',
+    # 'PNRVTDNN_Tanh_10_3_16_16',
+    # 'PNRVTDNN_Tanh_10_5_16_16',
+    # 'PNRVTDNN_Tanh_20_5_16_16',
+    'PNRVTDNN_Tanh_20_5_32_32',
+    'PNRVTDNN_Tanh_20_5_32_32_32',
+
+    # 'DVR_2_10_[0.3, 0.7]',
+    # 'DVRNN_ReLU_2_10_10',
+    # 'DVR_2_20_[0.3, 0.7]',
+    # 'DVRNN_ReLU_2_20_10',
+    # 'DVR_4_5_[0.2, 0.4,0.6, 0.8]',
+    # 'DVRNN_ReLU_4_5_10',
+    # 'DVR_4_10_[0.2, 0.4,0.6, 0.8]',
+    # 'DVRNN_ReLU_4_10_10',
+    # 'DVR_4_20_[0.2, 0.4,0.6, 0.8]',
+    # 'DVRNN_ReLU_4_20_10',
+    # 'DVR_7_5_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVRNN_ReLU_7_5_10',
+    # 'DVR_7_10_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVRNN_ReLU_7_10_10',
+    # 'DVR_7_15_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVRNN_ReLU_7_15_10',
+    # 'DVR_7_20_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
+    # 'DVRNN_ReLU_7_20_10',
     'DVR_9_10_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
-    'DVR_9_5_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
-    'DVR_7_30_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
-    'DVR_7_20_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
-    'DVR_7_10_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
-    'DVR_7_5_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
-    'DVR_7_30_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
-    'DVR_4_40_[0.1, 0.3, 0.7, 0.8]',
-    'DVR_4_30_[0.1, 0.3, 0.7, 0.8]',
-    'DVR_4_20_[0.1, 0.3, 0.7, 0.8]',
-    'DVR_4_15_[0.1, 0.3, 0.7, 0.8]',
-    'DVR_2_30_[0.3, 0.7]',
-    'DVR_2_20_[0.3, 0.7]',
-    'DVR_2_10_[0.3, 0.7]',
-    'DVR_2_5_[0.3, 0.7]',
-    'DVR_1_30_[ 0.5]',
-    'DVR_1_20_[ 0.5]',
-    'DVR_1_10_[ 0.5]',
-
-    'GMP_[5, 5, 5]_[5, 5, 5]_[3, 3]',
-    'GMP_[5, 5, 5]_[3, 3, 3]_[3, 3]',
-    'GMP_[5, 5, 5]_[2, 2, 2]_[2, 2]',
-    'GMP_[3, 3, 3]_[2, 2, 2]_[2, 2]',
-    'GMP_[11, 7, 7]_[15, 15, 15]_[11, 11]',
-    'GMP_[11, 7, 7]_[11, 11, 11]_[7, 7]',
-    'GMP_[11, 7, 7]_[11, 7, 7]_[5, 5]',
-    'GMP_[7, 7, 7]_[6, 6, 5]_[5, 5]',
-    'GMP_[7, 7, 7]_[5, 5, 5]_[3, 3]',
-    'GMP_[17, 17, 17]_[11, 11, 11]_[11, 11]',
-    'GMP_[11, 7, 7]_[17, 17, 17]_[11, 11]',
+    # 'DVRNN_ReLU_9_10_10',
+    'DVR_9_20_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    'DVRNN_ReLU_9_20_10',
+    'DVR_9_30_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    'DVRNN_ReLU_9_30_10',
+    # 'DVRNN_ReLU_9_20',
+    # 'DVRNN_ReLU_9_10',
+    # 'DVRNN_ReLU_9_5',
+    # 'DVRNN_ReLU_7_20',
 
 
-    'DVRNN_Tanh_9_20',
-    'DVRNN_Tanh_9_10',
-    'DVRNN_Tanh_9_5',
-    'DVRNN_Tanh_7_20',
-    'DVRNN_Tanh_7_10',
-    'DVRNN_Tanh_7_5',
-    'KFCNN_Tanh_3_10_30',
-    'VDTDNN_Tanh_10_3_16_16',
-    'RVTDNN_Tanh_10_3_16_16'
+    # 'KFCNN_Tanh_3_10_30',
+    # 'VDTDNN_Tanh_10_3_16_16',
+    # 'RVTDNN_Tanh_10_3_16_16'
 
 ]
 
@@ -193,7 +247,7 @@ for test_state in test_map:
         threshold = ast.literal_eval(Model[3])
 
         model = DVR.DVR(M=M, threshold=threshold)
-        model.coef = model.DVR_e(x_train, ilc_out_train,alpha=1e-5)
+        model.coef = model.DVR_e(x_train, ilc_out_train,alpha=5e-1)
         pa_input = model.DVR_v(x, model.coef)
         logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
@@ -293,15 +347,25 @@ for test_state in test_map:
         K = ast.literal_eval(Model[2])
         M = ast.literal_eval(Model[3])
 
+        layer_dims = []
+
+        input_size = M + 1  # 输入维度
+        output_size = (M + 1) * K  # 输出维度
+        layer_dims.append(input_size)
+        for size_str in Model[4:]:
+            size = ast.literal_eval(size_str)
+            layer_dims.append(size)
+        layer_dims.append(output_size)
+
         model_path = f"{filepath}/model/{Model[0]}_M{M}_K{K}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
         trained_model = 'tests/20250826/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt'  # LMBA
         logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
         # 初始化模型
-        model = DVR_NN.DVR_NN(K=K, M=M, activation=activation).to(device)
+        model = DVR_NN.DVR_NN(layer_dims,K=K, M=M, activation=activation).to(device)
         fun.model_structure(model, logger)
 
         # model.load_state_dict(torch.load(trained_model))
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,400,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,250,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -314,7 +378,7 @@ for test_state in test_map:
         # x_coef_window = torch.from_numpy(sequences).to(device)
         # y_sequences = MCP_NN.create_memory_seq(y_coef, M)  # [N, M+1]
         # y_coef_window = torch.from_numpy(y_sequences).to(device)
-        coef = model.DVR_NN_e(x_train,ilc_out_train)
+        coef = model.DVR_NN_e(x_train,ilc_out_train,alpha=1e-6)
         pa_input = model.DVR_NN_v(x, coef)
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
@@ -322,7 +386,7 @@ for test_state in test_map:
         logger.info(f'COEF number: {len(coef)} ')
 
         pa_output = PA_board.transmit(pa_input, logger)
-        savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
+        savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_layer{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
         logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat")
 
     if Model[0] == 'PNRVTDNN':
@@ -386,7 +450,7 @@ for test_state in test_map:
         model = VDTDNN.VDTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,150,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,250,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -421,7 +485,7 @@ for test_state in test_map:
         model = RVTDNN.RVTDNN(layer_dims, M=M, K=K, activation=activation).double().to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out_train, model_path, logger,para=[0.001,150,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger,para=[0.001,350,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
