@@ -57,7 +57,7 @@ xorg, x_2, fs, BW = fun.get_waveform(signal,rate=0.5)
 
 
 params = {
-    'pow': -11,  # output power in dB
+    'pow': -11.8,  # output power in dB
     'VSG_IP': '192.168.1.30',  # IP of Vector Signal Generator (VSG)
     'VSA_IP': '192.168.1.40',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'fsw',#'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
@@ -164,8 +164,13 @@ test_map = [
     # 'VDTDNN_Tanh_25_3_16_16',
     # 'VDTDNN_Tanh_25_5_16_16',
     # 'VDTDNN_Tanh_20_5_32_32',
+    # 'VDTDNN_Tanh_20_7_32_16_16',
+    'VDTDNN_Tanh_20_7_16_32_32',
     # 'VDTDNN_Tanh_20_5_32_32_32',
-    # 'VDTDNN_Tanh_25_5_32_32_32_16',
+
+    # 'VDTDNN_Tanh_30_7_32_32_32_32',
+    # 'VDTDNN_ReLU_30_7_32_32_32_32_32',
+    # 'VDTDNN_ReLU_35_7_32_64_64_32_32',
 
     # 'RVTDNN_Tanh_10_3_16',
     # 'RVTDNN_Tanh_10_5_16',
@@ -182,8 +187,8 @@ test_map = [
     # 'PNRVTDNN_Tanh_10_3_16_16',
     # 'PNRVTDNN_Tanh_10_5_16_16',
     # 'PNRVTDNN_Tanh_20_5_16_16',
-    'PNRVTDNN_Tanh_20_5_32_32',
-    'PNRVTDNN_Tanh_20_5_32_32_32',
+    # 'PNRVTDNN_Tanh_20_5_32_32',
+    # 'PNRVTDNN_Tanh_20_5_32_32_32',
 
     # 'DVR_2_10_[0.3, 0.7]',
     # 'DVRNN_ReLU_2_10_10',
@@ -203,12 +208,12 @@ test_map = [
     # 'DVRNN_ReLU_7_15_10',
     # 'DVR_7_20_[0.1,0.2, 0.3,0.4,0.6, 0.7, 0.8]',
     # 'DVRNN_ReLU_7_20_10',
-    'DVR_9_10_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    # 'DVR_9_10_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
     # 'DVRNN_ReLU_9_10_10',
-    'DVR_9_20_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
-    'DVRNN_ReLU_9_20_10',
-    'DVR_9_30_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
-    'DVRNN_ReLU_9_30_10',
+    # 'DVR_9_25_[0.1,0.2, 0.3,0.4,0.5,0.55,0.6,0.65, 0.7, 0.75,0.8,0.9]',
+    # 'DVRNN_ReLU_9_20_10',
+    # 'DVR_9_20_[0.1,0.2, 0.3,0.4,0.5,0.6, 0.7, 0.8,0.9]',
+    # 'DVRNN_ReLU_9_30_10',
     # 'DVRNN_ReLU_9_20',
     # 'DVRNN_ReLU_9_10',
     # 'DVRNN_ReLU_9_5',
@@ -450,7 +455,7 @@ for test_state in test_map:
         model = VDTDNN.VDTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,250,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,300,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间

@@ -117,12 +117,14 @@ def get_waveform(signal,rate=0.6,state=3):
         y = yorg[val_start:val_end].squeeze()
     else:
         if signal == '400M':
+            # fs = 983e6
             fs = 2e9
             BW = 400e6
-            data_file = '../data/dataxy400m2G.mat'
+            data_file = './data/dataxy400m2G.mat'
+            # data_file = 'data/matlabx_983M_new.mat'
             data = loadmat(data_file)
             xorg = data['x0']
-            yorg = data['y00']
+            # yorg = data['y00']
         elif signal == 'LMBA200M':
             fs = 1e9
             BW = 200e6
