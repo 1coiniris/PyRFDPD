@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
 
 class KFC_NN(nn.Module):
-    def __init__(self, K, M, M2,  activation="ReLU"):
+    def __init__(self, layer_dims,K, M, M2,  activation="ReLU"):
         super().__init__()
         # self.total_train = 1
         self.name = 'KFCNN'
@@ -25,8 +25,8 @@ class KFC_NN(nn.Module):
         self.DVR_layers = nn.Sequential()
         self.phase_layers = nn.Sequential()
 
-        layer_dims_amp = [M2 + 1, M2+M ,(M + 1) * K]
-        layer_dims_phase = [2 * (M2 + 1),(M2 + M),(M + 1) * K * 2]
+        layer_dims_amp = layer_dims
+        layer_dims_phase = [2 * (M2 + 1),M2+1,(M + 1) * K * 2]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims_amp[:-1], layer_dims_amp[1:])):
             self.DVR_layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
             if activation == "ReLU":
@@ -53,6 +53,7 @@ class KFC_NN(nn.Module):
         if self.activation != "ABS":
             self.phase_layers = self.phase_layers[:-1]  # remove the last activation layer
 
+        self.linear = nn.Linear((K * (M + 1)) * 2, 2, bias=False).double()
 
         if self.activation != "ABS":
             if self.activation == "ReLU":
@@ -72,19 +73,18 @@ class KFC_NN(nn.Module):
         """
         x_window: 当前窗口的记忆输入 [batch, (M2+1)]
         """
-        # if coef is None:
-        #     DVR_out_full = self.get_basis(x_window)
-        #     DVR_out_full_real = torch.view_as_real(DVR_out_full)
-        #     # DVR = DVR_out_full_real.view(len(DVR_out_full_real), -1)
-        #     DVR = DVR_out_full_real.flatten(1)
-        #     y_pred = self.linear(DVR)
-        # else:
-        y = self.DVR_NN_v(x_window,coef)
-        y_pred = torch.view_as_real(y)
+        if coef is None:
+            KFC_out_full = self.get_basis(x_window)
+            KFC_out_full_real = torch.view_as_real(KFC_out_full)
+            # DVR = DVR_out_full_real.view(len(DVR_out_full_real), -1)
+            KFC = KFC_out_full_real.flatten(1)
+            y_pred = self.linear(KFC)
+        else:
+            y = self.DVR_NN_v(x_window,coef)
+            y_pred = torch.view_as_real(y)
         # out = self.linear(DVR)
         # # out_act = self.act(out)
         # y_pred = self.linear_2(out)
-
         return y_pred
 
 

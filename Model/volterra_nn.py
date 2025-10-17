@@ -726,7 +726,7 @@ class RVTD_NN(nn.Module):
     The real-valued time-delay neural network implementation in PyTorch.
 
     Reference:
-    [Dynamic Behavioral Modeling of 3G Power Amplifiers Using Real-Valued Time-Delay Neural Networks](http://ieeexplore.ieee.org/document/1273746/)
+    [Dynamic Behavioral figure of 3G Power Amplifiers Using Real-Valued Time-Delay Neural Networks](http://ieeexplore.ieee.org/document/1273746/)
 
     Parameters:
     - layer_dims: The network structure, e.g. [6, 32, 32, 2]

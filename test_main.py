@@ -392,7 +392,7 @@ for test_state in test_map:
 
         pa_output = PA_board.transmit(pa_input, logger)
         savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_layer{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
-        logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat")
+        logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_layer{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat")
 
     if Model[0] == 'PNRVTDNN':
         activation = Model[1]

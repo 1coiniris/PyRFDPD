@@ -22,6 +22,50 @@ def create_memory_seq(data, M):
         a = data_new[i-M:i+1]
     return np.array(sequences)
 
+
+import itertools
+
+
+def generate_NN_map(prefix, num_layer, unit_ranges, step=1):
+    """
+    生成神经网络结构映射列表
+
+    参数:
+    num_layer: 整数，控制最大层数，生成1层到num_layer层的所有组合
+    unit_ranges: 列表的列表，每个子列表是一个[min, max]范围，对应每层的神经元数量范围
+    step: 整数，步进值，默认为1
+
+    返回:
+    NN_map: 列表，包含所有可能的组合，格式为 'VDTDNN_ReLU_10_3_XX', 'VDTDNN_ReLU_10_3_XX_XX', 等
+    """
+    if num_layer <= 0:
+        return []
+
+    # 检查unit_ranges的长度是否足够
+    if len(unit_ranges) < num_layer:
+        raise ValueError(f"unit_ranges应该有至少{num_layer}个范围，但只提供了{len(unit_ranges)}个")
+
+    NN_map = []
+    # prefix = "VDTDNN_ReLU_10_3_"  # 添加的前缀
+
+    # 生成从1层到num_layer层的所有组合
+    for layers in range(1, num_layer + 1):
+        # 为当前层数生成数字序列列表
+        number_sequences = []
+        for i in range(layers):
+            min_val, max_val = unit_ranges[i]
+            numbers = list(range(min_val, max_val + 1, step))
+            number_sequences.append(numbers)
+
+        # 生成当前层数的所有可能组合
+        combinations = itertools.product(*number_sequences)
+
+        # 将每个组合转换为指定格式的字符串，并添加前缀
+        for comb in combinations:
+            NN_map.append(prefix + '_'.join(str(num) for num in comb))
+
+    return NN_map
+
 def get_data(signal,rate=0.6,state=3):
     # 读取PA输入输出信号
     if signal == 'YU':
@@ -83,6 +127,18 @@ def get_data(signal,rate=0.6,state=3):
             xorg = ilc_out['u_k'].T.squeeze()
             # ILCOut = data['x']
             yorg = ilc_out['u_ideal'].T.squeeze()
+        elif signal == 'NXP_100M':
+            fs = 1e9
+            BW = 100e6
+            data_file = './tests/20250907/100M/data/PA_inout_202509082120.mat'
+            data = loadmat(data_file)
+            #
+            # ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+            xorg = data['x_train'].T.squeeze()
+            yorg = data['y_train'].T.squeeze()
+            # ILCOut = data['x']
+            # yorg = ilc_out['u_ideal'].T.squeeze()
+
 
         N = len(xorg)
         last_train = int(N * rate - 1)
