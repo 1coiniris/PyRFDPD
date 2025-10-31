@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
 
 class KFC_NN(nn.Module):
-    def __init__(self, layer_dims,K, M, M2,  activation="ReLU"):
+    def __init__(self, layer_dims,layer_dims_phase,K, M, M2,  activation="ReLU"):
         super().__init__()
         # self.total_train = 1
         self.name = 'KFCNN'
@@ -26,7 +26,7 @@ class KFC_NN(nn.Module):
         self.phase_layers = nn.Sequential()
 
         layer_dims_amp = layer_dims
-        layer_dims_phase = [2 * (M2 + 1),M2+1,(M + 1) * K * 2]
+        # layer_dims_phase = [2 * (M2 + 1),M2+1,(M + 1) * K * 2]
         for index, (in_dim, out_dim) in enumerate(zip(layer_dims_amp[:-1], layer_dims_amp[1:])):
             self.DVR_layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim).double())
             if activation == "ReLU":
@@ -53,7 +53,7 @@ class KFC_NN(nn.Module):
         if self.activation != "ABS":
             self.phase_layers = self.phase_layers[:-1]  # remove the last activation layer
 
-        self.linear = nn.Linear((K * (M + 1)) * 2, 2, bias=False).double()
+        self.linear = nn.Linear((K * (M + 1)+M+1) * 2, 2, bias=False).double()
 
         if self.activation != "ABS":
             if self.activation == "ReLU":
@@ -134,16 +134,14 @@ class KFC_NN(nn.Module):
                 # 生成基函数 [batch, num_basis]
                 amp_basis = self.get_basis_amp(batch_x_signal)
                 # 计算正交性损失
-                ortho_loss = self.orthogonal_loss(amp_basis)
+                # ortho_loss = self.orthogonal_loss(amp_basis)
 
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
                 coef = self.DVR_NN_e(batch_x_signal,targets)
-
-                # outputs = model(inputs)
                 outputs = self(batch_x_signal,coef)
-
+                # outputs = self(batch_x_signal)
                 # 计算预测损失
                 mse_loss = criterion(outputs, targets_real)
                 # 总损失 = 预测损失 + 正交性损失权重
@@ -159,7 +157,7 @@ class KFC_NN(nn.Module):
                 total_loss.backward()
                 optimizer.step()
                 train_loss_total += mse_loss.item()
-                ortho_loss_total += ortho_loss.item()
+                # ortho_loss_total += ortho_loss.item()
 
             # 验证
             self.eval()
@@ -174,17 +172,17 @@ class KFC_NN(nn.Module):
                     targets_real = targets_real.to(device)
 
                     coef = self.DVR_NN_e(batch_x_signal, targets)
-                    # outputs = model(inputs)
-                    val_outputs = self(batch_x_signal,coef)
+                    val_outputs = self(batch_x_signal, coef)
+                    # val_outputs = self(batch_x_signal)
                     val_loss_total += criterion(val_outputs, targets_real).item()
 
             # 计算平均损失
             avg_train_loss = train_loss_total / len(train_loader)
-            avg_ortho_loss = ortho_loss_total / len(train_loader)
+            # avg_ortho_loss = ortho_loss_total / len(train_loader)
             avg_val_loss = val_loss_total / len(val_loader)
 
             train_loss_list.append(avg_train_loss)
-            ortho_loss_list.append(avg_ortho_loss)
+            # ortho_loss_list.append(avg_ortho_loss)
             val_loss_list.append(avg_val_loss)
             # # 记录指标
             # metrics = {
@@ -211,7 +209,7 @@ class KFC_NN(nn.Module):
                 # logger.info(f"Model improved, saved to {model_path}")
             # print(f'Epoch {epoch + 1:02} | Train Loss: {train_loss / len(train_loader):.6f} | Val Loss: {val_loss / len(val_loader):.6f} | save:{save}')
             logger.info(
-                f'Epoch {epoch + 1:03} | Train Loss: {avg_train_loss:.7f} | Ortho Loss: {avg_ortho_loss:.7f} | Val Loss: {avg_val_loss:.7f} | save:{save}')
+                f'Epoch {epoch + 1:03} | Train Loss: {avg_train_loss:.7f} | Val Loss: {avg_val_loss:.7f} | save:{save}')
             if save == 0:
                 nosave_count = nosave_count + 1
             else:
@@ -337,7 +335,7 @@ class KFC_NN(nn.Module):
         # DVR_out_DDR_1 = DVR_core * DVR_X
         # DVR_out_DDR_2 = DVR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
         #
-        # DVR_out_full = torch.concatenate((DVR_out_full, DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
+        DVR_out_full = torch.concatenate((DVR_out_full,DVR_out_linear ), dim=1)#DVR_out_linear
         # # 添加正交化层
         # # 使用QR分解（更稳定）
         # # Q, R = torch.linalg.qr(DVR_out_full,mode='reduced')

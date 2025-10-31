@@ -45,24 +45,77 @@ NMSE_state_list = []
 signal = 'NXP_100M'
 # signal = 'YU'
 count = 0
-for state in range(1):
+for state in range(3):
     x_train, y_train, x, y, fs, BW = fun.get_data(signal,state = state)
     figure_path = 'results/modeling/figure'
     if plot_swich:
         fun.PA_figure(x,y,fs,figure_path)
 
-    test_map = []
-    for prefix in ['DVRNN_ReLU_3_7_','DVRNN_ReLU_4_7_','DVRNN_ReLU_5_7_']:#'DVRNN_Tanh_5_10','DVRNN_Tanh_7_10','DVRNN_Tanh_7_15']: #'PNRVTDNN_ReLU_10_3_','PNRVTDNN_ReLU_10_5_',
-        NN_map = fun.generate_NN_map(prefix,3,[[6,12],[6,12],[6,12]],2)
-        test_map.extend(NN_map)
+    # test_map = []
+    # for prefix in ['DVRNN_ReLU_2_10_',]:#'DVRNN_Tanh_5_10','DVRNN_Tanh_7_10','DVRNN_Tanh_7_15']: #'PNRVTDNN_ReLU_10_3_','PNRVTDNN_ReLU_10_5_',
+    #     NN_map = fun.generate_NN_map(prefix,1,[[8,12],[10,12],[6,12]],1)
+    #     test_map.extend(NN_map)
     # 模型设置
-    # test_map = [
-    #     'DVRNN_ReLU_1_8',
-    #     'DVRNN_ReLU_1_10',
-    #     'DVRNN_ReLU_3_10_6',
-    #     # 'DVR_7_8_[0.1, 0.2, 0.4,0.5,0.6,0.7, 0.8]',
-    #     # 'DVR_7_10_[0.1, 0.2, 0.4,0.5,0.6,0.7, 0.8]',
-    # ]
+    test_map = [
+        # 'KFCNN_ReLU_1_7_7',
+        # 'KFCNN_ReLU_1_7_7_6_10',
+        # 'KFCNN_ReLU_2_7_7',
+        # 'KFCNN_ReLU_1_10_10',
+        # 'KFCNN_ReLU_3_7_7',
+        # 'KFCNN_ReLU_4_7_7',
+        # 'KFCNN_ReLU_2_10_10',
+        # 'KFCNN_ReLU_3_10_10',
+
+        'DVRNN_ReLU_1_10_6',
+        'DVRNN_ReLU_2_10_6',
+        'DVRNN_ReLU_1_10_12',
+        'DVRNN_ReLU_3_10_6',
+        'DVRNN_ReLU_2_10_12',
+        'DVRNN_ReLU_3_10_8_8',
+        'DVRNN_ReLU_3_10_10_12',
+        ]
+        # DVRNN_M10_K1_layer[11, 6, 11]_ReLU
+        # DVRNN_M10_K1_layer[11, 12, 11]_ReLU
+        # DVRNN_M10_K2_layer[11, 6, 22]_ReLU
+        # DVRNN_M10_K2_layer[11, 12, 22]_ReLU
+        # DVRNN_M10_K3_layer[11, 6, 33]_ReLU
+        # DVRNN_M10_K3_layer[11, 8, 8, 33]_ReLU
+        # DVRNN_M10_K3_layer[11, 10, 12, 33]_ReLU
+        # 'DVRNN_ReLU_1_10_6',
+        # 'DVRNN_ReLU_1_10_12',
+        # 'DVRNN_ReLU_2_10_6',
+        # 'DVRNN_ReLU_3_10_6',
+        # 'DVRNN_ReLU_2_10_12',
+        # 'DVRNN_ReLU_3_10_8_8',
+        # 'DVRNN_ReLU_3_10_10_12',
+        # 'DVRNN_ReLU_3_10_10_12',
+        # 'DVRNN_ReLU_1_8',
+        # 'DVRNN_ReLU_1_10',
+        # 'DVRNN_ReLU_3_10_6',
+        # 'DVR_7_9_[0.1, 0.2, 0.3,0.4,0.6,0.7, 0.8]',
+        # 'DVR_7_10_[0.1, 0.2, 0.4,0.5,0.6,0.7, 0.8]',
+        # 'VDTDNN_ReLU_5_2_8',
+        # 'VDTDNN_ReLU_5_2_6_10',
+        # 'VDTDNN_ReLU_5_3_8_10',
+        # 'VDTDNN_ReLU_5_2_12_10',
+        # 'VDTDNN_ReLU_15_1_8_10',
+        # 'VDTDNN_ReLU_10_3_8_20',
+        # 'VDTDNN_ReLU_10_3_16_16',
+        # 'VDTDNN_Tanh_20_3_16',
+        # 'VDTDNN_ReLU_20_3_16_16',
+        # 'DVR_2_7_[0.2,0.5]',
+        # 'DVR_4_5_[0.2,0.4,0.6,0.8]',
+        # 'DVR_3_8_[0.2,0.5,0.8]',
+        # 'DVR_3_10_[0.2,0.5,0.8]',
+        # 'DVR_5_8_[0.2,0.4,0.6,0.7,0.8]',
+        # 'DVR_5_10_[0.2,0.4,0.6,0.7,0.8]',
+        # 'DVR_7_8_[0.1,0.2,0.3,0.4,0.5,0.6,0.8]',
+
+        # 'GMP_[9, 3, 3]_[3, 3, 3]_[2, 2]',
+        # 'GMP_[21, 21, 21]_[2, 2, 2]_[2, 2]',
+        # 'GMP_[17, 17, 17]_[5, 2, 2]_[3, 3]',
+        # 'GMP_[21, 19, 17]_[5, 2, 3]_[3, 2]',
+        # 'GMP_[17, 20, 15]_[3, 3, 3]_[3, 3]'
     #     'GMP_[5, 5, 5]_[3, 3, 3]_[2, 2]',
     #     'GMP_[5, 5, 5]_[5, 5, 5]_[3, 3]',
     #     'GMP_[7, 7, 7]_[5, 5, 5]_[3, 3]',
@@ -113,7 +166,7 @@ for state in range(1):
             logger.info(f'------------------------{Model[0]}_M{M}_K{K}-------------------------------')
             # 初始化模型
             dvr = DVR.DVR(M=M, threshold=threshold)
-            coef = dvr.DVR_e(x_train, y_train, alpha=1e-3)
+            coef = dvr.DVR_e(x_train, y_train, alpha=3e-1)
             y_pred = dvr.DVR_v(x_train, coef)
             logger.info(f'{Model[0]} train NMSE:')
             NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
@@ -128,7 +181,7 @@ for state in range(1):
             filename = f"GMP_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}"
             logger.info(f'----------------{Model[0]}_K{K}_L{L}_M{M}--------------------')
             start_time = time.time()  # 记录开始时间
-            coef = GMP.model_e(x_train, y_train,alpha=1e-4)
+            coef = GMP.model_e(x_train, y_train,alpha=5e-4)
             end_time = time.time()  # 记录结束时间
             elapsed_time = end_time - start_time
             # logger.info(f"model train time: {elapsed_time:.6f} s")
@@ -156,16 +209,16 @@ for state in range(1):
                 size = ast.literal_eval(size_str)
                 layer_dims.append(size)
             layer_dims.append(output_size)
-
-            model_path = f"{file_path}save/{Model[0]}_M{M}_M2{M2}_K{K}_layer{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
+            layer_dims_phase = [2 * (M2 + 1), M2 + 1, (M + 1) * K * 2]
+            model_path = f"{file_path}save/{Model[0]}_M{M}_M2{M2}_K{K}_layer{layer_dims}_Phase{layer_dims_phase}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
 
             # trained_model = 'results/20250519/save/OB_DVR_NN_M15_K3_Tanh_202507201242.pt'# 好用
             trained_model = 'results/20250519/save/VD_DVR_NN_M30_M231_K3_Tanh_202508051529.pt' #很好
             # trained_model = 'results/20250519/save/VD_DVR_NN_M10_K1_Tanh_202508031410.pt' #LMBA
             logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
-            logger.info(f'------------------------{Model[0]}_M{M}_M2{M2}_K{K}_layer{layer_dims}_{activation}-------------------------------')
+            logger.info(f'------------------------{Model[0]}_M{M}_M2{M2}_K{K}_layer{layer_dims}_Phase{layer_dims_phase}_{activation}-------------------------------')
             # 初始化模型
-            model = KFCNN.KFC_NN(layer_dims=layer_dims, K=K, M=M,M2=M2, activation=activation).to(device)
+            model = KFCNN.KFC_NN(layer_dims=layer_dims,layer_dims_phase=layer_dims_phase, K=K, M=M,M2=M2, activation=activation).to(device)
             fun.model_structure(model, logger)
 
 
@@ -185,11 +238,17 @@ for state in range(1):
                 y_sequences = fun.create_memory_seq(y_coef, M2)  # [N, M+1]
                 y_coef_window = torch.from_numpy(y_sequences).to(device)
                 model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-2,pri=1)
+
+                y_pred = model.apply_dpd(x_train,model.coef)
+                logger.info(f'{Model[0]} train NMSE:')
+                NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
+
                 y_pred = model.apply_dpd(x,model.coef)
                 end_time = time.time()  # 记录结束时间
                 elapsed_time = end_time - start_time
                 logger.info(f"model prediction time: {elapsed_time:.6f} s")
                 logger.info(f'COEF number: {len(model.coef)} ')
+                # NMSE, ACLR, NMSE_pred, ACLR_pred = fun.calculate_CRZ(x, y, y_pred, fs, BW, figure_path, Model[0], 1,logger, type='model')
             else:
                 N_train = min(50000,len(x_train))
                 model.load_state_dict(torch.load(trained_model))
@@ -313,6 +372,10 @@ for state in range(1):
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 coef = model.DVR_NN_e(x_train, y_train,alpha=1e-4)
+                y_pred = model.DVR_NN_v(x_train,coef)
+                logger.info(f'{Model[0]} train NMSE:')
+                NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
+
                 start_time = time.time()  # 记录开始时间
                 # y_pred = model.apply_dpd(x)
                 y_pred = model.DVR_NN_v(x,coef)
@@ -398,7 +461,7 @@ for state in range(1):
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
-                model.model_train(x_train, y_train, model_path, logger, 1,para = [0.001,250,512])
+                model.model_train(x_train, y_train, model_path, logger, 1,para = [0.001,350,128])
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 start_time = time.time()  # 记录开始时间
