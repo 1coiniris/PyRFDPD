@@ -11,9 +11,10 @@ from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
 
 class KFC_NN(nn.Module):
-    def __init__(self, layer_dims,layer_dims_phase,K, M, M2,  activation="ReLU"):
+    def __init__(self, layer_dims,layer_dims_phase,K, M, M2,  activation="ReLU",alpha = 1e-4):
         super().__init__()
         # self.total_train = 1
+        self.alpha = alpha
         self.name = 'KFCNN'
         self.M = M
         self.M2 = M2
@@ -139,7 +140,7 @@ class KFC_NN(nn.Module):
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
-                coef = self.DVR_NN_e(batch_x_signal,targets)
+                coef = self.DVR_NN_e(batch_x_signal,targets,alpha=self.alpha)
                 outputs = self(batch_x_signal,coef)
                 # outputs = self(batch_x_signal)
                 # 计算预测损失
@@ -171,7 +172,7 @@ class KFC_NN(nn.Module):
                     targets_real = torch.view_as_real(targets)
                     targets_real = targets_real.to(device)
 
-                    coef = self.DVR_NN_e(batch_x_signal, targets)
+                    coef = self.DVR_NN_e(batch_x_signal, targets,alpha=self.alpha)
                     val_outputs = self(batch_x_signal, coef)
                     # val_outputs = self(batch_x_signal)
                     val_loss_total += criterion(val_outputs, targets_real).item()
@@ -342,7 +343,7 @@ class KFC_NN(nn.Module):
         # # return Q
         return DVR_out_full
 
-    def DVR_NN_e(self,x_window,y,alpha=1e-2,pri = 0):
+    def DVR_NN_e(self,x_window,y,alpha=1e-4,pri = 0):
         """使用最小二乘法提取系数（冻结基函数网络）"""
         # self.eval()  # 设置为评估模式
         M = self.M

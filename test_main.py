@@ -23,7 +23,7 @@ from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
 from scipy.io import loadmat
 
-filepath = f'tests/20251017/100M'
+filepath = f'tests/20251031/400M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -44,27 +44,27 @@ plot_swich = 1
 NMSE_state_list = []
 
 ########################## 信号描述 ################################
-# signal = '400M' #'LMBA200M'
+signal = '400M' #'LMBA200M'
 # signal = 'LMBA200M'
-signal = '100M'
+# signal = '100M'
 # signal = 'ILC_120M'
 # signal = 'ILC'
 # signal = 'YU'
 # signal = '20M'
 # signal = '40M'
 
-xorg, x_2, fs, BW = fun.get_waveform(signal,rate=0.5)
+xorg, x_2, fs, BW = fun.get_waveform(signal,rate=0.6)
 
 
 params = {
-    'pow': -26,  # output power in dB
+    'pow': -17,  # output power in dB
     'VSG_IP': '192.168.1.30',  # IP of Vector Signal Generator (VSG)
-    'VSA_IP': '192.168.1.36',  # IP of Vector Signal Analyzer (VSA)
+    'VSA_IP': '192.168.1.40',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'fsw',#'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
     'waveformfile': 'waveform_crz',
     'fs': fs,  # sampling rate = 160 MHz
-    'fc': 3.5e9,  # carrier frequency = 2.14 GHz
-    'att': 10,  # attenuation level of (VSA) in dB
+    'fc': 3.6e9,  # carrier frequency = 2.14 GHz
+    'att': 8,  # attenuation level of (VSA) in dB
     'type': 1  # test type
 }
 
@@ -78,7 +78,7 @@ yorg = PA_board.transmit(xorg,logger)
 
 NMSE_woDPD = cal.nmse(xorg,yorg)
 logger.info(f'NMSE_WO_DPD: {NMSE_woDPD} dB')
-ACP = cal.acpr(yorg,fs,BW,BW*0.98,logger)
+ACP = cal.acpr(yorg,fs,BW,BW*0.95,logger)
 
 if plot_swich:
     fun.PA_figure(xorg, yorg, fs, figure_path)
@@ -99,43 +99,42 @@ ilc_in = {
     'u_k': xorg,
     'fs': fs,
     'BW': BW,
-    'nIterations': 30,
+    'nIterations': 40,
     'type': 'linear',
-    'eta': 0.2
+    'eta': 0.3
 }
 
-ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)
-
-mat_filename = f"{mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat"
-savemat(mat_filename, ilc_out)
-logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
-
-
-NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(xorg, yorg, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
+# ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)
+#
+# mat_filename = f"{mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat"
+# savemat(mat_filename, ilc_out)
+# logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
+#
+#
+# NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(xorg, yorg, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
 logger.info(f"================ ILC Done ================")
 
-# data_file = './tests/20250907/100M/data/ILCOUT_202509072055.mat'
-# ilc_out = loadmat(data_file)
-# #
-# ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+data_file = './tests/20251031/400M/data/ILCOUT_202510312052.mat'
+ilc_out = loadmat(data_file)
+#
+ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+
+
+
 
 ilc_out_train = ilc_out['u_ideal'][0:int(N * 0.6 - 1)]
 
 # 模型设置
 test_map = [
-    # 'VDTDNN_ReLU_5_2_8',
-    # 'VDTDNN_ReLU_5_2_6_10',
-    # 'VDTDNN_ReLU_5_2_10_8',
-    # 'VDTDNN_ReLU_5_2_12_10',
-    # 'VDTDNN_ReLU_5_3_8_10',
-    # 'VDTDNN_ReLU_8_3_10_10',
-    # 'VDTDNN_ReLU_10_3_8_20',
-    # 'VDTDNN_ReLU_10_5_8_12_20',
-    # 'VDTDNN_ReLU_10_5_12_16_16',
-    # 'VDTDNN_ReLU_10_5_12_20_20',
-    # 'VDTDNN_ReLU_10_5_12_16_16',
-
-    # 'DVRNN_ReLU_2_10_12',
+    # 'DVR_5_20_[0.2,0.4,0.6,0.7,0.8]',
+    # 'DVR_5_25_[0.2,0.4,0.6,0.7,0.8]',
+    # 'GMP_[16, 16, 16]_[13, 13, 13]_[4, 3]',
+    # 'GMP_[7, 7, 7]_[11, 11, 11]_[7, 7]',
+    # 'GMP_[7, 7, 7]_[13, 11, 11]_[7, 7]',
+    # 'DVRNN_ReLU_5_20',
+    'DVRNN_ReLU_1_30_12_12',
+    'KFCNN_ReLU_1_10_40_16_12',
+]
     # 'DVRNN_ReLU_3_10_8_8',
     # 'DVRNN_ReLU_3_10_6',
     # 'DVRNN_ReLU_3_8_7_9',
@@ -152,8 +151,8 @@ test_map = [
     # 'GMP_[9, 3, 3]_[3, 3, 3]_[2, 2]',
     # 'GMP_[11, 11, 11]_[2, 2, 2]_[2, 2]',
     # 'GMP_[17, 17, 17]_[2, 2, 2]_[2, 2]',
-    'GMP_[21, 19, 17]_[5, 2, 3]_[3, 2]',
-    'GMP_[17, 20, 15]_[3, 3, 3]_[3, 3]',
+    # 'GMP_[21, 19, 17]_[5, 2, 3]_[3, 2]',
+    # 'GMP_[17, 20, 15]_[3, 3, 3]_[3, 3]',
 # DVRNN_M10_K1_layer[11, 6, 11]_ReLU	457	-38.821	701
 # DVRNN_M10_K1_layer[11, 12, 11]_ReLU	595	-38.856	773
 # DVRNN_M10_K2_layer[11, 6, 22]_ReLU	798	-39.583	1568
@@ -181,8 +180,7 @@ test_map = [
 #     'PNRVTDNN_ReLU_10_3_16_24',
 #     'PNRVTDNN_ReLU_10_3_12_24_20',
 #     'PNRVTDNN_ReLU_10_3_16_20_24',
-]
-
+# ]
 
 for test_state in test_map:
     Model = test_state.split('_')
@@ -195,7 +193,7 @@ for test_state in test_map:
         M = ast.literal_eval(Model[3])  # [int(num) for num in re.findall(r'\d+', Model[3])]
         model = gmp.GMP(K,L,M)
         # coef = GMP.GMP_e(x_train,ilc_out['u_ideal'])
-        model.coef = model.model_e(x_train,ilc_out_train,alpha=5e-7)
+        model.coef = model.model_e(x_train,ilc_out_train,alpha=1e-4)
         pa_input = model.model_v(x, model.coef)
         logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
@@ -224,14 +222,24 @@ for test_state in test_map:
         M = ast.literal_eval(Model[3])
         M2 = ast.literal_eval(Model[4])
 
-        model_path = f"{filepath}/model/{Model[0]}_M{M}_M2{M2}_K{K}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
+        layer_dims = []
+
+        input_size = M2 + 1  # 输入维度
+        output_size = (M + 1) * K  # 输出维度
+        layer_dims.append(input_size)
+        for size_str in Model[5:]:
+            size = ast.literal_eval(size_str)
+            layer_dims.append(size)
+        layer_dims.append(output_size)
+        layer_dims_phase = [2 * (M2 + 1), M2 + 1, (M + 1) * K * 2]
+        model_path = f"{filepath}/model/{Model[0]}_M{M}_M2{M2}_K{K}_layer{layer_dims}_Phase{layer_dims_phase}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
         trained_model = 'results/20250519/save/VD_DVR_NN_M30_M231_K3_Tanh_202508051529.pt'  # 很好
         logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
         # 初始化模型
-        model = KFCNN.KFC_NN(K=K, M=M, M2=M2, activation=activation).to(device)
+        model = KFCNN.KFC_NN(layer_dims=layer_dims, layer_dims_phase=layer_dims_phase, K=K, M=M, M2=M2,activation=activation, alpha=1e-3).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,250,256])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.002,350,1024])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -244,7 +252,7 @@ for test_state in test_map:
         x_coef_window = torch.from_numpy(sequences).to(device)
         y_sequences = fun.create_memory_seq(y_coef, M2)  # [N, M+1]
         y_coef_window = torch.from_numpy(y_sequences).to(device)
-        model.coef = model.DVR_NN_e(x_coef_window, y_coef_tensor, alpha=1e-2, pri=1)
+        model.coef = model.DVR_NN_e(x_coef_window, y_coef_tensor, alpha=1e-3, pri=1)
         pa_input = model.apply_dpd(x, model.coef)
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
@@ -327,7 +335,7 @@ for test_state in test_map:
         fun.model_structure(model, logger)
 
         # model.load_state_dict(torch.load(trained_model))
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,350,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,500,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -340,7 +348,7 @@ for test_state in test_map:
         # x_coef_window = torch.from_numpy(sequences).to(device)
         # y_sequences = MCP_NN.create_memory_seq(y_coef, M)  # [N, M+1]
         # y_coef_window = torch.from_numpy(y_sequences).to(device)
-        coef = model.DVR_NN_e(x_train,ilc_out_train,alpha=1e-6)
+        coef = model.DVR_NN_e(x_train,ilc_out_train,alpha=1e-4)
         pa_input = model.DVR_NN_v(x, coef)
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
