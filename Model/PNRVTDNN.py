@@ -20,7 +20,8 @@ class PNRVTDNN(nn.Module):
         assert activation == "ReLU" or "Tanh" or "GELU" or "None"
         self.activation = activation
         self.layers = nn.Sequential()
-        for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
+        # for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
+        for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-2], layer_dims[1:-1])):
             self.layers.add_module("linear " + str(index), nn.Linear(in_dim, out_dim))
             if activation == "ReLU":
                 self.layers.add_module("actFunc " + str(index), nn.ReLU())
@@ -30,8 +31,9 @@ class PNRVTDNN(nn.Module):
                 self.layers.add_module("actFunc " + str(index), nn.ELU(alpha=1))
             elif activation == "None":
                 pass
-        if activation != "None":
-            self.layers = self.layers[:-1]  # remove the last activation layer
+        # if activation != "None":
+        #     self.layers = self.layers[:-1]  # remove the last activation layer
+        self.layers.add_module("linear comb", nn.Linear(layer_dims[-2], layer_dims[-1], bias=False))
 
     def forward(self, x_window):
         """
@@ -44,7 +46,7 @@ class PNRVTDNN(nn.Module):
 
         # 2. 添加包络及其幂次项
         envelope_features = A
-        for order in range(2,self.K+1):
+        for order in range(1,self.K):
             envelope_features = torch.concat((envelope_features, A ** order), dim=1)
             # envelope_features.append(A ** order)
 

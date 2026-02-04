@@ -140,6 +140,10 @@ class GMP:
         # X[np.isnan(X)] = 0 # Remove NaN
         X = self.get_basis(x_target)
         y = X.dot(coef)
+        y[0:np.max(L)+np.max(M)+1] =  x_target[0:np.max(L)+np.max(M)+1]
+        # idx = np.where(abs(y)>1)
+        # print(idx)
+        # y[idx] = x_target[idx]
         return y
 
     def apply_dpd(self, signal,coef = None):

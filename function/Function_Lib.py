@@ -109,14 +109,15 @@ def get_data(signal,rate=0.6,state=3):
             data = loadmat(data_file)
             xorg = data['x']
             yorg = data['y']
-        elif signal == 'ILC_120M':
-            fs = 1.2288e9
-            BW = 120e6
-            data_file = 'data/ILC.mat'
-            data = loadmat(data_file)
-            xorg = data['uBB']
+        elif signal == 'ILC_400M':
+            fs = 2e9
+            BW = 400e6
+            data_file = 'data/ILCOUT_202510312052.mat'
+            ilc_out = loadmat(data_file)
+            ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
+            xorg = ilc_out['u_k'].T.squeeze()
             # ILCOut = data['x']
-            yorg = data['xBB']
+            yorg = ilc_out['u_ideal'].T.squeeze()
         elif signal == 'ILC_100M':
             fs = 1e9
             BW = 100e6
