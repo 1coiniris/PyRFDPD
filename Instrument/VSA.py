@@ -124,7 +124,7 @@ class VSA:
                 instr.write("SYST:DISP:UPD ON")
                 instr.write("LOCal")  # 返回本地控制模式
 
-                # instr.write('MMEM:LOAD:STAT 1, "C:\R_S\Instr\user\QuickSave\QuickSave1"')
+                # instr.write("MMEM:LOAD:STAT 1, 'C:\R_S\Instr\user\QuickSave\QuickSave1'")
                 #
                 # %display
                 # settings

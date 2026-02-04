@@ -973,7 +973,7 @@ class DVR_NN(nn.Module):
         DVR_out_full = torch.concatenate(( DVR_out_linear,DVR_out_1,DVR_out_21,DVR_out_22,DVR_out_23,DVR_out_24,DVR_out_DDR_2), dim=1) #  DVR_out_linear,DVR_out_1, DVR_out_21,DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2
         return DVR_out_full
 
-    def DVR_NN_e(self,x_window,y,alpha = 5e-2,pri = 0):
+    def DVR_NN_e(self,x_window,y,alpha = 1e-3,pri = 0):
         M = self.M
         # threshold = self.threshold
         K = self.K
