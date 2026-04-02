@@ -12,118 +12,6 @@ from matplotlib import pyplot as plt
 import Model.volterra_nn as volterra_nn
 
 
-class DVR_2(nn.Module):
-    def __init__(self, K, M, threshold, activation="ReLU"):
-        super().__init__()
-        self.M = M
-        self.K = K
-        self.threshold = threshold
-        assert activation == "ReLU" or "Tanh" or "ELU" or "None"
-        self.linear = nn.Linear((K*(M+1)*6+M+1)*2, 2,bias=False).double()
-        # self.act = nn.Tanh()
-        # self.linear_2 = nn.Linear(12, 2, bias=False).double()
-        # self.main_layers = nn.Sequential()
-        # self.para_layers = nn.Sequential()
-        # self.main_nn = volterra_nn.GMP_NN(self.layer_dim1, L, M = self.M,activation=activation)
-        # self.para_nn = volterra_nn.MCP_BASE_NN(self.layer_dim2, L, M = self.M, K = 5,activation=activation)
-        # self.out_layer = nn.Linear(2*M+2, 2,bias=False)
-
-    def forward(self, x_window):
-        """
-        x_window: 当前窗口的记忆输入 [batch, (M+1)]
-        """
-        M = self.M
-        K = self.K
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # threshold
-        threshold = torch.from_numpy(self.threshold)
-        threshold_matrix = threshold.unsqueeze(1).t().expand(M + 1, -1)  # (M+1,K) K维度延拓 -1 表示保持K维度不变
-        threshold_matrix = threshold_matrix.to(device) # x_windows已移动到设备
-        # x(n)
-        xn = x_window[:,-1] #当前信号x(n) (16384,1)
-        xn_amp = torch.abs(xn)  #当前信号|x(n)| (16384,1)
-        xn_amp_matrix = xn_amp.unsqueeze(1).repeat(1, M + 1).unsqueeze(2).repeat(1, 1, K)  # 当前信号|x(n)| (16384,M+1,K)
-        xn_matrix = xn.unsqueeze(1).repeat(1, M + 1).unsqueeze(2).repeat(1, 1, K)  # (16384,(M+1)*K)
-        DVR_xn = xn_matrix.view(len(xn), -1)
-        DVR_xn_amp = xn_amp_matrix.view(len(xn), -1)
-        # x(n-i)
-        X_tensor = x_window #记忆信号x(n-i) (16384,M+1)
-        X_matrix = X_tensor.unsqueeze(2).repeat(1, 1, K)  # K维度延拓 x(n-i) (16384,M+1,K)
-        DVR_X = X_matrix.view(len(X_matrix), -1)    # 展平 x(n-i) (16384,(M+1)*K)
-        # |x(n-i)| DVR CORE
-        X_amp = torch.abs(X_tensor)  #|x(n-i)| (16384,M+1)
-        amp_matrix = X_amp.unsqueeze(2).repeat(1, 1, K)  # K维度延拓 |x(n-i)| (16384,M+1,K)
-        DVR_amp_matrix = amp_matrix - threshold_matrix  # (16384,M+1,K)
-        ABS_DVR_amp = torch.abs(DVR_amp_matrix)  # (16384,M+1,K)
-        DVR_core = ABS_DVR_amp.view(len(ABS_DVR_amp), -1)    # (16384,(M+1)*K)
-        # theta(n-i) DVR PHASE
-        X_phase = torch.angle(X_tensor)  #theta(n-i) (16384,M+1)
-        e_j_phase = torch.exp(1j * X_phase)  # (16384,M+1)
-        e_j_phase_matrix = e_j_phase.unsqueeze(2).repeat(1, 1, K)  # (16384,M+1,K)
-        # DVR_phase = torch.flatten(e_j_phase_matrix)  # (16384,(M+1)*K)
-        DVR_phase = e_j_phase_matrix.view(len(e_j_phase_matrix), -1)
-        # ABS(|x(n)|-beta) DDR CORE
-        DDR_amp_matrix = xn_amp_matrix - threshold_matrix #(16384,M+1,K)
-        ABS_DDR_amp = torch.abs(DDR_amp_matrix)     # (16384,M+1,K)
-        DDR_core = ABS_DDR_amp.view(len(ABS_DDR_amp), -1) # (16384,(M+1)*K)
-
-        # DVR basis
-        DVR_out_linear = X_tensor  # (16384,M+1)
-        DVR_out_1 = DVR_core * DVR_phase  # (16384,(M+1)*K)
-        DVR_out_21 = DVR_core * DVR_phase * DVR_xn_amp  # (16384,(M+1)*K)
-        DVR_out_22 = DVR_core * DVR_xn
-        DVR_out_23 = DVR_core * DVR_X
-        DVR_out_DDR_1 = DDR_core * DVR_X
-        DVR_out_DDR_2 = DDR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
-
-        DVR_out_full = torch.concatenate((DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
-        DVR_out_full_real = torch.view_as_real(DVR_out_full)
-        DVR = DVR_out_full_real.view(len(DVR_out_full_real), -1)
-
-        y_pred = self.linear(DVR)
-        # out = self.linear(DVR)
-        # out_act = self.act(out)
-        # y_pred = self.linear_2(out_act)
-
-        return y_pred
-
-
-    # 数据预处理函数
-    def create_dataset(self,x, y, test_size=0.2):
-        M = self.M
-        # 转换为实部虚部分离格式
-        # X = volterra_nn.complex_to_real(x)
-        # Y = volterra_nn.complex_to_real(y)
-
-        sequences = volterra_nn.create_memory_seq(x,M)  # [N, M+1]
-
-        X_tensor = torch.from_numpy(sequences)
-        # targets = volterra_nn.complex_to_real(y)    # [N, 1]
-        targets = y
-
-        Y_tensor = torch.from_numpy(y) # (N, 2)
-        # Y_tensor = torch.view_as_complex(Y_tensor)
-        X_train, X_val, Y_train, Y_val = train_test_split(X_tensor, Y_tensor, test_size=test_size, shuffle=False)
-        return [X_train, X_val, Y_train, Y_val]
-
-    def apply_dpd(self, signal):
-        M = self.M
-        threshold = self.threshold
-        K = self.K
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # 将模型移动到设备上
-        self.to(device)
-        self.eval()
-        sequences = volterra_nn.create_memory_seq(signal, M)  # [N, M+1]
-        x = torch.from_numpy(sequences).to(device)
-
-        out = self(x)
-        out_complex = torch.view_as_complex(out).cpu()
-        y_pred = out_complex.detach().numpy()
-        # y_pred = np.stack()
-        return y_pred
-    # def train(self):
-    #     self.train()
 
 
 class DVR():
@@ -236,14 +124,126 @@ class DVR():
         X_ddr_1 = np.hstack(X_ddr_1_list) if X_ddr_1_list else np.zeros((len(x), 0))
         X_ddr_2 = np.hstack(X_ddr_2_list) if X_ddr_2_list else np.zeros((len(x), 0))
 
-        # 组合所有特征
-        X = np.hstack([X_lin, X_1, X_21, X_22, X_23, X_ddr_1, X_ddr_2])
+        # 组合所有特征 , X_ddr_2
+        X = np.hstack([X_lin, X_1, X_21, X_22, X_23, X_ddr_1])
         # X[np.isnan(X)] = 0
 
         return X
 
 
+class DVR_2(nn.Module):
+    def __init__(self, K, M, threshold, activation="ReLU"):
+        super().__init__()
+        self.M = M
+        self.K = K
+        self.threshold = threshold
+        assert activation == "ReLU" or "Tanh" or "ELU" or "None"
+        self.linear = nn.Linear((K*(M+1)*6+M+1)*2, 2,bias=False).double()
+        # self.act = nn.Tanh()
+        # self.linear_2 = nn.Linear(12, 2, bias=False).double()
+        # self.main_layers = nn.Sequential()
+        # self.para_layers = nn.Sequential()
+        # self.main_nn = volterra_nn.GMP_NN(self.layer_dim1, L, M = self.M,activation=activation)
+        # self.para_nn = volterra_nn.MCP_BASE_NN(self.layer_dim2, L, M = self.M, K = 5,activation=activation)
+        # self.out_layer = nn.Linear(2*M+2, 2,bias=False)
 
+    def forward(self, x_window):
+        """
+        x_window: 当前窗口的记忆输入 [batch, (M+1)]
+        """
+        M = self.M
+        K = self.K
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # threshold
+        threshold = torch.from_numpy(self.threshold)
+        threshold_matrix = threshold.unsqueeze(1).t().expand(M + 1, -1)  # (M+1,K) K维度延拓 -1 表示保持K维度不变
+        threshold_matrix = threshold_matrix.to(device) # x_windows已移动到设备
+        # x(n)
+        xn = x_window[:,-1] #当前信号x(n) (16384,1)
+        xn_amp = torch.abs(xn)  #当前信号|x(n)| (16384,1)
+        xn_amp_matrix = xn_amp.unsqueeze(1).repeat(1, M + 1).unsqueeze(2).repeat(1, 1, K)  # 当前信号|x(n)| (16384,M+1,K)
+        xn_matrix = xn.unsqueeze(1).repeat(1, M + 1).unsqueeze(2).repeat(1, 1, K)  # (16384,(M+1)*K)
+        DVR_xn = xn_matrix.view(len(xn), -1)
+        DVR_xn_amp = xn_amp_matrix.view(len(xn), -1)
+        # x(n-i)
+        X_tensor = x_window #记忆信号x(n-i) (16384,M+1)
+        X_matrix = X_tensor.unsqueeze(2).repeat(1, 1, K)  # K维度延拓 x(n-i) (16384,M+1,K)
+        DVR_X = X_matrix.view(len(X_matrix), -1)    # 展平 x(n-i) (16384,(M+1)*K)
+        # |x(n-i)| DVR CORE
+        X_amp = torch.abs(X_tensor)  #|x(n-i)| (16384,M+1)
+        amp_matrix = X_amp.unsqueeze(2).repeat(1, 1, K)  # K维度延拓 |x(n-i)| (16384,M+1,K)
+        DVR_amp_matrix = amp_matrix - threshold_matrix  # (16384,M+1,K)
+        ABS_DVR_amp = torch.abs(DVR_amp_matrix)  # (16384,M+1,K)
+        DVR_core = ABS_DVR_amp.view(len(ABS_DVR_amp), -1)    # (16384,(M+1)*K)
+        # theta(n-i) DVR PHASE
+        X_phase = torch.angle(X_tensor)  #theta(n-i) (16384,M+1)
+        e_j_phase = torch.exp(1j * X_phase)  # (16384,M+1)
+        e_j_phase_matrix = e_j_phase.unsqueeze(2).repeat(1, 1, K)  # (16384,M+1,K)
+        # DVR_phase = torch.flatten(e_j_phase_matrix)  # (16384,(M+1)*K)
+        DVR_phase = e_j_phase_matrix.view(len(e_j_phase_matrix), -1)
+        # ABS(|x(n)|-beta) DDR CORE
+        DDR_amp_matrix = xn_amp_matrix - threshold_matrix #(16384,M+1,K)
+        ABS_DDR_amp = torch.abs(DDR_amp_matrix)     # (16384,M+1,K)
+        DDR_core = ABS_DDR_amp.view(len(ABS_DDR_amp), -1) # (16384,(M+1)*K)
+
+        # DVR basis
+        DVR_out_linear = X_tensor  # (16384,M+1)
+        DVR_out_1 = DVR_core * DVR_phase  # (16384,(M+1)*K)
+        DVR_out_21 = DVR_core * DVR_phase * DVR_xn_amp  # (16384,(M+1)*K)
+        DVR_out_22 = DVR_core * DVR_xn
+        DVR_out_23 = DVR_core * DVR_X
+        DVR_out_DDR_1 = DDR_core * DVR_X
+        DVR_out_DDR_2 = DDR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
+
+        DVR_out_full = torch.concatenate((DVR_out_linear, DVR_out_1, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2), dim=1)
+        DVR_out_full_real = torch.view_as_real(DVR_out_full)
+        DVR = DVR_out_full_real.view(len(DVR_out_full_real), -1)
+
+        y_pred = self.linear(DVR)
+        # out = self.linear(DVR)
+        # out_act = self.act(out)
+        # y_pred = self.linear_2(out_act)
+
+        return y_pred
+
+
+    # 数据预处理函数
+    def create_dataset(self,x, y, test_size=0.2):
+        M = self.M
+        # 转换为实部虚部分离格式
+        # X = volterra_nn.complex_to_real(x)
+        # Y = volterra_nn.complex_to_real(y)
+
+        sequences = volterra_nn.create_memory_seq(x,M)  # [N, M+1]
+
+        X_tensor = torch.from_numpy(sequences)
+        # targets = volterra_nn.complex_to_real(y)    # [N, 1]
+        targets = y
+
+        Y_tensor = torch.from_numpy(y) # (N, 2)
+        # Y_tensor = torch.view_as_complex(Y_tensor)
+        X_train, X_val, Y_train, Y_val = train_test_split(X_tensor, Y_tensor, test_size=test_size, shuffle=False)
+        return [X_train, X_val, Y_train, Y_val]
+
+    def apply_dpd(self, signal):
+        M = self.M
+        threshold = self.threshold
+        K = self.K
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # 将模型移动到设备上
+        self.to(device)
+        self.eval()
+        sequences = volterra_nn.create_memory_seq(signal, M)  # [N, M+1]
+        x = torch.from_numpy(sequences).to(device)
+
+        out = self(x)
+        out_complex = torch.view_as_complex(out).cpu()
+        y_pred = out_complex.detach().numpy()
+        # y_pred = np.stack()
+        return y_pred
+    # def train(self):
+    #     self.train()
+    
 # class DVR():
 #     def __init__(self, M, threshold):
 #         super(DVR, self).__init__()

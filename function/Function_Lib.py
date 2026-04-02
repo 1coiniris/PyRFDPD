@@ -121,7 +121,7 @@ def get_data(signal,rate=0.6,state=3):
         elif signal == 'ILC_100M':
             fs = 1e9
             BW = 100e6
-            data_file = './tests/20250902/100M/data/ILCOUT_202509042234.mat '
+            data_file = 'data/ILCOUT_202602042328.mat'
             ilc_out = loadmat(data_file)
             #
             ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()

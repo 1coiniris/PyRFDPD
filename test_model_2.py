@@ -1,6 +1,6 @@
 import matplotlib
 matplotlib.use('Agg')
-# from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 # import matplotlib.pyplot as plt
 # from anyio import sleep
 import numpy as np
@@ -11,11 +11,10 @@ import torch.optim as optim
 from scipy.io import savemat
 from torch.utils.data import DataLoader, TensorDataset
 from pyrfdpd.utils import plot
-# import Model.volterra_nn as MCP_NN
-# import Model.Mixed_NN as MIX_NN
+import Model.volterra_nn as MCP_NN
+import Model.Mixed_NN as MIX_NN
 import Model.DVR as DVR
 import Model.gmp as gmp
-import Model.DDR as DDR
 import Model.DVR_NN as DVR_NN
 import Model.Orth_NN as ORTH_NN
 import Model.VDTDNN as VDTDNN
@@ -25,8 +24,8 @@ import Model.KFC_NN as KFCNN
 import argparse
 import time
 from function import Function_Calculate as cal, Function_Lib as fun
-# from function import FunctionAnalyzer as analyzer
-# from tqdm import tqdm
+from function import FunctionAnalyzer as analyzer
+from tqdm import tqdm
 
 
 
@@ -47,7 +46,7 @@ signal = 'ILC_100M'
 # signal = 'NXP_100M'
 # signal = 'YU'
 count = 0
-for state in range(1):
+for state in range(3):
     x_train, y_train, x, y, fs, BW = fun.get_data(signal,state = state)
     figure_path = 'results/modeling/figure'
     if plot_swich:
@@ -59,25 +58,32 @@ for state in range(1):
     #     test_map.extend(NN_map)
     # 模型设置
     test_map = [
-        # 'DVRNN_Sigmoid_1_10',
-        # 'DVRNN_Sigmoid_1_10_12',
-        # 'DVRNN_Sigmoid_2_10_8',
-        # 'DVRNN_Sigmoid_2_10_8_8',
-        # 'DVRNN_Sigmoid_2_10_12_8',
-        # 'DVRNN_Sigmoid_3_10_8',
+        # 'DVRNN_Sigmoid_1_7',
+        # 'DVRNN_Sigmoid_1_7_12',
+        # 'DVRNN_Sigmoid_2_7_8',
+        # 'DVRNN_Sigmoid_2_7_8_8',
+        # 'DVRNN_Sigmoid_2_7_12_8',
+        # 'DVRNN_Sigmoid_3_7_8',
         # 'DVRNN_Sigmoid_3_10_12',
         # 'DVRNN_Sigmoid_3_10_8_8',
 
-        # 'DVRNN_Tanh_1_10',
-        # 'DVRNN_Tanh_3_10_8_8',
-        # 'DVRNN_Tanh_3_10_12',
-        # 'DVRNN_Tanh_3_10_8',
-        # 'DVRNN_Tanh_1_10_12',
-        # 'DVRNN_Tanh_2_10_8',
-        # 'DVRNN_Tanh_2_10_8_8',
-        # 'DVRNN_Tanh_2_10_12_8',
-
-
+        # 'DVRNN_Tanh_1_7',
+        # 'DVRNN_Tanh_1_7_12',
+        # 'DVRNN_Tanh_2_7_8',
+        # 'DVRNN_Tanh_2_7_8_8',
+        # 'DVRNN_Tanh_2_7_12_8',
+        # 'DVRNN_Tanh_3_7_8',
+        # 'DVRNN_Tanh_3_7_12',
+        # 'DVRNN_Tanh_3_7_8_8',
+        #
+        # 'DVRNN_Tanh_1_5',
+        # 'DVRNN_Tanh_1_5_12',
+        # 'DVRNN_Tanh_2_5_8',
+        # 'DVRNN_Tanh_2_5_8_8',
+        # 'DVRNN_Tanh_2_5_12_8',
+        # 'DVRNN_Tanh_3_5_8',
+        # 'DVRNN_Tanh_3_5_12',
+        # 'DVRNN_Tanh_3_5_8_8',
 
         # 'DVRNN_ReLU_1_10',
         # 'DVRNN_ReLU_1_10_12',
@@ -119,34 +125,30 @@ for state in range(1):
         # 'PNRVTDNN_ReLU_10_3_16_12',
         # 'PNRVTDNN_ReLU_10_3_16_12_8',
         # 'PNRVTDNN_ReLU_10_3_16_12_12',
+        'VDTDNN_Tanh_10_3_8',
+        'VDTDNN_Tanh_10_3_12',
+        'VDTDNN_Tanh_10_3_12_12',
+        'VDTDNN_Tanh_10_5_12_12',
+        'VDTDNN_Tanh_10_5_12_12_12',
+        'VDTDNN_Tanh_10_5_16_16_12',
+        'VDTDNN_Tanh_10_5_16_12_12',
 
-        # 'VDTDNN_Tanh_10_3_8',
-        # 'VDTDNN_Tanh_10_3_12',
-        # 'VDTDNN_Tanh_10_3_12_12',
-        # 'VDTDNN_Tanh_10_5_12_12',
-        # 'VDTDNN_Tanh_10_5_12_12_12',
-        # 'VDTDNN_Tanh_10_5_16_16_12',
-        # 'VDTDNN_Tanh_10_5_16_12_12',
-        #
-        # 'VDTDNN_Sigmoid_10_3_8',
-        # 'VDTDNN_Sigmoid_10_3_12',
-        # 'VDTDNN_Sigmoid_10_3_12_12',
-        # 'VDTDNN_Sigmoid_10_5_12_12',
-        # 'VDTDNN_Sigmoid_10_5_12_12_12',
-        # 'VDTDNN_Sigmoid_10_5_16_16_12',
-        # 'VDTDNN_Sigmoid_10_5_16_12_12',
-        #
-        # 'VDTDNN_ReLU_10_3_8',
-        # 'VDTDNN_ReLU_10_3_12',
-        # 'VDTDNN_ReLU_10_3_12_12',
-        # 'VDTDNN_ReLU_10_5_12_12',
-        # 'VDTDNN_ReLU_10_5_12_12_12',
-        # 'VDTDNN_ReLU_10_5_16_16_12',
-        # 'VDTDNN_ReLU_10_5_16_12_12',
+        'VDTDNN_Sigmoid_10_3_8',
+        'VDTDNN_Sigmoid_10_3_12',
+        'VDTDNN_Sigmoid_10_3_12_12',
+        'VDTDNN_Sigmoid_10_5_12_12',
+        'VDTDNN_Sigmoid_10_5_12_12_12',
+        'VDTDNN_Sigmoid_10_5_16_16_12',
+        'VDTDNN_Sigmoid_10_5_16_12_12',
 
-        'DDR_2_9_7',
-        # 'DDR_7_7',
-        # 'DDR_9_7',
+        'VDTDNN_ReLU_10_3_8',
+        'VDTDNN_ReLU_10_3_12',
+        'VDTDNN_ReLU_10_3_12_12',
+        'VDTDNN_ReLU_10_5_12_12',
+        'VDTDNN_ReLU_10_5_12_12_12',
+        'VDTDNN_ReLU_10_5_16_16_12',
+        'VDTDNN_ReLU_10_5_16_12_12',
+
         # 'GMP_[5, 5, 5]_[5, 5, 5]_[2, 2]',
         # 'GMP_[7, 5, 5]_[5, 5, 5]_[2, 2]',
         # 'GMP_[7, 3, 3]_[5, 3, 3]_[2, 2]',
@@ -154,7 +156,7 @@ for state in range(1):
         # 'GMP_[9, 5, 5]_[5, 5, 5]_[2, 2]',
         # 'GMP_[9, 7, 7]_[5, 5, 5]_[2, 2]',
         # 'GMP_[9, 7, 7]_[5, 5, 5]_[3, 3]',
-        # 'GMP_[9, 9, 9]_[7, 5, 5]_[3, 3]',
+        # 'GMP_[9, 9, 9]_[5, 5, 5]_[3, 3]',
         # 'GMP_[11, 3, 3]_[5, 3, 3]_[2, 2]',
         # 'GMP_[11, 5, 5]_[5, 3, 3]_[2, 2]',
         # 'GMP_[11, 7, 7]_[5, 3, 3]_[3, 3]',
@@ -266,7 +268,7 @@ for state in range(1):
     for test_state in test_map:
         count = count + 1
         Model = test_state.split('_')
-        filename = f"Modeling_{time.strftime('%Y%m%d%H')}"
+        filename = f"Modeling_{time.strftime('%Y%m%d%H%M')}"
         if count ==1:
             parser = argparse.ArgumentParser(description='configTemplates')
             parser.add_argument('-log_path', default=f'{file_path}log/', type=str, help='log file path to save result')
@@ -310,25 +312,6 @@ for state in range(1):
             NMSE = cal.nmse(y_train[max(M)+max(L) + 11:], y_pred[max(M)+max(L)  + 11:], logger, 1)
             logger.info(f'{Model[0]} coef num {len(coef)}')
             y_pred = GMP.model_v(x, coef)
-
-        if Model[0] == 'DDR':
-            r = ast.literal_eval(Model[1])
-            K = ast.literal_eval(Model[2])  # [int(num) for num in re.findall(r'\d+', Model[1])]
-            M = ast.literal_eval(Model[3])  # [int(num) for num in re.findall(r'\d+', Model[3])]
-            ddr = DDR.DDR(r, K, M)
-
-            filename = f"DDR_R{r}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}"
-            logger.info(f'----------------{Model[0]}_R{r}_K{K}_M{M}--------------------')
-            start_time = time.time()  # 记录开始时间
-            coef = ddr.model_e(x_train, y_train,alpha=1e-9)
-            end_time = time.time()  # 记录结束时间
-            elapsed_time = end_time - start_time
-            # logger.info(f"model train time: {elapsed_time:.6f} s")
-            y_pred = ddr.model_v(x_train)
-            logger.info(f'{Model[0]} train NMSE:')
-            NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
-            logger.info(f'{Model[0]} coef num {len(coef)}')
-            y_pred = ddr.model_v(x)
 
 
         if Model[0] == 'KFCNN':
@@ -438,7 +421,7 @@ for state in range(1):
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
                 # 训练前的模型参数
-                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,1000,512,1e-1])
+                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,300,512])
                 # 训练后的模型参数
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
@@ -451,7 +434,7 @@ for state in range(1):
                 x_coef_window = torch.from_numpy(sequences).to(device)
                 y_sequences = fun.create_memory_seq(y_coef, M)  # [N, M+1]
                 y_coef_window = torch.from_numpy(y_sequences).to(device)
-                model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-1,pri=1)
+                model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-2,pri=1)
                 # coef = model.DVR_NN_e(x_train, y_train,alpha=5e-2)
                 # y_pred = model.DVR_NN_v(x_train,coef)
                 y_pred = model.DVR_NN_v(x_coef_window,model.coef).cpu().detach().numpy()
@@ -504,7 +487,7 @@ for state in range(1):
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
-                model.model_train(x_train, y_train, model_path, logger, [0.001,300,512])
+                model.model_train(x_train, y_train, model_path, logger, [0.001,1000,512])
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 start_time = time.time()  # 记录开始时间

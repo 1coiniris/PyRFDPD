@@ -17,7 +17,7 @@ class PNRVTDNN(nn.Module):
         self.M = M
         self.K = K
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        assert activation == "ReLU" or "Tanh" or "GELU" or "None"
+        assert activation == "ReLU" or "Tanh" or "GELU" or "Sigmoid" or "None"
         self.activation = activation
         self.layers = nn.Sequential()
         # for index, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
@@ -27,8 +27,10 @@ class PNRVTDNN(nn.Module):
                 self.layers.add_module("actFunc " + str(index), nn.ReLU())
             elif activation == "Tanh":
                 self.layers.add_module("actFunc " + str(index), nn.Tanh())
-            elif activation == "ELU":
-                self.layers.add_module("actFunc " + str(index), nn.ELU(alpha=1))
+            elif activation == "GELU":
+                self.layers.add_module("actFunc " + str(index), nn.GELU())
+            elif activation == "Sigmoid":
+                self.layers.add_module("actFunc " + str(index), nn.Sigmoid())
             elif activation == "None":
                 pass
         # if activation != "None":

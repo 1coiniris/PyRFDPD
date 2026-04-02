@@ -536,7 +536,7 @@ class DVR_NN(nn.Module):
         self.K = K
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # self.threshold = threshold
-        assert activation == "ReLU" or "Tanh" or "GELU" or "None"
+        assert activation == "ReLU" or "Tanh" or "GELU" or "Sigmoid" or "None"
         self.activation = activation
         self.DVR_layers = nn.Sequential()
         # self.DDR_layers = nn.Sequential()
@@ -554,6 +554,8 @@ class DVR_NN(nn.Module):
             elif activation == "Tanh":
                 self.DVR_layers.add_module("actFunc " + str(index), nn.Tanh())
                 # self.DDR_layers.add_module("actFunc " + str(index), nn.Tanh())
+            elif activation == "Sigmoid":
+                self.DVR_layers.add_module("actFunc " + str(index), nn.Sigmoid())
             elif activation == "GELU":
                 self.DVR_layers.add_module("actFunc " + str(index), nn.GELU())
                 # self.DDR_layers.add_module("actFunc " + str(index), nn.GELU())
@@ -718,10 +720,11 @@ class DVR_NN(nn.Module):
     #     #     plt.savefig(f'figures/MCP_NN/DVR_NN_loss_curve.png')
     #     #     plt.close()
 
-    def model_train(self,x,y,model_path,logger=None,total_train = 1,para = [0.001,150,512]):
+    def model_train(self,x,y,model_path,logger=None,total_train = 1,para = [0.001,150,512,1e-2]):
         learning_rate = para[0]
         epochs = para[1]
         batch_size = para[2]
+        alpha = para[3]
         device = self.device
 
         # optim
@@ -769,17 +772,19 @@ class DVR_NN(nn.Module):
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
-                coef = self.DVR_NN_e(batch_x_signal,targets)
-                outputs = self(batch_x_signal,coef)
-                # outputs = self(batch_x_signal)
+                if epochs-epoch<100:
+                    coef = self.DVR_NN_e(batch_x_signal,targets,alpha)
+                    outputs = self(batch_x_signal,coef)
+                else:
+                    outputs = self(batch_x_signal)
                 # 计算预测损失
                 mse_loss = criterion(outputs, targets_real)
                 # 总损失 = 预测损失 + 正交性损失权重
                 # 使用渐进式正交约束权重
-                if epoch <250:
-                    ortho_weight = min(1e-10 * (epoch / 5), 1e-9)  # 逐步增加权重
-                elif epoch < 400:
-                    ortho_weight = 5e-9 #min(5e-5 * (epoch-250), 1e-2)
+                # if epoch <250:
+                #     ortho_weight = min(1e-10 * (epoch / 5), 1e-9)  # 逐步增加权重
+                # elif epoch < 400:
+                #     ortho_weight = 5e-9 #min(5e-5 * (epoch-250), 1e-2)
                 # else:
                     # ortho_weight = 10
                 total_loss = mse_loss #+ ortho_weight * ortho_loss
@@ -800,9 +805,13 @@ class DVR_NN(nn.Module):
                     targets = targets.to(device)
                     targets_real = torch.view_as_real(targets)
                     targets_real = targets_real.to(device)
-
-                    coef = self.DVR_NN_e(batch_x_signal, targets)
-                    val_outputs = self(batch_x_signal, coef)
+                    if epochs - epoch < 100:
+                        coef = self.DVR_NN_e(batch_x_signal, targets, alpha)
+                        val_outputs = self(batch_x_signal, coef)
+                    else:
+                        val_outputs = self(batch_x_signal)
+                        # coef = self.DVR_NN_e(batch_x_signal, targets,alpha)
+                    # val_outputs = self(batch_x_signal, coef)
                     # val_outputs = self(batch_x_signal)
                     val_loss_total += criterion(val_outputs, targets_real).item()
 
@@ -978,33 +987,41 @@ class DVR_NN(nn.Module):
         # threshold = self.threshold
         K = self.K
         device = self.device
+
         basis = self.get_basis(x_window)
 
         X = basis
         np_X = X.cpu().detach().numpy()
         y_copy = y
         np_y = y_copy.cpu().detach().numpy()
-        # sequences = volterra_nn.create_memory_seq(x, M)  # [N, M+1]
-        # x_window = torch.from_numpy(sequences).to(device)
-        # X = self.get_basis(x_window).cpu().detach().numpy()
-        # XH = np.conjugate(X.T)
-        # coef = np.linalg.pinv(XH.dot(X) + alpha * np.eye(X.shape[1])).dot(XH).dot(y)
-        #
-        # y_model = X.dot(coef)
-        # NMSE = cal.nmse(y, y_model)
-        # print(f"NMSE: {NMSE:.3f} dB")
-        # return coef
+
         np_XH = np.conjugate(np_X.T)
         np_coef = np.linalg.pinv(np_XH.dot(np_X) + alpha * np.eye(np_X.shape[1])).dot(np_XH).dot(np_y)
         coef = torch.from_numpy(np_coef).to(device)
-        y_model = X @ coef
 
-        y_model = y_model.cpu().detach().numpy()
         self.coef = coef
-        NMSE = cal.nmse(np_y, y_model)
         if pri==1:
+            y_model = X @ coef
+            y_model = y_model.cpu().detach().numpy()
+            NMSE = cal.nmse(np_y, y_model)
             print(f"train NMSE: {NMSE:.3f} dB")
         return coef
+
+        # basis = self.get_basis(x_window)  # 已在GPU上
+        # X = basis
+        # y = y  # 已在GPU上
+        # # 计算伪逆（全部在GPU上）
+        # # XH = X.conj().T
+        # coef = torch.linalg.lstsq(X, y, rcond=alpha).solution
+        # # Gram = XH @ X + alpha * torch.eye(X.shape[1], device=self.device)
+        # # coef = torch.linalg.pinv(Gram) @ XH @ y  # 或使用 torch.linalg.lstsq
+        # if pri:
+        #     y_model = X @ coef
+        #     NMSE = cal.nmse(y.cpu().numpy(), y_model.cpu().numpy())
+        #     print(f"train NMSE: {NMSE:.3f} dB")
+        # return coef
+
+
 
     # def DVR_NN_v(self, x, coef):
     #     M = self.M

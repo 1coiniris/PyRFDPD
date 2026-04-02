@@ -36,6 +36,8 @@ class VDTDNN(nn.Module):
                 # self.DDR_layers.add_module("actFunc " + str(index), nn.ReLU())
             elif activation == "Tanh":
                 self.amp_layers.add_module("actFunc " + str(index), nn.Tanh())
+            elif activation == "Sigmoid":
+                self.amp_layers.add_module("actFunc " + str(index), nn.Sigmoid())
                 # self.DDR_layers.add_module("actFunc " + str(index), nn.Tanh())
             elif activation == "GELU":
                 self.amp_layers.add_module("actFunc " + str(index), nn.GELU())

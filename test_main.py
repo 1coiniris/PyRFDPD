@@ -421,7 +421,7 @@ for test_state in test_map:
         model = VDTDNN.VDTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.0025,300,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,300,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
