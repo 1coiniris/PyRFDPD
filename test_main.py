@@ -61,18 +61,20 @@ params = {
     'VSG_IP': '172.19.2.206',  # IP of Vector Signal Generator (VSG)
     'VSA_IP': '172.19.2.190',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'fsw',#'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
+    'FPGA_IP':'192.168.0.22',   # IP of FPGA
     'waveformfile': 'waveform_crz',
     'fs': fs,  # sampling rate = 160 MHz
     'fc': 3.5e9,  # carrier frequency = 2.14 GHz
     'att': 5,  # attenuation level of (VSA) in dB
-    'type': 1  # test type
+    'type': 1,  # test type
+    'is_FPGA': True #use FPGA or not
 }
 
 
 PA_board = Single_Band_PA.SingleBandPA(params)
 
 logger.info(f"power: {params['pow']}")
-yorg = PA_board.transmit(xorg,logger)
+yorg = PA_board.transmit(xorg,logger) # !!!Attention: Now FPGA can only support len(xorg)=16384
 
 # y = PA_board.transmit(x,logger)
 
@@ -178,6 +180,8 @@ test_map = [
     # 'GMP_[11, 7, 7]_[8, 3, 3]_[3, 3]',
     # 'GMP_[11, 9, 9]_[8, 5, 5]_[3, 3]',
     # 'GMP_[11, 9, 9]_[8, 5, 5]_[4, 4]',
+
+    # 'FPGA'
 ]
 
 for test_state in test_map:
@@ -469,6 +473,8 @@ for test_state in test_map:
         savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
         logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_Layer_{layer_dims}_{time.strftime('%Y%m%d%H%M')}.mat")
 
+    if Model[0] == 'FPGA':
+        pa_output = PA_board.transmit(x) #暂时先这么写, 对FPGA应该是直接传x进去
 
 
     NMSE, ACLR, NMSE_pred, ACLR_pred = fun.calculate_CRZ(x, y, pa_output, fs, BW, figure_path, Model[0], 1, logger,type='DPD')
