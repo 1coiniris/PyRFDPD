@@ -772,7 +772,7 @@ class DVR_NN(nn.Module):
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
-                if epochs-epoch<100:
+                if epochs-epoch<200:
                     coef = self.DVR_NN_e(batch_x_signal,targets,alpha)
                     outputs = self(batch_x_signal,coef)
                 else:
@@ -805,7 +805,7 @@ class DVR_NN(nn.Module):
                     targets = targets.to(device)
                     targets_real = torch.view_as_real(targets)
                     targets_real = targets_real.to(device)
-                    if epochs - epoch < 100:
+                    if epochs - epoch < 200:
                         coef = self.DVR_NN_e(batch_x_signal, targets, alpha)
                         val_outputs = self(batch_x_signal, coef)
                     else:
@@ -913,12 +913,18 @@ class DVR_NN(nn.Module):
 
         # |x(n-i)| DVR CORE
         X_amp = torch.abs(X_tensor)  #|x(n-i)| (16384,M+1)
+
+        X = X_amp
+        # for k in range(2,6):
+        #     X_amp_k = X_amp.pow(k)
+        #     X = torch.concat((X,X_amp_k), dim=1)
+
         # amp_matrix = X_amp.unsqueeze(2).repeat(1, 1, K)  # K维度延拓 |x(n-i)| (16384,M+1,K)
         # DVR_amp_matrix = amp_matrix - threshold_matrix  # (16384,M+1,K)
         # ABS_DVR_amp = torch.abs(DVR_amp_matrix)  # (16384,M+1,K)
         # DVR_core = ABS_DVR_amp.view(len(ABS_DVR_amp), -1)    # (16384,(M+1)*K)
         # DVR_amp = self.amp_linear(X_amp)    # (16384,(M+1)*K)
-        DVR_amp = self.DVR_layers(X_amp)
+        DVR_amp = self.DVR_layers(X)
         DVR_core = torch.abs(DVR_amp)  # (16384,(M+1)*K)
 
         # if self.activation == "ABS":

@@ -8,6 +8,7 @@ import Model.gmp as gmp
 import Model.volterra_nn as MCP_NN
 import Model.Mixed_NN as MIX_NN
 import Model.DVR as DVR
+import Model.DDR as DDR
 import Model.Orth_NN as ORTH_NN
 import Model.DVR_NN as DVR_NN
 import Model.VDTDNN as VDTDNN
@@ -16,6 +17,7 @@ import Model.KFC_NN as KFCNN
 import Model.PNRVTDNN as PNRVTDNN
 import argparse
 import time
+import function.demodulation as demod
 from function import align
 from function import Function_Calculate as cal, Function_Lib as fun
 from function import Single_Band_PA, ILC, ILA
@@ -23,7 +25,8 @@ from Instrument import VSA, VSG
 from matplotlib import pyplot as plt
 from scipy.io import loadmat
 
-filepath = f'tests/20260204/100M'
+
+filepath = f'tests/20260430/100M'
 figure_path = f'{filepath}/figure'
 mat_path = f'{filepath}/data'
 logger_filename = f"test_{time.strftime('%Y%m%d%H')}"
@@ -46,25 +49,39 @@ NMSE_state_list = []
 ########################## 信号描述 ################################
 # signal = '400M' #'LMBA200M'
 # signal = 'LMBA200M'
-signal = '100M'
+# signal = '100M'
+signal = '100M_16384QAM'
+# signal = '160M_4096QAM'
 # signal = 'ILC_120M'
 # signal = 'ILC'
 # signal = 'YU'
 # signal = '20M'
 # signal = '40M'
 
-xorg, x_2, fs, BW = fun.get_waveform(signal,rate=0.6)
+xorg, x_2, fs, BW = fun.get_waveform(signal,rate=1)
+
+if signal == '100M_16384QAM':
+    mat = loadmat('data/signal_100M_fs500M_4096QAM.mat')
+    txSignal = mat['x'].ravel()  # 转为一维
+    pilot_ref = mat['pilotSymbols'].ravel()
+    data_ref = mat['dataSymbols'].ravel()
+    rrc_filt_matlab = mat['rrcFilter'].ravel()
+    sps = int(mat['sps'].item())  # 无警告
+    alpha = float(mat['alpha'].item())
+
+    # 使用 MATLAB 的滤波器系数，而不是 Python 自己生成
+    evm = demod.demodulate_16384qam(xorg, data_ref, pilot_ref,rrc_filt=rrc_filt_matlab, sps=sps, alpha=alpha,savepath=figure_path)
 
 
 params = {
-    'pow': -24,  # output power in dB
-    'VSG_IP': '172.19.2.206',  # IP of Vector Signal Generator (VSG)
-    'VSA_IP': '172.19.2.190',  # IP of Vector Signal Analyzer (VSA)
+    'pow': -23.5,  # output power in dB
+    'VSG_IP': '192.168.1.25',  # IP of Vector Signal Generator (VSG)
+    'VSA_IP': '192.168.1.36',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'fsw',#'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
     'waveformfile': 'waveform_crz',
     'fs': fs,  # sampling rate = 160 MHz
     'fc': 3.5e9,  # carrier frequency = 2.14 GHz
-    'att': 5,  # attenuation level of (VSA) in dB
+    'att': 10,  # attenuation level of (VSA) in dB
     'type': 1  # test type
 }
 
@@ -82,16 +99,20 @@ ACP = cal.acpr(yorg,fs,BW,BW*0.95,logger)
 
 if plot_swich:
     fun.PA_figure(xorg, yorg, fs, figure_path)
+    if signal == '100M_16384QAM':
+        evm_wodpd = demod.demodulate_16384qam(yorg, data_ref, pilot_ref, rrc_filt=rrc_filt_matlab, sps=sps, alpha=alpha,savepath=figure_path)
+        logger.info(f'EVM_WO_DPD: {evm_wodpd} %')
 
 N = len(xorg)
-x_train = xorg[0:int(N * 0.6 - 1)]
-y_train = yorg[0:int(N * 0.6 - 1)]
-x = xorg[int(N * 0.6):]
-y = yorg[int(N * 0.6):]
+x_train = xorg[150:int(N * 0.6 - 1)]
+y_train = yorg[150:int(N * 0.6 - 1)]
+# x = xorg[int(N * 0.6):]
+# y = yorg[0:int(N * 0.6):]
+x = xorg
+y = yorg
 
-
-savemat(f"{mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat", {'x_train':x_train,'y_train':y_train,'x':x,'y':y,})
-logger.info(f"save ilc file to {mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat")
+savemat(f"{mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat", {'x_train':x_train,'y_train':y_train,'x':xorg,'y':yorg,})
+logger.info(f"save PA file to {mat_path}/PA_inout_{time.strftime('%Y%m%d%H%M')}.mat")
 
 
 ilc_in = {
@@ -99,35 +120,127 @@ ilc_in = {
     'u_k': xorg,
     'fs': fs,
     'BW': BW,
-    'nIterations': 20,
+    'nIterations': 30,
     'type': 'linear',
-    'eta': 0.2
+    'eta': 0.15
 }
 
-ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)
+# ilc_out,k_opt = ILC.ILC(PA_board,ilc_in,logger)
+#
+#
+# NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(xorg, yorg, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
+# if signal == '100M_16384QAM':
+#     evm_ilcdpd = demod.demodulate_16384qam(ilc_out['ILC_final'], data_ref, pilot_ref, rrc_filt=rrc_filt_matlab, sps=sps, alpha=alpha,savepath=figure_path)
+#     logger.info(f'EVM_ILC_DPD: {evm_ilcdpd} %')
+#
+# mat_filename = f"{mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat"
+# savemat(mat_filename, ilc_out)
+# logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
+#
+#
+# logger.info(f"================ ILC Done ================")
+
+data_file = './tests/20260430/100M/data/ILCOUT_202605020341.mat  '
+ilc_out = loadmat(data_file)
+#
+ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
 
 
-NMSE, ACLR, NMSE_ILC, ACLR_ILC = fun.calculate_CRZ(xorg, yorg, ilc_out['ILC_final'], fs, BW, figure_path, 'ILC', 1, logger,type='DPD')
-
-mat_filename = f"{mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat"
-savemat(mat_filename, ilc_out)
-logger.info(f"save ilc file to {mat_path}/ILCOUT_{time.strftime('%Y%m%d%H%M')}.mat")
 
 
-logger.info(f"================ ILC Done ================")
-
-# data_file = './tests/20260204/100M/data/ILCOUT_202602042328.mat'
-# ilc_out = loadmat(data_file)
-# #
-# ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
-
-
-
-
-ilc_out_train = ilc_out['u_ideal'][0:int(N * 0.6 - 1)]
+ilc_out_train = ilc_out['u_ideal'][150:int(N * 0.6 - 1)]
 
 # 模型设置
 test_map = [
+    'DVR_1_10_[0.5]',
+    'DVR_2_10_[0.3,0.7]',
+    'DVR_3_10_[0.2,0.5,0.8]',
+    'DVR_4_10_[0.2,0.4,0.6,0.8]',
+    'DVR_5_10_[0.2,0.4,0.6,0.7,0.8]',
+    'DVR_6_10_[0.2,0.4,0.6,0.7,0.8,0.9]',
+    'DVR_7_10_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
+
+    # 'DVR_1_7_[0.5]',
+    # 'DVR_2_7_[0.3,0.7]',
+    # 'DVR_3_7_[0.2,0.5,0.8]',
+    # 'DVR_4_7_[0.2,0.4,0.6,0.8]',
+    # 'DVR_5_7_[0.2,0.4,0.6,0.7,0.8]',
+    # 'DVR_6_7_[0.2,0.4,0.6,0.7,0.8,0.9]',
+    # 'DVR_7_7_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
+    #
+    # 'DVR_1_5_[0.5]',
+    # 'DVR_2_5_[0.3,0.7]',
+    # 'DVR_3_5_[0.2,0.5,0.8]',
+    # 'DVR_4_5_[0.2,0.4,0.6,0.8]',
+    # 'DVR_5_5_[0.2,0.4,0.6,0.7,0.8]',
+    # 'DVR_6_5_[0.2,0.4,0.6,0.7,0.8,0.9]',
+    # 'DVR_7_5_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
+    #
+    # 'DVR_1_3_[0.5]',
+    # 'DVR_2_3_[0.3,0.7]',
+    # 'DVR_3_3_[0.2,0.5,0.8]',
+    # 'DVR_4_3_[0.2,0.4,0.6,0.8]',
+    # 'DVR_5_3_[0.2,0.4,0.6,0.7,0.8]',
+    # 'DVR_6_3_[0.2,0.4,0.6,0.7,0.8,0.9]',
+    # 'DVR_7_3_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
+
+
+    # 'DVRNN_Tanh_3_10_8_8',
+    # 'DVRNN_Sigmoid_3_10_8_8',
+    # 'DVRNN_ReLU_3_10_8_8',
+    # 'DVRNN_Tanh_3_10_12',
+    # 'DVRNN_Tanh_3_10_8',
+    # 'DVRNN_Tanh_1_10',
+    # 'DVRNN_Tanh_1_10_12',
+    # 'DVRNN_Tanh_2_10_8',
+    # 'DVRNN_Tanh_2_10_8_8',
+    # 'DVRNN_Tanh_2_10_12_8',
+
+    # 'VDTDNN_Tanh_5_3_8',
+    # 'VDTDNN_Tanh_5_3_12',
+    # 'VDTDNN_Tanh_5_3_12_12',
+    # 'VDTDNN_Tanh_5_5_12_12',
+    # 'VDTDNN_Tanh_5_5_12_12_12',
+    # 'VDTDNN_Tanh_5_5_16_16_12',
+    # 'VDTDNN_Tanh_5_5_16_12_12',
+    # 'VDTDNN_Sigmoid_10_5_16_16_12',
+    # 'VDTDNN_ReLU_10_5_16_16_12',
+
+    # 'DDR_1_5_10',
+    # 'DDR_1_6_10',
+    # 'DDR_1_7_10',
+    # 'DDR_1_8_10',
+    # 'DDR_1_9_10',
+    # 'DDR_1_11_10',
+    # 'DDR_2_5_10',
+    # 'DDR_2_7_10',
+    # 'DDR_2_9_10',
+    # 'GMP_[5, 5, 5]_[10, 5, 5]_[2, 2]',
+    # 'GMP_[7, 5, 5]_[10, 5, 5]_[2, 2]',
+    # 'GMP_[7, 3, 3]_[10, 3, 3]_[2, 2]',
+    # 'GMP_[9, 3, 3]_[10, 3, 3]_[2, 2]',
+    # 'GMP_[9, 5, 5]_[10, 5, 5]_[2, 2]',
+    # 'GMP_[9, 7, 7]_[10, 5, 5]_[2, 2]',
+    # 'GMP_[9, 7, 7]_[10, 5, 5]_[3, 3]',
+    # 'GMP_[9, 9, 9]_[10, 5, 5]_[3, 3]',
+    # 'GMP_[11, 3, 3]_[10, 3, 3]_[2, 2]',
+    # 'GMP_[11, 5, 5]_[10, 3, 3]_[2, 2]',
+    # 'GMP_[11, 7, 7]_[5, 3, 3]_[3, 3]',
+    # 'GMP_[11, 9, 9]_[5, 5, 5]_[3, 3]',
+    # 'GMP_[11, 9, 9]_[5, 5, 5]_[4, 4]',
+    # 'GMP_[5, 5, 5]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[7, 5, 5]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[7, 3, 3]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[9, 3, 3]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[9, 5, 5]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[9, 7, 7]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[9, 7, 7]_[3, 3, 3]_[3, 3]',
+    # 'GMP_[9, 9, 9]_[3, 3, 3]_[3, 3]',
+    # 'GMP_[11, 3, 3]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[11, 5, 5]_[3, 3, 3]_[2, 2]',
+    # 'GMP_[11, 7, 7]_[3, 3, 3]_[3, 3]',
+    # 'GMP_[11, 9, 9]_[3, 3, 3]_[3, 3]',
+    # 'GMP_[11, 9, 9]_[3, 3, 3]_[4, 4]',
     # 'DVRNN_ReLU_3_10_8',
     # 'DVRNN_ReLU_3_10_8_12',
     # 'DVRNN_ReLU_4_10',
@@ -140,21 +253,21 @@ test_map = [
     # 'DVRNN_ReLU_1_10_8_8',
     # 'DVRNN_ReLU_1_10_8_12',
 
-    # 'PNRVTDNN_ReLU_10_3_8',
-    # 'PNRVTDNN_ReLU_10_3_8_8',
-    # 'PNRVTDNN_ReLU_10_3_8_12',
-    # 'PNRVTDNN_ReLU_10_3_8_12_12',
-    # 'PNRVTDNN_ReLU_10_3_8_16_20',
-    # 'PNRVTDNN_ReLU_10_3_16_20',
-    # 'PNRVTDNN_ReLU_10_3_12_16_16',
-    # 'PNRVTDNN_ReLU_10_3_16_16_24',
-    # 'VDTDNN_ReLU_10_3_8',
-    # 'VDTDNN_ReLU_10_3_12',
-    # 'VDTDNN_ReLU_10_3_12_12',
-    # 'VDTDNN_ReLU_10_5_12_12',
-    # 'VDTDNN_ReLU_10_5_12_12_12',
-    'VDTDNN_ReLU_10_5_12_16_12',
-    # 'VDTDNN_ReLU_10_5_16_12_16',
+    # 'PNRVTDNN_Tanh_10_3_8',
+    # 'PNRVTDNN_Tanh_10_3_8_8',
+    # 'PNRVTDNN_Tanh_10_3_12_12',
+    # 'PNRVTDNN_Tanh_10_3_12_12_12',
+    # 'PNRVTDNN_Tanh_10_3_16_16_12',
+    # 'PNRVTDNN_Tanh_10_3_16_16_16',
+    # 'PNRVTDNN_Tanh_10_3_24_16_16',
+
+    # 'VDTDNN_Tanh_10_3_8',
+    # 'VDTDNN_Tanh_10_3_12',
+    # 'VDTDNN_Tanh_10_3_12_12',
+    # 'VDTDNN_Tanh_10_5_12_12',
+    # 'VDTDNN_Tanh_10_5_12_12_12',
+    # 'VDTDNN_Tanh_10_5_16_12_8',
+    # 'VDTDNN_Tanh_10_5_16_16_12',
     # 'DVR_1_10_[0.5]',
     # 'DVR_3_5_[0.2,0.5,0.8]',
     # 'DVR_3_7_[0.2,0.5,0.8]',
@@ -211,6 +324,25 @@ for test_state in test_map:
         pa_output = PA_board.transmit(pa_input, logger)
         savemat(f"{mat_path}/{Model[0]}_K{K}_M{M}_thres{threshold}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
         logger.info(f"save mat_file to {mat_path}/{Model[0]}_K{K}_M{M}_thres{threshold}_{time.strftime('%Y%m%d%H%M')}.mat")
+
+    if Model[0] == 'DDR':
+        r = ast.literal_eval(Model[1])
+        K = ast.literal_eval(Model[2])  # [int(num) for num in re.findall(r'\d+', Model[1])]
+        M = ast.literal_eval(Model[3])  # [int(num) for num in re.findall(r'\d+', Model[3])]
+        ddr = DDR.DDR(r, K, M)
+
+        coef = ddr.model_e(x_train, ilc_out_train,alpha=1e-9)
+
+        y_pred = ddr.model_v(x_train)
+        logger.info(f'{Model[0]} train NMSE:')
+        NMSE = cal.nmse(ilc_out_train[M + 11:], y_pred[M + 11:], logger, 1)
+
+        pa_input = ddr.model_v(x)
+        logger.info(f'COEF number: {len(coef)} ')
+        pa_output = PA_board.transmit(pa_input, logger)
+        savemat(f"{mat_path}/{Model[0]}_R{r}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat", {'x':x,'u':pa_input,'y_withDPD':pa_output})
+        logger.info(f"save mat_file to {mat_path}/{Model[0]}_R{r}_K{K}_M{M}_{time.strftime('%Y%m%d%H%M')}.mat")
+
 
     if Model[0] == 'KFCNN':
         # 参数设置
@@ -317,7 +449,7 @@ for test_state in test_map:
 
         layer_dims = []
 
-        input_size = M + 1  # 输入维度
+        input_size = (M + 1) * 1  # 输入维度
         output_size = (M + 1) * K  # 输出维度
         layer_dims.append(input_size)
         for size_str in Model[4:]:
@@ -326,14 +458,14 @@ for test_state in test_map:
         layer_dims.append(output_size)
 
         model_path = f"{filepath}/model/{Model[0]}_M{M}_K{K}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
-        trained_model = 'tests/20250826/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt'  # LMBA
+        trained_model = 'tests/20260430/100M/model/DVRNN_M10_K3_Tanh_202605011832.pt'  # LMBA
         logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
         # 初始化模型
         model = DVR_NN.DVR_NN(layer_dims,K=K, M=M, activation=activation).to(device)
         fun.model_structure(model, logger)
 
         # model.load_state_dict(torch.load(trained_model))
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,50,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,1000,512,1e-1])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -351,6 +483,7 @@ for test_state in test_map:
         sequences = MCP_NN.create_memory_seq(x, M)  # [N, M+1]
         x_window = torch.from_numpy(sequences).to(device)
         pa_input = model.DVR_NN_v(x_window, coef).cpu().detach().numpy()
+        pa_input[0:150] = x[0:150]
         end_time = time.time()  # 记录结束时间
         elapsed_time = end_time - start_time
         logger.info(f"model prediction time: {elapsed_time:.6f} s")
@@ -384,7 +517,7 @@ for test_state in test_map:
         fun.model_structure(model, logger)
 
         # model.load_state_dict(torch.load(trained_model))
-        model.model_train(x_train, ilc_out_train, model_path, logger, [0.001, 300, 512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, [0.001, 1000, 512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -421,7 +554,7 @@ for test_state in test_map:
         model = VDTDNN.VDTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,300,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,1000,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
@@ -472,7 +605,9 @@ for test_state in test_map:
 
 
     NMSE, ACLR, NMSE_pred, ACLR_pred = fun.calculate_CRZ(x, y, pa_output, fs, BW, figure_path, Model[0], 1, logger,type='DPD')
-
+    if signal == '100M_16384QAM':
+        evm_dpd = demod.demodulate_16384qam(pa_output, data_ref, pilot_ref, rrc_filt=rrc_filt_matlab, sps=sps, alpha=alpha,savepath=figure_path)
+        logger.info(f'EVM_With_DPD: {evm_dpd} %')
 
 # DPD iteration
 # for idx in range(iteration):

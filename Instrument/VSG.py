@@ -20,7 +20,7 @@ class VSG:
     #     self.inst.close()
 
     def transmit(self,brand, x, fc, fs, power=-30, file_name="Waveform_lz.wv", logger=None):
-        if len(x) > 80001:
+        if len(x) > 100000:
             print("Too long for VSG.")
         # self.SendVSG(x, fs, pow, fc)
         self.down_signal(brand,x,fc,fs,power,file_name,logger)

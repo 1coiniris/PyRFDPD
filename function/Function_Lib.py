@@ -190,12 +190,23 @@ def get_waveform(signal,rate=0.6,state=3):
             xorg = data['x']
             yorg = data['y']
         elif signal == '100M':
-            fs = 1000e6
+            fs = 500e6
             BW = 100e6
-            data_file = 'data/signal_100M_NR_fs1000M.mat'
+            data_file = 'data/signal_100M_fs500M.mat'
             data = loadmat(data_file)
             xorg = data['x0']
-
+        elif signal == '100M_16384QAM':
+            fs = 500e6
+            BW = 100e6
+            data_file = 'data/signal_100M_fs500M_4096QAM.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
+        elif signal == '160M_4096QAM':
+            fs = 800e6
+            BW = 160e6
+            data_file = 'data/signal_160M_fs800M_4096QAM.mat'
+            data = loadmat(data_file)
+            xorg = data['x']
         elif signal == 'ILC_120M':
             fs = 1.2288e9
             BW = 120e6
@@ -220,7 +231,7 @@ def get_waveform(signal,rate=0.6,state=3):
         N = len(xorg)
         last_train = int(N * rate - 1)
         # 创建数据集
-        x_train = xorg[0:last_train].squeeze()
+        x_train = xorg[0:last_train+1].squeeze()
         # y_train = yorg[0:last_train].squeeze()
         x = xorg[last_train + 1:].squeeze()
         # y = yorg[last_train + 1:].squeeze()

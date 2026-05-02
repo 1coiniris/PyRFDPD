@@ -90,7 +90,7 @@ class SingleBandPA:
                 self.VSG_1.transmit(brand="rohde-schwarz", x=x, fc=self.fc,fs=self.fs, power=self.pow, logger=logger)
 
                 y_collect = np.zeros(len(x))
-                for i in range(5):
+                for i in range(10):
                     y0 = self.VSA_1.collect_signal(fc=self.fc, fs=self.fs, att=self.att,logger=logger)
                     # Time alignment and normalization (assuming align_coarse_norm and upsample_nrmse are implemented)
                     # _, y = align_coarse_norm(x, y0)
@@ -103,7 +103,7 @@ class SingleBandPA:
                     y_i = y_i / np.max(np.abs(y_i))
                     y_collect = y_collect + y_i
 
-                y = y_collect/5
+                y = y_collect/10
                 # Normalize to input norm (commented out in original)
                 # y = y * np.linalg.norm(x) / np.linalg.norm(y)
             except:
