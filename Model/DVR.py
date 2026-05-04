@@ -125,7 +125,7 @@ class DVR():
         X_ddr_2 = np.hstack(X_ddr_2_list) if X_ddr_2_list else np.zeros((len(x), 0))
 
         # 组合所有特征 , X_ddr_2
-        X = np.hstack([X_lin, X_1, X_21, X_22, X_23, X_ddr_1])
+        X = np.hstack([X_lin, X_1, X_21, X_22, X_23, X_ddr_1, X_ddr_2])
         # X[np.isnan(X)] = 0
 
         return X

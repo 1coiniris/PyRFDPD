@@ -772,7 +772,7 @@ class DVR_NN(nn.Module):
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
-                if epochs-epoch<200:
+                if epochs-epoch<100:
                     coef = self.DVR_NN_e(batch_x_signal,targets,alpha)
                     outputs = self(batch_x_signal,coef)
                 else:
@@ -805,7 +805,7 @@ class DVR_NN(nn.Module):
                     targets = targets.to(device)
                     targets_real = torch.view_as_real(targets)
                     targets_real = targets_real.to(device)
-                    if epochs - epoch < 200:
+                    if epochs - epoch < 100:
                         coef = self.DVR_NN_e(batch_x_signal, targets, alpha)
                         val_outputs = self(batch_x_signal, coef)
                     else:

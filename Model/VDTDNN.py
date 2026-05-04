@@ -158,8 +158,8 @@ class VDTDNN(nn.Module):
                 nosave_count = nosave_count + 1
             else:
                 nosave_count = 0
-            if nosave_count > 100:
-                break
+            # if nosave_count > 100:
+            #     break
 
         torch.save(best_model, model_path)
         logger.info(f"model save: {model_path} ")

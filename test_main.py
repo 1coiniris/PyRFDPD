@@ -74,7 +74,7 @@ if signal == '100M_16384QAM':
 
 
 params = {
-    'pow': -23.5,  # output power in dB
+    'pow': -24,  # output power in dB
     'VSG_IP': '192.168.1.25',  # IP of Vector Signal Generator (VSG)
     'VSA_IP': '192.168.1.36',  # IP of Vector Signal Analyzer (VSA)
     'VSA_type': 'fsw',#'keysight',  # Type of Vector Signal Analyzer (VSA) 'rs' or 'k'
@@ -120,7 +120,7 @@ ilc_in = {
     'u_k': xorg,
     'fs': fs,
     'BW': BW,
-    'nIterations': 30,
+    'nIterations': 35,
     'type': 'linear',
     'eta': 0.15
 }
@@ -140,7 +140,7 @@ ilc_in = {
 #
 # logger.info(f"================ ILC Done ================")
 
-data_file = './tests/20260430/100M/data/ILCOUT_202605020341.mat  '
+data_file = './tests/20260430/100M/data/ILCOUT_202605040204.mat'
 ilc_out = loadmat(data_file)
 #
 ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
@@ -152,44 +152,24 @@ ilc_out_train = ilc_out['u_ideal'][150:int(N * 0.6 - 1)]
 
 # 模型设置
 test_map = [
-    'DVR_1_10_[0.5]',
-    'DVR_2_10_[0.3,0.7]',
-    'DVR_3_10_[0.2,0.5,0.8]',
-    'DVR_4_10_[0.2,0.4,0.6,0.8]',
-    'DVR_5_10_[0.2,0.4,0.6,0.7,0.8]',
-    'DVR_6_10_[0.2,0.4,0.6,0.7,0.8,0.9]',
-    'DVR_7_10_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
-
-    # 'DVR_1_7_[0.5]',
     # 'DVR_2_7_[0.3,0.7]',
+    # 'DVR_3_5_[0.2,0.5,0.8]',
+    # 'DVR_1_10_[0.5]',
+    # 'DVR_2_10_[0.3,0.7]',
     # 'DVR_3_7_[0.2,0.5,0.8]',
     # 'DVR_4_7_[0.2,0.4,0.6,0.8]',
-    # 'DVR_5_7_[0.2,0.4,0.6,0.7,0.8]',
-    # 'DVR_6_7_[0.2,0.4,0.6,0.7,0.8,0.9]',
-    # 'DVR_7_7_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
-    #
-    # 'DVR_1_5_[0.5]',
-    # 'DVR_2_5_[0.3,0.7]',
-    # 'DVR_3_5_[0.2,0.5,0.8]',
-    # 'DVR_4_5_[0.2,0.4,0.6,0.8]',
-    # 'DVR_5_5_[0.2,0.4,0.6,0.7,0.8]',
-    # 'DVR_6_5_[0.2,0.4,0.6,0.7,0.8,0.9]',
-    # 'DVR_7_5_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
-    #
-    # 'DVR_1_3_[0.5]',
-    # 'DVR_2_3_[0.3,0.7]',
-    # 'DVR_3_3_[0.2,0.5,0.8]',
-    # 'DVR_4_3_[0.2,0.4,0.6,0.8]',
-    # 'DVR_5_3_[0.2,0.4,0.6,0.7,0.8]',
-    # 'DVR_6_3_[0.2,0.4,0.6,0.7,0.8,0.9]',
-    # 'DVR_7_3_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
-
+    # 'DVR_3_10_[0.2,0.5,0.8]',
+    # 'DVR_4_10_[0.2,0.4,0.6,0.8]',
+    # 'DVR_5_10_[0.2,0.4,0.6,0.7,0.8]',
+    # 'DVR_6_10_[0.2,0.4,0.6,0.7,0.8,0.9]',
+    # 'DVR_7_10_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
 
     # 'DVRNN_Tanh_3_10_8_8',
     # 'DVRNN_Sigmoid_3_10_8_8',
     # 'DVRNN_ReLU_3_10_8_8',
     # 'DVRNN_Tanh_3_10_12',
     # 'DVRNN_Tanh_3_10_8',
+    # 'DVRNN_Tanh_3_10_12_8',
     # 'DVRNN_Tanh_1_10',
     # 'DVRNN_Tanh_1_10_12',
     # 'DVRNN_Tanh_2_10_8',
@@ -212,9 +192,9 @@ test_map = [
     # 'DDR_1_8_10',
     # 'DDR_1_9_10',
     # 'DDR_1_11_10',
-    # 'DDR_2_5_10',
-    # 'DDR_2_7_10',
-    # 'DDR_2_9_10',
+    # 'DDR_2_5_3',
+    # 'DDR_2_7_3',
+    # 'DDR_2_9_3',
     # 'GMP_[5, 5, 5]_[10, 5, 5]_[2, 2]',
     # 'GMP_[7, 5, 5]_[10, 5, 5]_[2, 2]',
     # 'GMP_[7, 3, 3]_[10, 3, 3]_[2, 2]',
@@ -225,22 +205,7 @@ test_map = [
     # 'GMP_[9, 9, 9]_[10, 5, 5]_[3, 3]',
     # 'GMP_[11, 3, 3]_[10, 3, 3]_[2, 2]',
     # 'GMP_[11, 5, 5]_[10, 3, 3]_[2, 2]',
-    # 'GMP_[11, 7, 7]_[5, 3, 3]_[3, 3]',
-    # 'GMP_[11, 9, 9]_[5, 5, 5]_[3, 3]',
-    # 'GMP_[11, 9, 9]_[5, 5, 5]_[4, 4]',
-    # 'GMP_[5, 5, 5]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[7, 5, 5]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[7, 3, 3]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[9, 3, 3]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[9, 5, 5]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[9, 7, 7]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[9, 7, 7]_[3, 3, 3]_[3, 3]',
-    # 'GMP_[9, 9, 9]_[3, 3, 3]_[3, 3]',
-    # 'GMP_[11, 3, 3]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[11, 5, 5]_[3, 3, 3]_[2, 2]',
-    # 'GMP_[11, 7, 7]_[3, 3, 3]_[3, 3]',
-    # 'GMP_[11, 9, 9]_[3, 3, 3]_[3, 3]',
-    # 'GMP_[11, 9, 9]_[3, 3, 3]_[4, 4]',
+
     # 'DVRNN_ReLU_3_10_8',
     # 'DVRNN_ReLU_3_10_8_12',
     # 'DVRNN_ReLU_4_10',
@@ -257,17 +222,25 @@ test_map = [
     # 'PNRVTDNN_Tanh_10_3_8_8',
     # 'PNRVTDNN_Tanh_10_3_12_12',
     # 'PNRVTDNN_Tanh_10_3_12_12_12',
+    # 'PNRVTDNN_Tanh_10_3_16_12_8',
+    # 'PNRVTDNN_Tanh_10_3_16_12_8_4',
     # 'PNRVTDNN_Tanh_10_3_16_16_12',
-    # 'PNRVTDNN_Tanh_10_3_16_16_16',
-    # 'PNRVTDNN_Tanh_10_3_24_16_16',
-
+    # 'PNRVTDNN_Tanh_10_3_16_16_12_8',
+    # 'PNRVTDNN_Sigmoid_10_3_16_16_12_8',
+    # 'PNRVTDNN_ReLU_10_3_16_16_12_8',
+    #
     # 'VDTDNN_Tanh_10_3_8',
     # 'VDTDNN_Tanh_10_3_12',
     # 'VDTDNN_Tanh_10_3_12_12',
     # 'VDTDNN_Tanh_10_5_12_12',
+    # 'VDTDNN_Tanh_10_5_8_8_8',
+    # 'VDTDNN_Tanh_10_5_8_8_8_8',
     # 'VDTDNN_Tanh_10_5_12_12_12',
+    # 'VDTDNN_Tanh_10_5_12_12_12_8',
     # 'VDTDNN_Tanh_10_5_16_12_8',
     # 'VDTDNN_Tanh_10_5_16_16_12',
+    # 'VDTDNN_Sigmoid_10_5_16_12_8',
+    'VDTDNN_ReLU_10_5_16_12_8',
     # 'DVR_1_10_[0.5]',
     # 'DVR_3_5_[0.2,0.5,0.8]',
     # 'DVR_3_7_[0.2,0.5,0.8]',
@@ -304,7 +277,7 @@ for test_state in test_map:
         M = ast.literal_eval(Model[3])  # [int(num) for num in re.findall(r'\d+', Model[3])]
         model = gmp.GMP(K,L,M)
         # coef = GMP.GMP_e(x_train,ilc_out['u_ideal'])
-        model.coef = model.model_e(x_train,ilc_out_train,alpha=1e-9)
+        model.coef = model.model_e(x_train,ilc_out_train,alpha=5e-3)
         pa_input = model.model_v(x, model.coef)
         logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
@@ -318,7 +291,7 @@ for test_state in test_map:
         threshold = ast.literal_eval(Model[3])
 
         model = DVR.DVR(M=M, threshold=threshold)
-        model.coef = model.DVR_e(x_train, ilc_out_train,alpha=1e-5)
+        model.coef = model.DVR_e(x_train, ilc_out_train,alpha=1)
         pa_input = model.DVR_v(x, model.coef)
         logger.info(f'COEF number: {len(model.coef)} ')
         pa_output = PA_board.transmit(pa_input, logger)
@@ -331,7 +304,7 @@ for test_state in test_map:
         M = ast.literal_eval(Model[3])  # [int(num) for num in re.findall(r'\d+', Model[3])]
         ddr = DDR.DDR(r, K, M)
 
-        coef = ddr.model_e(x_train, ilc_out_train,alpha=1e-9)
+        coef = ddr.model_e(x_train, ilc_out_train,alpha=5e-2)
 
         y_pred = ddr.model_v(x_train)
         logger.info(f'{Model[0]} train NMSE:')
@@ -554,7 +527,7 @@ for test_state in test_map:
         model = VDTDNN.VDTDNN(layer_dims, M=M, K=K, activation=activation).to(device)
         fun.model_structure(model, logger)
 
-        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.001,1000,512])
+        model.model_train(x_train, ilc_out_train, model_path, logger, 1,para=[0.002,1400,512])
         model.load_state_dict(torch.load(model_path))
         logger.info(f"-------------------load model: {model_path}---------------------")
         start_time = time.time()  # 记录开始时间
