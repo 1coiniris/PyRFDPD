@@ -190,15 +190,15 @@ def get_waveform(signal,rate=0.6,state=3):
             xorg = data['x']
             yorg = data['y']
         elif signal == '100M':
-            fs = 500e6
+            fs = 1000e6
             BW = 100e6
-            data_file = 'data/signal_100M_fs500M.mat'
+            data_file = 'data/signal_100M_NR_fs1000M.mat'
             data = loadmat(data_file)
             xorg = data['x0']
         elif signal == '100M_16384QAM':
             fs = 500e6
             BW = 100e6
-            data_file = 'data/signal_100M_fs500M_4096QAM.mat'
+            data_file = 'data/signal_100M_fs500M_16384QAM.mat'
             data = loadmat(data_file)
             xorg = data['x']
         elif signal == '160M_4096QAM':

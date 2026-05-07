@@ -57,6 +57,11 @@ def ILC(board, ilc_in,logger=None):
 
         try:
             # Transmit the signal through the board
+            # u_k_1 = u_k[0:84000]
+            # u_k_2 = u_k[84001:]
+            # y_k_1 = board.transmit(u_k_1)
+            # y_k_2 = board.transmit(u_k_2)
+            # y_k = np.concatenate(y_k_1,y_k_2)
             y_k = board.transmit(u_k)
             # Normalize the output (different from Fawzy)
             y_k = y_k / np.linalg.norm(y_k) * np.linalg.norm(u_k)

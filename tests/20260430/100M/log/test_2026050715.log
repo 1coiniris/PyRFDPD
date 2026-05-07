@@ -1,0 +1,27 @@
+2026-05-07 15:33:42,331 INFO: power: -24 
+2026-05-07 15:33:43,648 INFO: SMW signal transmission finished! 
+2026-05-07 15:33:56,130 INFO: SMW signal transmission finished! 
+2026-05-07 15:33:58,254 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-05-07 15:35:59,748 INFO: power: -24 
+2026-05-07 15:36:00,239 INFO: SMW signal transmission finished! 
+2026-05-07 15:36:09,488 INFO: SMW signal transmission finished! 
+2026-05-07 15:36:18,627 INFO: SMW signal transmission finished! 
+2026-05-07 15:38:00,658 INFO: SMW signal transmission finished! 
+2026-05-07 15:38:12,000 INFO: SMW signal transmission finished! 
+2026-05-07 15:38:23,233 INFO: SMW signal transmission finished! 
+2026-05-07 15:39:17,974 INFO: NMSE_WO_DPD: -15.39320193453155 dB 
+2026-05-07 15:39:17,994 INFO: ACPR1_L: -24.925 dBc, ACPR1_U: -24.969 dBc 
+2026-05-07 15:39:41,980 INFO: EVM_WO_DPD: 15.415011916772754 % 
+2026-05-07 15:41:03,117 INFO: SMW signal transmission finished! 
+2026-05-07 15:56:18,036 INFO: power: -24 
+2026-05-07 15:56:18,593 INFO: SMW signal transmission finished! 
+2026-05-07 15:56:31,575 INFO: NMSE_WO_DPD: -15.099562468344175 dB 
+2026-05-07 15:56:31,581 INFO: ACPR1_L: -24.284 dBc, ACPR1_U: -24.280 dBc 
+2026-05-07 15:56:34,801 INFO: EVM_WO_DPD: 14.220755987351986 % 
+2026-05-07 15:56:34,807 INFO: save PA file to tests/20260430/100M/data/PA_inout_202605071556.mat 
+2026-05-07 15:58:31,601 INFO: power: -24 
+2026-05-07 15:58:32,116 INFO: SMW signal transmission finished! 
+2026-05-07 15:58:43,706 INFO: NMSE_WO_DPD: -15.625735123702768 dB 
+2026-05-07 15:58:43,711 INFO: ACPR1_L: -24.939 dBc, ACPR1_U: -24.962 dBc 
+2026-05-07 15:58:46,894 INFO: EVM_WO_DPD: 13.786169448211844 % 
+2026-05-07 15:58:46,898 INFO: save PA file to tests/20260430/100M/data/PA_inout_202605071558.mat 
