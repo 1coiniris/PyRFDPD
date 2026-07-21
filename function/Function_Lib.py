@@ -103,12 +103,12 @@ def get_data(signal,rate=0.6,state=3):
             xorg = data['x']
             yorg = data['y']
         elif signal == '100M':
-            fs = 983.04e6
+            fs = 500e6
             BW = 100e6
-            data_file = 'data/PA_100M_98304.mat'
+            data_file = 'data/PA_signal_100M_fs500M_4096QAM.mat'
             data = loadmat(data_file)
-            xorg = data['x']
-            yorg = data['y']
+            xorg = data['x'][2000:]
+            yorg = data['y'][2000:]
         elif signal == 'ILC_400M':
             fs = 2e9
             BW = 400e6
@@ -201,6 +201,13 @@ def get_waveform(signal,rate=0.6,state=3):
             data_file = 'data/signal_100M_fs500M_16384QAM.mat'
             data = loadmat(data_file)
             xorg = data['x']
+        elif signal == 'OFDM_100M_16384QAM':
+            fs = 500e6
+            BW = 100e6
+            data_file = 'data/OFDM_signal_100M_fs500M_16384QAM_1.mat'
+            data = loadmat(data_file)
+            xorg = data['x0']
+
         elif signal == '160M_4096QAM':
             fs = 800e6
             BW = 160e6

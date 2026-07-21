@@ -529,11 +529,12 @@ import Model.volterra_nn as volterra_nn
 #         return AMP_Core
 
 class DVR_NN(nn.Module):
-    def __init__(self, layer_dims,K, M, activation="ReLU"):
+    def __init__(self, layer_dims,K, M, activation="ReLU",term = 6):
         super().__init__()
         # self.total_train = 1
         self.M = M
         self.K = K
+        self.term = term
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # self.threshold = threshold
         assert activation == "ReLU" or "Tanh" or "GELU" or "Sigmoid" or "None"
@@ -561,7 +562,7 @@ class DVR_NN(nn.Module):
                 # self.DDR_layers.add_module("actFunc " + str(index), nn.GELU())
             # self.layers.add_module("dropout" + str(index), nn.Dropout(0.2))
         self.DVR_layers = self.DVR_layers[:-1]  # remove the last activation layer
-        self.linear = nn.Linear((K*(M+1)*6+M+1)*2, 2,bias=False).double() #+M+1
+        self.linear = nn.Linear((K*(M+1)*term+M+1)*2, 2,bias=False).double() #+M+1
         if self.activation != "ABS":
             if self.activation == "ReLU":
                 self.act = nn.ReLU()
@@ -772,7 +773,7 @@ class DVR_NN(nn.Module):
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
-                if epochs-epoch<400:
+                if epochs-epoch<500:
                     coef = self.DVR_NN_e(batch_x_signal,targets,alpha)
                     outputs = self(batch_x_signal,coef)
                 else:
@@ -805,7 +806,7 @@ class DVR_NN(nn.Module):
                     targets = targets.to(device)
                     targets_real = torch.view_as_real(targets)
                     targets_real = targets_real.to(device)
-                    if epochs - epoch < 400:
+                    if epochs - epoch < 500:
                         coef = self.DVR_NN_e(batch_x_signal, targets, alpha)
                         val_outputs = self(batch_x_signal, coef)
                     else:
@@ -973,7 +974,7 @@ class DVR_NN(nn.Module):
         DVR_out_24 = DVR_core * e_Phase_n * torch.abs(DVR_X)
         DVR_out_DDR_1 = DVR_core * DVR_X * DVR_X * torch.conj(DVR_xn)
         DVR_out_DDR_2 = DVR_core * DVR_xn * DVR_xn * torch.conj(DVR_X)
-
+        DVR_out_DDR_51 = DVR_core * DVR_xn * DVR_xn * DVR_xn * torch.conj(DVR_X) * torch.conj(DVR_X)
         # DVR_core_p = DVR_core.view(len(DVR_core),(M+1)*K,1)
         # DVR_out_m = DVR_core_p[:,:,0].squeeze() * e_Phase_m
         # DVR_out_n = DVR_core_p[:,:,1].squeeze() * e_Phase_n
@@ -985,7 +986,23 @@ class DVR_NN(nn.Module):
         # DVR_out_DDR52 = DVR_core * e_Phase_DDR52
 
         # DVR_out_21,DVR_out_22,DVR_out_23,DVR_out_24,DVR_out_21,DVR_out_22,DVR_out_23,DVR_out_24,DVR_out_DDR_2
-        DVR_out_full = torch.concatenate(( DVR_out_linear,DVR_out_1,DVR_out_21,DVR_out_22,DVR_out_23,DVR_out_24,DVR_out_DDR_2), dim=1) #  DVR_out_linear,DVR_out_1, DVR_out_21,DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2
+        if self.term == 7:
+            DVR_out_full = torch.concatenate(( DVR_out_1,DVR_out_linear,DVR_out_21,DVR_out_22,DVR_out_23,DVR_out_24,DVR_out_DDR_2,DVR_out_DDR_51), dim=1) #  DVR_out_linear,DVR_out_1, DVR_out_21,DVR_out_22, DVR_out_23, DVR_out_DDR_1,DVR_out_DDR_2
+        elif self.term == 6:
+            DVR_out_full = torch.concatenate((DVR_out_1, DVR_out_linear, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_24,DVR_out_DDR_2), dim=1)
+        elif self.term == 5:
+            DVR_out_full = torch.concatenate((DVR_out_1, DVR_out_linear, DVR_out_21, DVR_out_22, DVR_out_23, DVR_out_24), dim=1)
+        elif self.term == 4:
+            DVR_out_full = torch.concatenate((DVR_out_1, DVR_out_linear, DVR_out_21, DVR_out_22, DVR_out_23), dim=1)
+        elif self.term == 3:
+            DVR_out_full = torch.concatenate((DVR_out_1, DVR_out_linear, DVR_out_21, DVR_out_22), dim=1)
+        elif self.term == 2:
+            DVR_out_full = torch.concatenate((DVR_out_1, DVR_out_linear, DVR_out_21), dim=1)
+        elif self.term == 1:
+            DVR_out_full = torch.concatenate((DVR_out_1, DVR_out_linear), dim=1)
+        elif self.term == 0:
+            DVR_out_full = DVR_out_1
+
         return DVR_out_full
 
     def DVR_NN_e(self,x_window,y,alpha = 1e-3,pri = 0):

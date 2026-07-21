@@ -21,6 +21,7 @@ import Model.Orth_NN as ORTH_NN
 import Model.VDTDNN as VDTDNN
 import Model.RVTDNN as RVTDNN
 import Model.PNRVTDNN as PNRVTDNN
+import Model.AKPTDNN as AKPTDNN
 import Model.KFC_NN as KFCNN
 import argparse
 import time
@@ -42,12 +43,12 @@ NMSE_state_list = []
 # signal = '400M' #'LMBA200M'
 # signal = 'LMBA200M'
 # signal = '100M'
-signal = 'ILC_100M'
+# signal = 'ILC_100M'
 # signal = 'ILC_400M'
-# signal = 'NXP_100M'
+signal = 'NXP_100M'
 # signal = 'YU'
 count = 0
-for state in range(1):
+for state in range(3):
     x_train, y_train, x, y, fs, BW = fun.get_data(signal,state = state)
     figure_path = 'results/modeling/figure'
     if plot_swich:
@@ -67,18 +68,43 @@ for state in range(1):
         # 'DVRNN_Sigmoid_3_10_8',
         # 'DVRNN_Sigmoid_3_10_12',
         # 'DVRNN_Sigmoid_3_10_8_8',
+        # 'AKPTDNN_ReLU_10_6_4',
+        # 'AKPTDNN_Tanh_10_6_4',
 
-        # 'DVRNN_Tanh_1_10',
-        # 'DVRNN_Tanh_3_10_8_8',
-        # 'DVRNN_Tanh_3_10_12',
-        # 'DVRNN_Tanh_3_10_8',
-        # 'DVRNN_Tanh_1_10_12',
-        # 'DVRNN_Tanh_2_10_8',
-        # 'DVRNN_Tanh_2_10_8_8',
-        # 'DVRNN_Tanh_2_10_12_8',
+        'DVRNN_Tanh_1_10_6',
+        'DVRNN_Tanh_1_10_6_12',
+        'DVRNN_Tanh_2_10_6_8',
+        'DVRNN_Tanh_2_10_6_8_8',
+        'DVRNN_Tanh_3_10_6_8_8',
+        'DVRNN_Tanh_3_10_6_12_8',
 
+        'DVRNN_Tanh_1_10_7',
+        'DVRNN_Tanh_1_10_7_12',
+        'DVRNN_Tanh_2_10_7_8',
+        'DVRNN_Tanh_2_10_7_8_8',
+        'DVRNN_Tanh_3_10_7_8_8',
+        'DVRNN_Tanh_3_10_7_12_8',
 
+        'DVRNN_Tanh_1_10_5',
+        'DVRNN_Tanh_1_10_5_12',
+        'DVRNN_Tanh_2_10_5_8',
+        'DVRNN_Tanh_2_10_5_8_8',
+        'DVRNN_Tanh_3_10_5_8_8',
+        'DVRNN_Tanh_3_10_5_12_8',
 
+        'DVRNN_Tanh_1_10_1',
+        'DVRNN_Tanh_1_10_1_12',
+        'DVRNN_Tanh_2_10_1_8',
+        'DVRNN_Tanh_2_10_1_8_8',
+        'DVRNN_Tanh_3_10_1_8_8',
+        'DVRNN_Tanh_3_10_1_12_8',
+
+        'DVRNN_Tanh_1_10_0',
+        'DVRNN_Tanh_1_10_0_12',
+        'DVRNN_Tanh_2_10_0_8',
+        'DVRNN_Tanh_2_10_0_8_8',
+        'DVRNN_Tanh_3_10_0_8_8',
+        'DVRNN_Tanh_3_10_0_12_8',
         # 'DVRNN_ReLU_1_10',
         # 'DVRNN_ReLU_1_10_12',
         # 'DVRNN_ReLU_2_10_8',
@@ -144,7 +170,7 @@ for state in range(1):
         # 'VDTDNN_ReLU_10_5_16_16_12',
         # 'VDTDNN_ReLU_10_5_16_12_12',
 
-        'DDR_2_9_7',
+        # 'DDR_2_9_7',
         # 'DDR_7_7',
         # 'DDR_9_7',
         # 'GMP_[5, 5, 5]_[5, 5, 5]_[2, 2]',
@@ -333,6 +359,53 @@ for state in range(1):
             logger.info(f'{Model[0]} coef num {len(coef)}')
             y_pred = ddr.model_v(x)
 
+        if Model[0] == 'AKPTDNN':
+            # AKPTDNN: M_taps, L, P  (P * L = 24 for complexity control)
+            # Config: 'AKPTDNN_10_24_1' -> M_taps=10, L=24, P=1
+            #         'AKPTDNN_10_12_2' -> M_taps=10, L=12, P=2
+            #         'AKPTDNN_10_8_3'  -> M_taps=10, L=8,  P=3
+            #         'AKPTDNN_10_6_4'  -> M_taps=10, L=6,  P=4
+            activation = Model[1]
+            M_taps = ast.literal_eval(Model[2])
+            L = ast.literal_eval(Model[3])
+            P = ast.literal_eval(Model[4])
+
+            model_path = f"{file_path}save/{Model[0]}_M{M_taps}_L{L}_P{P}_{time.strftime('%Y%m%d%H%M')}.pt"
+            logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
+            logger.info(f'------------------------{Model[0]}_M{M_taps}_L{L}_P{P}-------------------------------')
+
+            # Initialize model
+            model = AKPTDNN.AKPTDNN(M_taps=M_taps, L=L, P=P, activation=activation).to(device)
+            fun.model_structure(model, logger)
+
+            # Compute FLOPs and parameters
+            flops, n_params = model.get_FLOPs_and_params()
+            logger.info(f'AKPTDNN FLOPs: {flops}, Parameters: {n_params}')
+
+            if total_train == 1:
+                # Train from scratch (paper: lr=1e-4, epochs=2000, batch_size=2000)
+                model.model_train(
+                    x_train, y_train, model_path, logger, 1,
+                    para=[0.001,1000,512]
+                )
+                model.load_state_dict(torch.load(model_path))
+                logger.info(f"-------------------load model: {model_path}---------------------")
+
+                start_time = time.time()
+                y_pred = model.apply_dpd(x)
+                end_time = time.time()
+                elapsed_time = end_time - start_time
+                logger.info(f"model prediction time: {elapsed_time:.6f} s")
+            else:
+                # Load pretrained model
+                model.load_state_dict(torch.load(model_path))
+                logger.info(f"-------------------load model: {model_path}---------------------")
+                start_time = time.time()
+                y_pred = model.apply_dpd(x)
+                end_time = time.time()
+                elapsed_time = end_time - start_time
+                logger.info(f"model prediction time: {elapsed_time:.6f} s")
+
 
         if Model[0] == 'KFCNN':
             # 参数设置
@@ -417,14 +490,14 @@ for state in range(1):
             activation = Model[1]
             K = ast.literal_eval(Model[2])
             M = ast.literal_eval(Model[3])
-
+            term = ast.literal_eval(Model[4])
             layer_dims = []
 
             P = 1
-            input_size = (M+1) * 5  # 输入维度
+            input_size = (M+1)   # 输入维度
             output_size = (M+1)*K*P  # 输出维度
             layer_dims.append(input_size)
-            for size_str in Model[4:]:
+            for size_str in Model[5:]:
                 size = ast.literal_eval(size_str)
                 layer_dims.append(size)
             layer_dims.append(output_size)
@@ -432,19 +505,19 @@ for state in range(1):
             model_path = f"{file_path}save/{Model[0]}_M{M}_K{K}_layer_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
             trained_model = 'tests/20250826/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt'  # LMBA
             logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
-            logger.info(f'------------------------{Model[0]}_M{M}_K{K}_layer{layer_dims}_{activation}-------------------------------')
+            logger.info(f'------------------------{Model[0]}_M{M}_K{K}_term{term}_layer{layer_dims}_{activation}-------------------------------')
 
             # 初始化模型
-            model = DVR_NN.DVR_NN(layer_dims, K=K, M=M, activation=activation).to(device)
+            model = DVR_NN.DVR_NN(layer_dims, K=K, M=M, activation=activation,term=term).to(device)
             fun.model_structure(model, logger)
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
                 # 训练前的模型参数
-                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,1000,512,1e-1])
+                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,300,512,1e-5])
                 # 训练后的模型参数
                 model.load_state_dict(torch.load(model_path))
-                logger.info(f"-------------------load model: {model_path}---------------------")
+                logger.info(f"-------------------load model: {model_path}--------------------  -")
                 # 提取参数
                 x_coef = x_train[:]
                 y_coef = y_train[:]
@@ -454,7 +527,7 @@ for state in range(1):
                 x_coef_window = torch.from_numpy(sequences).to(device)
                 y_sequences = fun.create_memory_seq(y_coef, M)  # [N, M+1]
                 y_coef_window = torch.from_numpy(y_sequences).to(device)
-                model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-1,pri=1)
+                model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-5,pri=1)
                 # coef = model.DVR_NN_e(x_train, y_train,alpha=5e-2)
                 # y_pred = model.DVR_NN_v(x_train,coef)
                 y_pred = model.DVR_NN_v(x_coef_window,model.coef).cpu().detach().numpy()

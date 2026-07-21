@@ -89,10 +89,11 @@ class KFC_NN(nn.Module):
         return y_pred
 
 
-    def model_train(self,x,y,model_path,logger=None,total_train = 1,para = [0.001,150,512]):
+    def model_train(self,x,y,model_path,logger=None,total_train = 1,para = [0.001,150,512,1e-2]):
         learning_rate = para[0]
         epochs = para[1]
         batch_size = para[2]
+        alpha = para[3]
         device = self.device
 
         # optim
@@ -125,8 +126,6 @@ class KFC_NN(nn.Module):
             self.train()
             i = 0
             train_loss_total = 0
-            ortho_loss_total = 0
-            train_loss = 0
             for inputs, targets in tqdm(train_loader):
                 # 获取对应的复数信号窗口 [batch, M+1]
                 optimizer.zero_grad()
@@ -140,19 +139,16 @@ class KFC_NN(nn.Module):
                 targets = targets.to(device)
                 targets_real = torch.view_as_real(targets)
                 targets_real = targets_real.to(device)
-                coef = self.DVR_NN_e(batch_x_signal,targets,alpha=self.alpha)
-                outputs = self(batch_x_signal,coef)
+                if epochs-epoch<400:
+                    coef = self.DVR_NN_e(batch_x_signal,targets,alpha)
+                    outputs = self(batch_x_signal,coef)
+                else:
+                    outputs = self(batch_x_signal)
+                # coef = self.DVR_NN_e(batch_x_signal,targets,alpha=self.alpha)
+                # outputs = self(batch_x_signal,coef)
                 # outputs = self(batch_x_signal)
                 # 计算预测损失
                 mse_loss = criterion(outputs, targets_real)
-                # 总损失 = 预测损失 + 正交性损失权重
-                # 使用渐进式正交约束权重
-                if epoch <250:
-                    ortho_weight = min(1e-10 * (epoch / 5), 1e-9)  # 逐步增加权重
-                elif epoch < 400:
-                    ortho_weight = 5e-9 #min(5e-5 * (epoch-250), 1e-2)
-                # else:
-                    # ortho_weight = 10
                 total_loss = mse_loss #+ ortho_weight * ortho_loss
                 # total_loss = mse_loss + 1e-6 * ortho_loss
                 total_loss.backward()
@@ -171,9 +167,13 @@ class KFC_NN(nn.Module):
                     targets = targets.to(device)
                     targets_real = torch.view_as_real(targets)
                     targets_real = targets_real.to(device)
-
-                    coef = self.DVR_NN_e(batch_x_signal, targets,alpha=self.alpha)
-                    val_outputs = self(batch_x_signal, coef)
+                    if epochs - epoch < 400:
+                        coef = self.DVR_NN_e(batch_x_signal, targets, alpha)
+                        val_outputs = self(batch_x_signal, coef)
+                    else:
+                        val_outputs = self(batch_x_signal)
+                    # coef = self.DVR_NN_e(batch_x_signal, targets,alpha=alpha)
+                    # val_outputs = self(batch_x_signal, coef)
                     # val_outputs = self(batch_x_signal)
                     val_loss_total += criterion(val_outputs, targets_real).item()
 
@@ -275,7 +275,7 @@ class KFC_NN(nn.Module):
         X_tensor_real = torch.view_as_real(X_tensor).view(len(X_tensor),-1)
 
         # x(n-i) (16384,M+1)
-        X_tensor_M = x_window[:,-M-2:-1]
+        X_tensor_M = x_window
         X_matrix = X_tensor_M.unsqueeze(2).repeat(1, 1, K)  # K维度延拓 x(n-i) (16384,M+1,K)
         DVR_X = X_matrix.view(len(X_matrix), -1)    # 展平 x(n-i) (16384,(M+1)*K)
 

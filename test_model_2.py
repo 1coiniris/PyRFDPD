@@ -41,9 +41,9 @@ NMSE_state_list = []
 # signal = '400M' #'LMBA200M'
 # signal = 'LMBA200M'
 # signal = '100M'
-signal = 'ILC_100M'
+# signal = 'ILC_100M'
 # signal = 'ILC_400M'
-# signal = 'NXP_100M'
+signal = 'NXP_100M'
 # signal = 'YU'
 count = 0
 for state in range(3):
@@ -58,6 +58,32 @@ for state in range(3):
     #     test_map.extend(NN_map)
     # 模型设置
     test_map = [
+        'DVRNN_Tanh_1_10_4',
+        'DVRNN_Tanh_1_10_4_12',
+        'DVRNN_Tanh_2_10_4_8',
+        'DVRNN_Tanh_2_10_4_8_8',
+        'DVRNN_Tanh_3_10_4_8_8',
+        'DVRNN_Tanh_3_10_4_12_8',
+
+        'DVRNN_Tanh_1_10_3',
+        'DVRNN_Tanh_1_10_3_12',
+        'DVRNN_Tanh_2_10_3_8',
+        'DVRNN_Tanh_2_10_3_8_8',
+        'DVRNN_Tanh_3_10_3_8_8',
+        'DVRNN_Tanh_3_10_3_12_8',
+
+        'DVRNN_Tanh_1_10_2',
+        'DVRNN_Tanh_1_10_2_12',
+        'DVRNN_Tanh_2_10_2_8',
+        'DVRNN_Tanh_2_10_2_8_8',
+        'DVRNN_Tanh_3_10_2_8_8',
+        'DVRNN_Tanh_3_10_2_12_8',
+        # 'KFCNN_Tanh_1_10_10',
+        # 'KFCNN_Tanh_1_10_10_12',
+        # 'KFCNN_Tanh_2_10_10_8',
+        # 'KFCNN_Tanh_2_10_10_8_8',
+        # 'KFCNN_Tanh_3_10_10_8_8',
+        # 'KFCNN_Tanh_4_10_10_8_8',
         # 'DVRNN_Sigmoid_1_7',
         # 'DVRNN_Sigmoid_1_7_12',
         # 'DVRNN_Sigmoid_2_7_8',
@@ -125,29 +151,29 @@ for state in range(3):
         # 'PNRVTDNN_ReLU_10_3_16_12',
         # 'PNRVTDNN_ReLU_10_3_16_12_8',
         # 'PNRVTDNN_ReLU_10_3_16_12_12',
-        'VDTDNN_Tanh_10_3_8',
-        'VDTDNN_Tanh_10_3_12',
-        'VDTDNN_Tanh_10_3_12_12',
-        'VDTDNN_Tanh_10_5_12_12',
-        'VDTDNN_Tanh_10_5_12_12_12',
-        'VDTDNN_Tanh_10_5_16_16_12',
-        'VDTDNN_Tanh_10_5_16_12_12',
-
-        'VDTDNN_Sigmoid_10_3_8',
-        'VDTDNN_Sigmoid_10_3_12',
-        'VDTDNN_Sigmoid_10_3_12_12',
-        'VDTDNN_Sigmoid_10_5_12_12',
-        'VDTDNN_Sigmoid_10_5_12_12_12',
-        'VDTDNN_Sigmoid_10_5_16_16_12',
-        'VDTDNN_Sigmoid_10_5_16_12_12',
-
-        'VDTDNN_ReLU_10_3_8',
-        'VDTDNN_ReLU_10_3_12',
-        'VDTDNN_ReLU_10_3_12_12',
-        'VDTDNN_ReLU_10_5_12_12',
-        'VDTDNN_ReLU_10_5_12_12_12',
-        'VDTDNN_ReLU_10_5_16_16_12',
-        'VDTDNN_ReLU_10_5_16_12_12',
+        # 'VDTDNN_Tanh_10_3_8',
+        # 'VDTDNN_Tanh_10_3_12',
+        # 'VDTDNN_Tanh_10_3_12_12',
+        # 'VDTDNN_Tanh_10_5_12_12',
+        # 'VDTDNN_Tanh_10_5_12_12_12',
+        # 'VDTDNN_Tanh_10_5_16_16_12',
+        # 'VDTDNN_Tanh_10_5_16_12_12',
+        #
+        # 'VDTDNN_Sigmoid_10_3_8',
+        # 'VDTDNN_Sigmoid_10_3_12',
+        # 'VDTDNN_Sigmoid_10_3_12_12',
+        # 'VDTDNN_Sigmoid_10_5_12_12',
+        # 'VDTDNN_Sigmoid_10_5_12_12_12',
+        # 'VDTDNN_Sigmoid_10_5_16_16_12',
+        # 'VDTDNN_Sigmoid_10_5_16_12_12',
+        #
+        # 'VDTDNN_ReLU_10_3_8',
+        # 'VDTDNN_ReLU_10_3_12',
+        # 'VDTDNN_ReLU_10_3_12_12',
+        # 'VDTDNN_ReLU_10_5_12_12',
+        # 'VDTDNN_ReLU_10_5_12_12_12',
+        # 'VDTDNN_ReLU_10_5_16_16_12',
+        # 'VDTDNN_ReLU_10_5_16_12_12',
 
         # 'GMP_[5, 5, 5]_[5, 5, 5]_[2, 2]',
         # 'GMP_[7, 5, 5]_[5, 5, 5]_[2, 2]',
@@ -268,7 +294,7 @@ for state in range(3):
     for test_state in test_map:
         count = count + 1
         Model = test_state.split('_')
-        filename = f"Modeling_{time.strftime('%Y%m%d%H%M')}"
+        filename = f"Modeling2_{time.strftime('%Y%m%d%H')}"
         if count ==1:
             parser = argparse.ArgumentParser(description='configTemplates')
             parser.add_argument('-log_path', default=f'{file_path}log/', type=str, help='log file path to save result')
@@ -346,7 +372,7 @@ for state in range(3):
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
-                model.model_train(x_train,y_train,model_path, logger,1,para=[0.001,300,512])
+                model.model_train(x_train,y_train,model_path, logger,1,para=[0.001,500,512,1e-3])
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
                 start_time = time.time()  # 记录开始时间
@@ -359,7 +385,7 @@ for state in range(3):
                 x_coef_window = torch.from_numpy(sequences).to(device)
                 y_sequences = fun.create_memory_seq(y_coef, M2)  # [N, M+1]
                 y_coef_window = torch.from_numpy(y_sequences).to(device)
-                model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-2,pri=1)
+                model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-3,pri=1)
 
                 y_pred = model.apply_dpd(x_train,model.coef)
                 logger.info(f'{Model[0]} train NMSE:')
@@ -391,20 +417,19 @@ for state in range(3):
                 y_pred = model.DVR_NN_v(x_window,coef).cpu().detach().numpy()
                 X = model.get_basis(x_window)
 
-
         if Model[0] == 'DVRNN':
             # 参数设置
             activation = Model[1]
             K = ast.literal_eval(Model[2])
             M = ast.literal_eval(Model[3])
-
+            term = ast.literal_eval(Model[4])
             layer_dims = []
 
             P = 1
-            input_size = M+1  # 输入维度
-            output_size = (M+1)*K*P  # 输出维度
+            input_size = (M + 1)  # 输入维度
+            output_size = (M + 1) * K * P  # 输出维度
             layer_dims.append(input_size)
-            for size_str in Model[4:]:
+            for size_str in Model[5:]:
                 size = ast.literal_eval(size_str)
                 layer_dims.append(size)
             layer_dims.append(output_size)
@@ -412,19 +437,20 @@ for state in range(3):
             model_path = f"{file_path}save/{Model[0]}_M{M}_K{K}_layer_{layer_dims}_{activation}_{time.strftime('%Y%m%d%H%M')}.pt"
             trained_model = 'tests/20250826/model/OB_DVR_NN_M30_K3_Tanh_202508261803.pt'  # LMBA
             logger.info(f'------signal BW{BW / 1e6}M fs{fs / 1e6}MHz------')
-            logger.info(f'------------------------{Model[0]}_M{M}_K{K}_layer{layer_dims}_{activation}-------------------------------')
+            logger.info(
+                f'------------------------{Model[0]}_M{M}_K{K}_term{term}_layer{layer_dims}_{activation}-------------------------------')
 
             # 初始化模型
-            model = DVR_NN.DVR_NN(layer_dims, K=K, M=M, activation=activation).to(device)
+            model = DVR_NN.DVR_NN(layer_dims, K=K, M=M, activation=activation, term=term).to(device)
             fun.model_structure(model, logger)
 
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
                 # 训练前的模型参数
-                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,300,512])
+                model.model_train(x_train, y_train, model_path, logger, 1, para=[0.001, 300, 512, 1e-5])
                 # 训练后的模型参数
                 model.load_state_dict(torch.load(model_path))
-                logger.info(f"-------------------load model: {model_path}---------------------")
+                logger.info(f"-------------------load model: {model_path}--------------------  -")
                 # 提取参数
                 x_coef = x_train[:]
                 y_coef = y_train[:]
@@ -434,10 +460,10 @@ for state in range(3):
                 x_coef_window = torch.from_numpy(sequences).to(device)
                 y_sequences = fun.create_memory_seq(y_coef, M)  # [N, M+1]
                 y_coef_window = torch.from_numpy(y_sequences).to(device)
-                model.coef = model.DVR_NN_e(x_coef_window,y_coef_tensor,alpha=1e-2,pri=1)
+                model.coef = model.DVR_NN_e(x_coef_window, y_coef_tensor, alpha=1e-5, pri=1)
                 # coef = model.DVR_NN_e(x_train, y_train,alpha=5e-2)
                 # y_pred = model.DVR_NN_v(x_train,coef)
-                y_pred = model.DVR_NN_v(x_coef_window,model.coef).cpu().detach().numpy()
+                y_pred = model.DVR_NN_v(x_coef_window, model.coef).cpu().detach().numpy()
                 # y_pred = model.apply_dpd(x_train,model.coef)
                 logger.info(f'{Model[0]} train NMSE:')
                 NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
@@ -449,16 +475,16 @@ for state in range(3):
                 sequences = fun.create_memory_seq(x_val, M)  # [N, M+1]
                 x_val_window = torch.from_numpy(sequences).to(device)
 
-                y_pred = model.DVR_NN_v(x_val_window,model.coef).cpu().detach().numpy()
+                y_pred = model.DVR_NN_v(x_val_window, model.coef).cpu().detach().numpy()
                 end_time = time.time()  # 记录结束时间
                 elapsed_time = end_time - start_time
                 logger.info(f"model prediction time: {elapsed_time:.6f} s")
                 logger.info(f'COEF number: {len(model.coef)} ')
             else:
-                N_train = min(5000,len(x_train))
+                N_train = min(5000, len(x_train))
                 model.load_state_dict(torch.load(trained_model))
-                coef = model.DVR_NN_e(x_train[0:N_train-1],y_train[0:N_train-1])
-                y_pred = model.DVR_NN_v(x,coef)
+                coef = model.DVR_NN_e(x_train[0:N_train - 1], y_train[0:N_train - 1])
+                y_pred = model.DVR_NN_v(x, coef)
                 sequences = fun.create_memory_seq(x, M)  # [N, M+1]
                 x_window = torch.from_numpy(sequences).to(device)
                 X = model.get_basis(x_window)
