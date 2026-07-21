@@ -56,7 +56,7 @@ xorg, x_2, fs, BW = fun.get_waveform(signal,rate=1)
 if signal == 'OFDM_100M_16384QAM':
     ########################## 信号描述 ################################
     # 从 OFDM .mat 文件加载信号及解调参数
-    mat = loadmat('data/OFDM_signal_100M_fs500M_16384QAM_1.mat')
+    mat = loadmat('data/OFDM_signal_100M_fs500M_16384QAM.mat')
 
     # xorg = mat['x0'].ravel()                      # 发射信号 (经滤波/CFR)
     N_fft = int(mat['N_fft'].item())               # FFT 点数

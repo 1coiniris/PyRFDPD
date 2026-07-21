@@ -267,7 +267,7 @@ def demodulate_ofdm(rx_signal, N_fft, N_cp, data_idx, pilot_idx,
     # ---- 9. 星座图 ----
     if plot_enable:
         plt.figure(figsize=(6, 6))
-        plot_n = min(5000, mL)
+        plot_n = min(12000, mL)
         plt.plot(eqSym[:plot_n].real, eqSym[:plot_n].imag, 'b.', markersize=2)
         plt.axis('square')
         plt.grid(True)

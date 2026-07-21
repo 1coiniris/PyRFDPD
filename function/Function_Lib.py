@@ -204,7 +204,7 @@ def get_waveform(signal,rate=0.6,state=3):
         elif signal == 'OFDM_100M_16384QAM':
             fs = 500e6
             BW = 100e6
-            data_file = 'data/OFDM_signal_100M_fs500M_16384QAM_1.mat'
+            data_file = 'data/OFDM_signal_100M_fs500M_16384QAM.mat'
             data = loadmat(data_file)
             xorg = data['x0']
 
