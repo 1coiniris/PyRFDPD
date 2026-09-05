@@ -119,15 +119,13 @@ def get_data(signal,rate=0.6,state=3):
             # ILCOut = data['x']
             yorg = ilc_out['u_ideal'].T.squeeze()
         elif signal == 'ILC_100M':
-            fs = 1e9
+            fs = 500e6
             BW = 100e6
-            data_file = 'data/ILCOUT_202602042328.mat'
-            ilc_out = loadmat(data_file)
-            #
-            ilc_out['u_ideal'] = ilc_out['u_ideal'].T.squeeze()
-            xorg = ilc_out['u_k'].T.squeeze()
-            # ILCOut = data['x']
-            yorg = ilc_out['u_ideal'].T.squeeze()
+            data_file = 'data/ILC_array_signal_100M_fs500_pown12.mat'
+            data = loadmat(data_file)
+            xorg = data['x'][2000:]
+            yorg = data['u_ideal'][2000:]
+
         elif signal == 'NXP_100M':
             fs = 1e9
             BW = 100e6

@@ -43,12 +43,12 @@ NMSE_state_list = []
 # signal = '400M' #'LMBA200M'
 # signal = 'LMBA200M'
 # signal = '100M'
-# signal = 'ILC_100M'
+signal = 'ILC_100M'
 # signal = 'ILC_400M'
-signal = 'NXP_100M'
+# signal = 'NXP_100M'
 # signal = 'YU'
 count = 0
-for state in range(3):
+for state in range(1):
     x_train, y_train, x, y, fs, BW = fun.get_data(signal,state = state)
     figure_path = 'results/modeling/figure'
     if plot_swich:
@@ -71,40 +71,39 @@ for state in range(3):
         # 'AKPTDNN_ReLU_10_6_4',
         # 'AKPTDNN_Tanh_10_6_4',
 
-        'DVRNN_Tanh_1_10_6',
-        'DVRNN_Tanh_1_10_6_12',
-        'DVRNN_Tanh_2_10_6_8',
-        'DVRNN_Tanh_2_10_6_8_8',
-        'DVRNN_Tanh_3_10_6_8_8',
-        'DVRNN_Tanh_3_10_6_12_8',
+        # 'DVRNN_Tanh_1_10_6',
+        # 'DVRNN_Tanh_1_10_6_12',
+        # 'DVRNN_Tanh_2_10_6_8',
+        # 'DVRNN_Tanh_2_10_6_8_8',
+        # 'DVRNN_Tanh_3_10_6_8_8',
+        # 'DVRNN_Tanh_3_10_6_12_8',
+        #
+        # 'DVRNN_Tanh_1_10_7',
+        # 'DVRNN_Tanh_1_10_7_12',
+        # 'DVRNN_Tanh_2_10_7_8',
+        # 'DVRNN_Tanh_2_10_7_8_8',
+        # 'DVRNN_Tanh_3_10_7_8_8',
+        # 'DVRNN_Tanh_3_10_7_12_8',
+        #
+        # 'DVRNN_Tanh_1_10_5',
+        # 'DVRNN_Tanh_1_10_5_12',
+        # 'DVRNN_Tanh_2_10_5_8',
+        # 'DVRNN_Tanh_2_10_5_8_8',
+        # 'DVRNN_Tanh_3_10_5_8_8',
+        # 'DVRNN_Tanh_3_10_5_12_8',
+        #
+        # 'DVRNN_Tanh_1_10_1',
+        # 'DVRNN_Tanh_1_10_1_12',
+        # 'DVRNN_Tanh_2_10_1_8',
+        # 'DVRNN_Tanh_2_10_1_8_8',
+        # 'DVRNN_Tanh_3_10_1_8_8',
+        # 'DVRNN_Tanh_3_10_1_12_8',
 
-        'DVRNN_Tanh_1_10_7',
-        'DVRNN_Tanh_1_10_7_12',
-        'DVRNN_Tanh_2_10_7_8',
-        'DVRNN_Tanh_2_10_7_8_8',
-        'DVRNN_Tanh_3_10_7_8_8',
-        'DVRNN_Tanh_3_10_7_12_8',
-
-        'DVRNN_Tanh_1_10_5',
-        'DVRNN_Tanh_1_10_5_12',
-        'DVRNN_Tanh_2_10_5_8',
-        'DVRNN_Tanh_2_10_5_8_8',
-        'DVRNN_Tanh_3_10_5_8_8',
-        'DVRNN_Tanh_3_10_5_12_8',
-
-        'DVRNN_Tanh_1_10_1',
-        'DVRNN_Tanh_1_10_1_12',
-        'DVRNN_Tanh_2_10_1_8',
-        'DVRNN_Tanh_2_10_1_8_8',
-        'DVRNN_Tanh_3_10_1_8_8',
-        'DVRNN_Tanh_3_10_1_12_8',
-
-        'DVRNN_Tanh_1_10_0',
-        'DVRNN_Tanh_1_10_0_12',
-        'DVRNN_Tanh_2_10_0_8',
-        'DVRNN_Tanh_2_10_0_8_8',
-        'DVRNN_Tanh_3_10_0_8_8',
-        'DVRNN_Tanh_3_10_0_12_8',
+        # 'DVRNN_Tanh_1_20_6_12',
+        # 'DVRNN_Tanh_2_20_6_8',
+        # 'DVRNN_Tanh_2_20_6_8_8',
+        # 'DVRNN_Tanh_3_20_6_8_8',
+        # 'DVRNN_Tanh_3_20_6_12_8',
         # 'DVRNN_ReLU_1_10',
         # 'DVRNN_ReLU_1_10_12',
         # 'DVRNN_ReLU_2_10_8',
@@ -189,23 +188,23 @@ for state in range(3):
         # 'GMP_[5, 5, 5]_[3, 3, 3]_[2, 2]',
         # 'GMP_[7, 5, 5]_[3, 3, 3]_[2, 2]',
         # 'GMP_[7, 3, 3]_[3, 3, 3]_[2, 2]',
-        # 'GMP_[9, 3, 3]_[3, 3, 3]_[2, 2]',
-        # 'GMP_[9, 5, 5]_[3, 3, 3]_[2, 2]',
-        # 'GMP_[9, 7, 7]_[3, 3, 3]_[2, 2]',
-        # 'GMP_[9, 7, 7]_[3, 3, 3]_[3, 3]',
-        # 'GMP_[9, 9, 9]_[3, 3, 3]_[3, 3]',
+        'GMP_[9, 3, 3]_[20, 10, 10]_[5, 5]',
+        'GMP_[9, 5, 5]_[20, 10, 10]_[5, 5]',
+        'GMP_[9, 7, 7]_[20, 10, 10]_[5, 5]',
+        'GMP_[9, 7, 7]_[20, 20, 20]_[5, 5]',
+        'GMP_[9, 9, 9]_[20, 10, 10]_[5, 5]',
         # 'GMP_[11, 3, 3]_[3, 3, 3]_[2, 2]',
         # 'GMP_[11, 5, 5]_[3, 3, 3]_[2, 2]',
         # 'GMP_[11, 7, 7]_[3, 3, 3]_[3, 3]',
         # 'GMP_[11, 9, 9]_[3, 3, 3]_[3, 3]',
         # 'GMP_[11, 9, 9]_[3, 3, 3]_[4, 4]',
-        # 'DVR_1_10_[0.5]',
-        # 'DVR_2_10_[0.3,0.7]',
-        # 'DVR_3_10_[0.2,0.5,0.8]',
-        # 'DVR_4_10_[0.2,0.4,0.6,0.8]',
-        # 'DVR_5_10_[0.2,0.4,0.6,0.7,0.8]',
-        # 'DVR_6_10_[0.2,0.4,0.6,0.7,0.8,0.9]',
-        # 'DVR_7_10_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
+        'DVR_1_20_[0.5]',
+        'DVR_2_20_[0.3,0.7]',
+        'DVR_3_20_[0.2,0.5,0.8]',
+        'DVR_4_20_[0.2,0.4,0.6,0.8]',
+        'DVR_5_20_[0.2,0.4,0.6,0.7,0.8]',
+        'DVR_6_20_[0.2,0.4,0.6,0.7,0.8,0.9]',
+        'DVR_7_20_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
 
         # 'DVR_1_7_[0.5]',
         # 'DVR_2_7_[0.3,0.7]',
@@ -315,7 +314,7 @@ for state in range(3):
             logger.info(f'------------------------{Model[0]}_M{M}_K{K}-------------------------------')
             # 初始化模型
             dvr = DVR.DVR(M=M, threshold=threshold)
-            coef = dvr.DVR_e(x_train, y_train, alpha=1e-9)
+            coef = dvr.DVR_e(x_train, y_train, alpha=1e-5)
             y_pred = dvr.DVR_v(x_train, coef)
             logger.info(f'{Model[0]} train NMSE:')
             NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
@@ -330,7 +329,7 @@ for state in range(3):
             filename = f"GMP_K{K}_L{L}_M{M}_{time.strftime('%Y%m%d%H%M')}"
             logger.info(f'----------------{Model[0]}_K{K}_L{L}_M{M}--------------------')
             start_time = time.time()  # 记录开始时间
-            coef = GMP.model_e(x_train, y_train,alpha=1e-8)
+            coef = GMP.model_e(x_train, y_train,alpha=1e-5)
             end_time = time.time()  # 记录结束时间
             elapsed_time = end_time - start_time
             # logger.info(f"model train time: {elapsed_time:.6f} s")
@@ -514,7 +513,7 @@ for state in range(3):
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
                 # 训练前的模型参数
-                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,300,512,1e-5])
+                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,1000,512,1e-5])
                 # 训练后的模型参数
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}--------------------  -")

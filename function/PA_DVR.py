@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.signal as sp_signal
 
 def PA_DVR_v1(In):
     coeff = np.array([
@@ -181,6 +182,304 @@ def PA_DVR_v1(In):
     Out = Out.squeeze()
     # Out1 = Out.reshape(-1,1)
     return Out
+
+
+# ======================================================================
+# 基础指标: rms / papr / NMSE_ZTE / ACLR_ZTE
+# (对应 MATLAB Function-Essential/Caculating_function/)
+# ======================================================================
+def rms(x):
+    return np.sqrt(np.mean(np.abs(np.asarray(x)) ** 2))
+
+
+def papr(x):
+    """PAPR, 返回 (p1_dB, p2_倍数), 对应 papr.m"""
+    x = np.asarray(x)
+    p2 = np.max(np.abs(x)) ** 2 / rms(x) ** 2
+    p1 = 10 * np.log10(p2)
+    return p1, p2
+
+
+def NMSE_ZTE(x, y, a=None, b=None):
+    """按功率归一化 NMSE (dB), 对应 NMSE_ZTE.m
+    a/b 可选 (1 基): 取 x(a:b), y(a:b)
+    """
+    x = np.asarray(x).ravel()
+    y = np.asarray(y).ravel()
+    if a is not None:
+        if b is None:
+            x = x[a - 1:]
+            y = y[a - 1:]
+        else:
+            x = x[a - 1:b]
+            y = y[a - 1:b]
+    x = x / np.sqrt(np.mean(x * np.conj(x)))
+    y = y / np.sqrt(np.mean(y * np.conj(y)))
+    error = x - y
+    nmse = 10 * np.log10(np.mean(np.abs(error) ** 2) / np.mean(np.abs(x) ** 2))
+    return nmse
+
+
+def ACLR_ZTE(signal, bandwith, offset, fs):
+    """ACPR/ACLR 指标 (dBc), 对应 ACLR_ZTE.m
+    signal: 信号; bandwith: 积分带宽 (Hz); offset: 积分间隔 (Hz); fs: 采样率
+    返回 (aclr1, aclr2)
+    """
+    from scipy import signal as sp_signal
+    signal = np.asarray(signal).ravel()
+    N = 4096
+    win = np.hanning(4096)                          # MATLAB hanning(4096)
+    f, psd_input = sp_signal.welch(signal, fs=fs, window=win, nperseg=N,
+                                   noverlap=N // 2, nfft=N,
+                                   return_onesided=False)
+    psd_input = np.fft.fftshift(psd_input)          # 'centered'
+
+    M = int(round(bandwith / fs * N))
+    M = int(round(M / 2) * 2)
+    M1 = int(round(offset / fs * N))
+    M1 = int(round(M1 / 2) * 2)
+
+    mid = N // 2
+    middle_power = np.sum(np.abs(psd_input[mid - M // 2: mid + M // 2 + 1]))
+    adj1_power = np.sum(np.abs(psd_input[mid - M1 - M // 2: mid - M1 + M // 2 + 1]))
+    adj2_power = np.sum(np.abs(psd_input[mid + M1 - M // 2: mid + M1 + M // 2 + 1]))
+    aclr1 = 10 * np.log10(adj1_power / middle_power)
+    aclr2 = 10 * np.log10(adj2_power / middle_power)
+    return aclr1, aclr2
+
+
+# ======================================================================
+# CAF_new.m 转换 (削峰: Clipping And Filtering)
+# ======================================================================
+def CAF_new(x, thr_dB, oversample, T, hard_clipping, thr_new):
+    """削峰, 对应 CAF_new.m
+    返回 c_caf; 削峰后信号 = x - c_caf
+    """
+    x = np.asarray(x).ravel()
+    L = x.size
+    c_caf = np.zeros(L, dtype=complex)
+    c = np.zeros(L, dtype=complex)
+    thr = rms(x) * 10 ** (thr_dB / 20)
+    papr_caf1 = [papr(x)[0]]
+
+    # --- 识别原始信号频带 ---
+    X_f = np.fft.fftshift(np.fft.fft(x))
+    magnitude_threshold = np.max(np.abs(X_f)) * 1e-2
+    freq_mask = np.abs(X_f) > magnitude_threshold
+
+    # --- 削峰 + 滤波迭代 ---
+    for t in range(T):
+        if papr(x)[0] <= thr_new:
+            break
+        # --- 削峰 ---
+        for i in range(L):
+            if abs(x[i]) >= thr:
+                c[i] = x[i] * (1 - thr / abs(x[i]))
+            else:
+                c[i] = 0
+        # --- 频带限制滤波 ---
+        c_f = np.fft.fftshift(np.fft.fft(c))
+        c_f_new = np.zeros(L, dtype=complex)
+        c_f_new[freq_mask] = c_f[freq_mask]
+        c_new = np.fft.ifft(np.fft.ifftshift(c_f_new))
+        x = x - c_new
+        c_caf = c_caf + c_new
+        papr_caf1.append(papr(x)[0])
+
+    # --- 硬限幅 ---
+    if hard_clipping == 1:
+        c_hc = np.zeros(L, dtype=complex)
+        if np.max(np.abs(x)) >= thr:
+            for i in range(L):
+                if abs(x[i]) >= thr:
+                    c_hc[i] = x[i] * (1 - thr / abs(x[i]))
+            c_caf = c_caf + c_hc
+        papr_caf2 = papr(x - c_caf)
+        _ = papr_caf2
+    return c_caf
+
+
+# ======================================================================
+# DVR_getbasis.m / DVR_e.m / DVR_v.m 转换
+# ======================================================================
+def DVR_getbasis(x, M, threshold):
+    """DVR 基函数构造, 对应 DVR_getbasis.m
+    x: 输入复信号; M: 记忆深度; threshold: 阈值向量
+    返回 X: (N, 列数) 基函数矩阵
+    """
+    x = np.asarray(x).ravel()
+    x = x / np.max(np.abs(x))
+    thold = np.asarray(threshold).ravel()
+    K = thold.size
+    xi = x
+    xip = np.angle(x)
+
+    X_lin = []
+    X_1 = []
+    X_21 = []
+    X_22 = []
+    X_23 = []
+    X_ddr_1 = []
+    X_ddr_2 = []
+    for m in range(M + 1):
+        xi_shift = np.roll(xi, m)                   # circshift(xi, m)
+        xip_shift = np.roll(xip, m)                 # circshift(xip, m)
+        X_lin.append(xi_shift)
+        for kth in range(K):
+            xi_core = np.abs(np.abs(xi_shift) - thold[kth])
+            X_1.append(xi_core * np.exp(1j * xip_shift))
+            X_21.append(xi_core * np.exp(1j * xip_shift) * np.abs(xi))
+            if m > 0:
+                X_22.append(xi_core * xi)
+                X_23.append(xi_core * xi_shift)
+                xi_ddr_core = np.abs(np.abs(xi) - thold[kth])
+                X_ddr_1.append(xi_ddr_core * xi_shift)
+                X_ddr_2.append(xi_ddr_core * xi * xi * np.conj(xi_shift))
+    X = np.column_stack(X_lin + X_1 + X_21 + X_22 + X_23 + X_ddr_1 + X_ddr_2)
+    return X
+
+
+def DVR_e(x, y, M, threshold, alpha, print_flag):
+    """DVR 模型辨识, 对应 DVR_e.m
+    x: 输入; y: 期望输出; M: 记忆深度; threshold: 阈值向量
+    alpha: 正则化系数; print_flag: 是否打印训练 NMSE
+    返回 coef (系数向量)
+    """
+    x = np.asarray(x).ravel()
+    y = np.asarray(y).ravel()
+    x = x / np.max(np.abs(x))
+    y = y / np.max(np.abs(y))
+    X = DVR_getbasis(x, M, threshold)
+    start = M + 1 + 10
+    X1 = X[start:, :]
+    y1 = y[start:]
+    I = np.eye(X1.shape[1], dtype=complex)
+    beta = np.linalg.pinv(X1.conj().T @ X1 + alpha * I) @ X1.conj().T @ y1
+    coef = beta
+    if print_flag == 1:
+        y_model = X @ beta
+        y_model[:start] = y[:start]
+        A = np.nonzero(np.abs(y_model) > 1)[0]
+        y_model[A] = y[A]
+        nmse_val = NMSE_ZTE(y, y_model)
+        print(f'NMSE-train-model = {nmse_val:.2f} dB')
+    return coef
+
+
+def DVR_v(x, coef, M, threshold):
+    """DVR 预失真输出, 对应 DVR_v.m
+    x: 输入; coef: DVR_e 得到的系数; M: 记忆深度; threshold: 阈值向量
+    返回 y
+    """
+    x = np.asarray(x).ravel()
+    x = x / np.max(np.abs(x))
+    X = DVR_getbasis(x, M, threshold)
+    start = M + 1 + 10
+    y = X @ np.asarray(coef)
+    y[:start] = x[:start]
+    A = np.nonzero(np.abs(y) > 1)[0]
+    y[A] = x[A]
+    return y
+
+
+# ======================================================================
+# psd_crz.m / psd_b.m / amam.m / ampm.m 转换 (绘图)
+# ======================================================================
+def _psd_core(x, Fs, N):
+    """PSD 计算与绘图核心 (psd_crz / psd_b 共用)"""
+    import matplotlib.pyplot as plt
+    x = np.asarray(x).ravel()
+    x = x / np.linalg.norm(x) * 300
+    win = np.hanning(N)
+    f, Pxx = sp_signal.welch(x, fs=Fs, window=win, nperseg=N,
+                             noverlap=N // 2, nfft=N, return_onesided=False)
+    Pxx = 10 * np.log10(np.fft.fftshift(Pxx))
+    f = Fs * (np.arange(Pxx.size) / Pxx.size - 0.5) / 1e6
+    return f, Pxx
+
+
+def psd_crz(x, Fs, N, color=None, lineform='-', linewidth=2, ax=None, **kwargs):
+    """频谱绘图, 对应 psd_crz.m; 返回 (f, Pxx)"""
+    import matplotlib.pyplot as plt
+    f, Pxx = _psd_core(x, Fs, N)
+    if ax is None:
+        ax = plt.gca()
+    if color is None:
+        ax.plot(f, Pxx, '-', linewidth=linewidth)
+    else:
+        ax.plot(f, Pxx, lineform, linewidth=linewidth, color=color, **kwargs)
+    ax.set_xlabel('Frequency Offset (MHZ)')
+    ax.set_ylabel('Normalized Spectrum Density (dBm)')
+    return f, Pxx
+
+
+def psd_b(x, Fs, N, displayname=None, ax=None, **kwargs):
+    """频谱绘图 (带 DisplayName), 对应 psd_b.m; 返回 (f, Pxx)"""
+    import matplotlib.pyplot as plt
+    f, Pxx = _psd_core(x, Fs, N)
+    if ax is None:
+        ax = plt.gca()
+    if displayname is None:
+        ax.plot(f, Pxx, '-', linewidth=2, **kwargs)
+    else:
+        ax.plot(f, Pxx, '-', linewidth=2, label=displayname, **kwargs)
+    ax.set_xlabel('Frequency Offset (MHZ)')
+    ax.set_ylabel('Normalized Spectrum Density (dBm)')
+    return f, Pxx
+
+
+def amam(x, y, color='r', norm=1, a=None, b=None, ax=None):
+    """AM/AM 图, 对应 amam.m"""
+    import matplotlib.pyplot as plt
+    x = np.asarray(x).ravel()
+    y = np.asarray(y).ravel()
+    if a is not None:
+        if b is None:
+            x = x[a - 1:]
+            y = y[a - 1:]
+        else:
+            x = x[a - 1:b]
+            y = y[a - 1:b]
+    if norm == 0:
+        y1 = np.abs(y)
+        x1 = np.abs(x)
+    else:
+        y1 = np.abs(y) / np.max(np.abs(y))
+        x1 = np.abs(x) / np.max(np.abs(x))
+    if ax is None:
+        ax = plt.gca()
+    if color == 0:
+        ax.plot(x1, y1, '.')
+    else:
+        ax.plot(x1, y1, '.', color=color, markersize=5)
+    ax.set_xlim([0, 1])
+    ax.set_ylim([0, 1])
+
+
+def ampm(x, y, color='r', norm=1, a=None, b=None, ax=None):
+    """AM/PM 图, 对应 ampm.m"""
+    import matplotlib.pyplot as plt
+    x = np.asarray(x).ravel()
+    y = np.asarray(y).ravel()
+    if a is not None:
+        if b is None:
+            x = x[a - 1:]
+            y = y[a - 1:]
+        else:
+            x = x[a - 1:b]
+            y = y[a - 1:b]
+    if norm == 0:
+        y1 = np.abs(y)
+        x1 = np.abs(x)
+    else:
+        y1 = np.abs(y) / np.max(np.abs(y))
+        x1 = np.abs(x) / np.max(np.abs(x))
+    z1 = np.angle(y / x) / np.pi * 180
+    if ax is None:
+        ax = plt.gca()
+    ax.plot(x1, z1, '.', color=color, markersize=5)
+    ax.set_xlim([0, 1])
+
 
 # 使用示例 ---------------------------------------------------
 if __name__ == "__main__":

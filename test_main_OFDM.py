@@ -87,7 +87,7 @@ params = {
     'waveformfile': 'waveform_crz',
     'fs': fs,  # sampling rate = 160 MHz
     'fc': 3.5e9,  # carrier frequency = 2.14 GHz
-    'att': 10,  # attenuation level of (VSA) in dB
+    'att': 7,  # attenuation level of (VSA) in dB
     'type': 1  # test type
 }
 
