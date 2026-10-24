@@ -1,0 +1,15 @@
+2026-10-13 16:37:44,707 INFO: ===========================load signal================================ 
+2026-10-13 16:37:44,849 INFO: LDPC: dvb2 (n=64800, k=48600), H file=dvb2_64800_r075_H.mat, H nnz=226799 
+2026-10-13 16:37:45,357 INFO: [origin] EVM(RMS) = 0.2618 % 
+2026-10-13 16:37:45,358 INFO: [origin] FEC_PRE: 0 / 194400 (BER = 0.000e+00) 
+2026-10-13 16:37:45,359 INFO: [origin] FEC_POST: Iteration 1 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-13 16:37:45,909 INFO: EVM_origin: 0.2618 % 
+2026-10-13 16:37:45,909 INFO: ===========================PA Transmit================================ 
+2026-10-13 18:10:59,374 INFO: power: -20 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-13 18:11:15,714 INFO: SMW signal transmission finished! 
+2026-10-13 18:12:48,409 INFO: NMSE_WO_DPD: -34.416479315825804 dB 
+2026-10-13 18:12:48,417 INFO: ACPR1_L: -47.994 dBc, ACPR1_U: -49.540 dBc 
+2026-10-13 18:13:39,722 INFO: [woDPD] EVM(RMS) = 1.7708 % 
+2026-10-13 18:13:39,722 INFO: [woDPD] FEC_PRE: 12736 / 194400 (BER = 6.551e-02) 
+2026-10-13 18:13:39,722 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 5751 / 13043 (ALL bytes correct: False) 
+2026-10-13 18:13:39,823 INFO: EVM_woDPD: 1.7708 % 

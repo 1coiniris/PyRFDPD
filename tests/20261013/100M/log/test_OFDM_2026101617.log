@@ -1,0 +1,32 @@
+2026-10-16 17:43:33,056 INFO: ===========================load signal================================ 
+2026-10-16 17:43:33,134 INFO: LDPC: dvb2 (n=64800, k=48600), H file=dvb2_64800_r075_H.mat, H nnz=226799 
+2026-10-16 17:43:33,345 INFO: [origin] EVM(RMS) = 0.2618 % 
+2026-10-16 17:43:33,346 INFO: [origin] FEC_PRE: 0 / 194400 (BER = 0.000e+00) 
+2026-10-16 17:43:33,346 INFO: [origin] FEC_POST: Iteration 1 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-16 17:43:33,554 INFO: EVM_origin: 0.2618 % 
+2026-10-16 17:43:33,554 INFO: ===========================PA Transmit================================ 
+2026-10-16 17:43:33,623 INFO: power: -13 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-16 17:43:47,579 INFO: SMW signal transmission finished! 
+2026-10-16 17:44:24,770 INFO: NMSE_WO_DPD: -4.918631010037706 dB 
+2026-10-16 17:44:24,775 INFO: ACPR1_L: -33.501 dBc, ACPR1_U: -29.439 dBc 
+2026-10-16 17:44:29,568 INFO: [woDPD] EVM(RMS) = 57.2981 % 
+2026-10-16 17:44:29,568 INFO: [woDPD] FEC_PRE: 77389 / 194400 (BER = 3.981e-01) 
+2026-10-16 17:44:29,568 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12854 / 13043 (ALL bytes correct: False) 
+2026-10-16 17:44:29,667 INFO: EVM_woDPD: 57.2981 % 
+2026-10-16 17:45:56,179 INFO: SMW signal transmission finished! 
+2026-10-16 17:46:16,204 INFO: NMSE_WO_DPD: -5.0311201492398165 dB 
+2026-10-16 17:46:16,210 INFO: ACPR1_L: -32.377 dBc, ACPR1_U: -29.301 dBc 
+2026-10-16 17:46:21,674 INFO: [woDPD] EVM(RMS) = 48.8005 % 
+2026-10-16 17:46:21,674 INFO: [woDPD] FEC_PRE: 74315 / 194400 (BER = 3.823e-01) 
+2026-10-16 17:46:21,674 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12798 / 13043 (ALL bytes correct: False) 
+2026-10-16 17:46:21,772 INFO: EVM_woDPD: 48.8005 % 
+2026-10-16 17:49:34,801 INFO: SMW signal transmission finished! 
+2026-10-16 17:49:53,727 INFO: NMSE_WO_DPD: -4.935351864460821 dB 
+2026-10-16 17:49:53,733 INFO: ACPR1_L: -32.749 dBc, ACPR1_U: -29.598 dBc 
+2026-10-16 17:49:58,532 INFO: [woDPD] EVM(RMS) = 47.1643 % 
+2026-10-16 17:49:58,532 INFO: [woDPD] FEC_PRE: 72398 / 194400 (BER = 3.724e-01) 
+2026-10-16 17:49:58,532 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12743 / 13043 (ALL bytes correct: False) 
+2026-10-16 17:49:58,629 INFO: EVM_woDPD: 47.1643 % 
+2026-10-16 17:49:58,635 INFO: save PA file to tests/20261013/100M/data/PA_inout_202610161749.mat 
+2026-10-16 17:59:52,676 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 18:00:51,645 INFO: !!!!!!!!!!! error !!!!!!!!! 

@@ -18,7 +18,7 @@ test_OFDM_main.py — OFDM 传输 + DPD 建模主程序 (Python 版)
 输出: tests/20260829/100M/ 下 log / figure / data
 """
 
-import sklearn_stub          # 必须在 import Model 之前 (提供最小 train_test_split)
+# import sklearn_stub          # 必须在 import Model 之前 (提供最小 train_test_split)
 
 import os
 import time

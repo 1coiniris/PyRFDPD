@@ -92,7 +92,7 @@ class VSA:
                 instr.write("FREQ:SPAN " + str(fs) + "Hz")  # frequency span
 
                 # 幅度设置
-                instr.write("DISP:TRAC1:Y:RLEV 0dBm")  # set the reference level to 0 dBm.
+                instr.write("DISP:TRAC1:Y:RLEV -5dBm")  # set the reference level to 0 dBm.
                 instr.write(
                     "INPut:ATTenuation " + str(att) + "dB"
                 )  # set the input attenuation,
@@ -124,7 +124,7 @@ class VSA:
                 instr.write("SYST:DISP:UPD ON")
                 instr.write("LOCal")  # 返回本地控制模式
 
-                # instr.write("MMEM:LOAD:STAT 1, 'C:\R_S\Instr\user\QuickSave\QuickSave1'")
+                # instr.write("MMEM:LOAD:STAT 1, ''C:\R_S\Instr\user\QuickSave\QuickSave1''")
                 #
                 # %display
                 # settings
@@ -151,7 +151,7 @@ class VSA:
                 instr.write("TRAC:IQ:RLEN 100000")  # set the number of samples to capture
                 instr.write("FREQ:CENT " + str(fc) + "Hz")  # centre frequency
                 instr.write("FREQ:SPAN " + str(fs) + "Hz")  # frequency span
-                instr.write("DISP:TRAC1:Y:RLEV 0dBm")  # set the reference level to 0 dBm.
+                instr.write("DISP:TRAC1:Y:RLEV "+ str(att-1)+"dBm")  # set the reference level to 0 dBm.
                 instr.write(
                     "INPut:ATTenuation " + str(att) + "dB"
                 )  # set the input attenuation,

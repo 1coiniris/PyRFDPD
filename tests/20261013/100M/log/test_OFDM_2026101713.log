@@ -1,0 +1,109 @@
+2026-10-17 13:26:27,737 INFO: ===========================load signal================================ 
+2026-10-17 13:26:27,815 INFO: LDPC: dvb2 (n=64800, k=48600), H file=dvb2_64800_r075_H.mat, H nnz=226799 
+2026-10-17 13:26:28,017 INFO: [origin] EVM(RMS) = 0.2618 % 
+2026-10-17 13:26:28,017 INFO: [origin] FEC_PRE: 0 / 194400 (BER = 0.000e+00) 
+2026-10-17 13:26:28,017 INFO: [origin] FEC_POST: Iteration 1 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-17 13:26:28,216 INFO: EVM_origin: 0.2618 % 
+2026-10-17 13:26:28,216 INFO: ===========================PA Transmit================================ 
+2026-10-17 13:26:28,281 INFO: power: -12 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-17 13:26:37,491 INFO: SMW signal transmission finished! 
+2026-10-17 13:27:35,893 INFO: NMSE_WO_DPD: -19.84333372562437 dB 
+2026-10-17 13:27:35,898 INFO: ACPR1_L: -37.709 dBc, ACPR1_U: -31.748 dBc 
+2026-10-17 13:27:40,676 INFO: [woDPD] EVM(RMS) = 9.6784 % 
+2026-10-17 13:27:40,677 INFO: [woDPD] FEC_PRE: 44787 / 194400 (BER = 2.304e-01) 
+2026-10-17 13:27:40,677 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 11765 / 13043 (ALL bytes correct: False) 
+2026-10-17 13:27:40,845 INFO: EVM_woDPD: 9.6784 % 
+2026-10-17 13:27:40,849 INFO: save PA file to tests/20261013/100M/data/PA_inout_202610171327.mat 
+2026-10-17 13:27:40,849 INFO: ===========================ILC================================ 
+2026-10-17 13:29:04,653 INFO: ===========================load signal================================ 
+2026-10-17 13:29:04,734 INFO: LDPC: dvb2 (n=64800, k=48600), H file=dvb2_64800_r075_H.mat, H nnz=226799 
+2026-10-17 13:29:04,940 INFO: [origin] EVM(RMS) = 0.2618 % 
+2026-10-17 13:29:04,941 INFO: [origin] FEC_PRE: 0 / 194400 (BER = 0.000e+00) 
+2026-10-17 13:29:04,941 INFO: [origin] FEC_POST: Iteration 1 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-17 13:29:05,144 INFO: EVM_origin: 0.2618 % 
+2026-10-17 13:29:05,144 INFO: ===========================PA Transmit================================ 
+2026-10-17 13:29:05,206 INFO: power: -12 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-17 13:29:12,756 INFO: SMW signal transmission finished! 
+2026-10-17 13:30:09,812 INFO: NMSE_WO_DPD: -19.869058588794903 dB 
+2026-10-17 13:30:09,818 INFO: ACPR1_L: -37.925 dBc, ACPR1_U: -31.902 dBc 
+2026-10-17 13:30:14,485 INFO: [woDPD] EVM(RMS) = 9.6676 % 
+2026-10-17 13:30:14,485 INFO: [woDPD] FEC_PRE: 44778 / 194400 (BER = 2.303e-01) 
+2026-10-17 13:30:14,486 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 11747 / 13043 (ALL bytes correct: False) 
+2026-10-17 13:30:14,646 INFO: EVM_woDPD: 9.6676 % 
+2026-10-17 13:30:14,652 INFO: save PA file to tests/20261013/100M/data/PA_inout_202610171330.mat 
+2026-10-17 13:30:14,652 INFO: ===========================ILC================================ 
+2026-10-17 13:31:13,577 INFO: ----------------DVR_9_20_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9-------------------- 
+2026-10-17 13:31:22,361 INFO: COEF number: 939  
+2026-10-17 13:31:25,535 INFO: SMW signal transmission finished! 
+2026-10-17 13:32:23,773 INFO: save mat_file to tests/20261013/100M/data/DVR_K9_M20_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202610171332.mat 
+2026-10-17 13:32:23,773 INFO: signal without DPD 
+2026-10-17 13:32:23,775 INFO: NMSE: -19.869 dB 
+2026-10-17 13:32:23,780 INFO: ACPR1_L: -37.232 dBc, ACPR1_U: -31.732 dBc 
+2026-10-17 13:32:23,781 INFO: signal with DVR DPD: 
+2026-10-17 13:32:23,782 INFO: NMSE: -34.195 dB 
+2026-10-17 13:32:23,789 INFO: ACPR1_L: -44.028 dBc, ACPR1_U: -41.892 dBc 
+2026-10-17 13:32:29,212 INFO: [DVR_DPD] EVM(RMS) = 1.6685 % 
+2026-10-17 13:32:29,212 INFO: [DVR_DPD] FEC_PRE: 11788 / 194400 (BER = 6.064e-02) 
+2026-10-17 13:32:29,212 INFO: [DVR_DPD] FEC_POST: Iteration 50 , correct error 4219 / 13043 (ALL bytes correct: False) 
+2026-10-17 13:32:29,375 INFO: EVM DVR DPD: 1.6685 % 
+2026-10-17 13:32:43,733 INFO: ----------------DVR_9_30_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9-------------------- 
+2026-10-17 13:32:58,632 INFO: COEF number: 1399  
+2026-10-17 13:33:02,852 INFO: SMW signal transmission finished! 
+2026-10-17 13:34:00,048 INFO: save mat_file to tests/20261013/100M/data/DVR_K9_M30_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202610171334.mat 
+2026-10-17 13:34:00,048 INFO: signal without DPD 
+2026-10-17 13:34:00,050 INFO: NMSE: -19.869 dB 
+2026-10-17 13:34:00,056 INFO: ACPR1_L: -37.232 dBc, ACPR1_U: -31.732 dBc 
+2026-10-17 13:34:00,056 INFO: signal with DVR DPD: 
+2026-10-17 13:34:00,058 INFO: NMSE: -35.138 dB 
+2026-10-17 13:34:00,063 INFO: ACPR1_L: -44.793 dBc, ACPR1_U: -43.122 dBc 
+2026-10-17 13:34:04,739 INFO: [DVR_DPD] EVM(RMS) = 1.5259 % 
+2026-10-17 13:34:04,739 INFO: [DVR_DPD] FEC_PRE: 10496 / 194400 (BER = 5.399e-02) 
+2026-10-17 13:34:04,739 INFO: [DVR_DPD] FEC_POST: Iteration 50 , correct error 2 / 13043 (ALL bytes correct: False) 
+2026-10-17 13:34:04,902 INFO: EVM DVR DPD: 1.5259 % 
+2026-10-17 13:50:24,991 INFO: ----------------DVR_9_40_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9-------------------- 
+2026-10-17 13:50:49,930 INFO: COEF number: 1859  
+2026-10-17 13:51:02,601 INFO: SMW signal transmission finished! 
+2026-10-17 13:52:01,762 INFO: save mat_file to tests/20261013/100M/data/DVR_K9_M40_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202610171352.mat 
+2026-10-17 13:52:01,762 INFO: signal without DPD 
+2026-10-17 13:52:01,766 INFO: NMSE: -19.869 dB 
+2026-10-17 13:52:01,777 INFO: ACPR1_L: -37.232 dBc, ACPR1_U: -31.732 dBc 
+2026-10-17 13:52:01,778 INFO: signal with DVR DPD: 
+2026-10-17 13:52:01,779 INFO: NMSE: -34.293 dB 
+2026-10-17 13:52:01,784 INFO: ACPR1_L: -44.553 dBc, ACPR1_U: -41.532 dBc 
+2026-10-17 13:52:06,612 INFO: [DVR_DPD] EVM(RMS) = 1.5676 % 
+2026-10-17 13:52:06,615 INFO: [DVR_DPD] FEC_PRE: 10847 / 194400 (BER = 5.580e-02) 
+2026-10-17 13:52:06,616 INFO: [DVR_DPD] FEC_POST: Iteration 50 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-17 13:52:06,784 INFO: EVM DVR DPD: 1.5676 % 
+2026-10-17 13:53:02,858 INFO: ----------------DVR_9_40_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9-------------------- 
+2026-10-17 13:53:31,654 INFO: COEF number: 1859  
+2026-10-17 13:53:46,021 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-17 13:53:56,151 INFO: SMW signal transmission finished! 
+2026-10-17 13:54:36,950 INFO: save mat_file to tests/20261013/100M/data/DVR_K9_M40_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202610171354.mat 
+2026-10-17 13:54:36,950 INFO: signal without DPD 
+2026-10-17 13:54:36,955 INFO: NMSE: -19.869 dB 
+2026-10-17 13:54:36,966 INFO: ACPR1_L: -37.232 dBc, ACPR1_U: -31.732 dBc 
+2026-10-17 13:54:36,966 INFO: signal with DVR DPD: 
+2026-10-17 13:54:36,968 INFO: NMSE: -35.940 dB 
+2026-10-17 13:54:36,972 INFO: ACPR1_L: -45.520 dBc, ACPR1_U: -43.833 dBc 
+2026-10-17 13:54:40,060 INFO: [DVR_DPD] EVM(RMS) = 1.3998 % 
+2026-10-17 13:54:40,063 INFO: [DVR_DPD] FEC_PRE: 9241 / 194400 (BER = 4.754e-02) 
+2026-10-17 13:54:40,063 INFO: [DVR_DPD] FEC_POST: Iteration 15 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-17 13:54:40,167 INFO: EVM DVR DPD: 1.3998 % 
+2026-10-17 13:54:40,167 INFO: ----------------DVR_9_45_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9-------------------- 
+2026-10-17 13:55:09,080 INFO: COEF number: 2089  
+2026-10-17 13:55:16,692 INFO: SMW signal transmission finished! 
+2026-10-17 13:55:57,235 INFO: save mat_file to tests/20261013/100M/data/DVR_K9_M45_thres[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]_202610171355.mat 
+2026-10-17 13:55:57,236 INFO: signal without DPD 
+2026-10-17 13:55:57,238 INFO: NMSE: -19.869 dB 
+2026-10-17 13:55:57,246 INFO: ACPR1_L: -37.232 dBc, ACPR1_U: -31.732 dBc 
+2026-10-17 13:55:57,246 INFO: signal with DVR DPD: 
+2026-10-17 13:55:57,248 INFO: NMSE: -36.054 dB 
+2026-10-17 13:55:57,254 INFO: ACPR1_L: -45.524 dBc, ACPR1_U: -43.886 dBc 
+2026-10-17 13:56:01,791 INFO: [DVR_DPD] EVM(RMS) = 1.3752 % 
+2026-10-17 13:56:01,795 INFO: [DVR_DPD] FEC_PRE: 9088 / 194400 (BER = 4.675e-02) 
+2026-10-17 13:56:01,796 INFO: [DVR_DPD] FEC_POST: Iteration 50 , correct error 2 / 13043 (ALL bytes correct: False) 
+2026-10-17 13:56:01,898 INFO: EVM DVR DPD: 1.3752 % 
+2026-10-17 13:56:51,502 INFO: [DVR_DPD] EVM(RMS) = 1.3752 % 
+2026-10-17 13:56:51,502 INFO: [DVR_DPD] FEC_PRE: 9088 / 194400 (BER = 4.675e-02) 
+2026-10-17 13:56:51,502 INFO: [DVR_DPD] FEC_POST: Iteration 50 , correct error 2 / 13043 (ALL bytes correct: False) 
+2026-10-17 13:56:51,606 INFO: EVM DVR DPD: 1.3752 % 

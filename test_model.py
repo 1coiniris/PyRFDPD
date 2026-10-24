@@ -25,6 +25,7 @@ import Model.AKPTDNN as AKPTDNN
 import Model.KFC_NN as KFCNN
 import argparse
 import time
+import os
 from function import Function_Calculate as cal, Function_Lib as fun
 # from function import FunctionAnalyzer as analyzer
 # from tqdm import tqdm
@@ -37,16 +38,30 @@ print(device)
 
 file_path = 'results/modeling/'
 
+figure_path = f'{file_path}/figure'
+mat_path = f'{file_path}/data'
+log_path = f'{file_path}/log'
+model_path = f'{file_path}/model'
+logger_filename = f"test_OFDM_{time.strftime('%Y%m%d%H')}"
+
+os.makedirs(file_path, exist_ok=True)
+os.makedirs(log_path, exist_ok=True)
+os.makedirs(figure_path, exist_ok=True)
+os.makedirs(mat_path, exist_ok=True)
+os.makedirs(model_path, exist_ok=True)
+
 plot_swich = 1
 NMSE_state_list = []
 ########################## 信号描述 ################################
 # signal = '400M' #'LMBA200M'
 # signal = 'LMBA200M'
 # signal = '100M'
-signal = 'ILC_100M'
+# signal = 'ILC_100M'
 # signal = 'ILC_400M'
 # signal = 'NXP_100M'
 # signal = 'YU'
+signal = 'OFDM_array_100M_16384QAM'
+
 count = 0
 for state in range(1):
     x_train, y_train, x, y, fs, BW = fun.get_data(signal,state = state)
@@ -60,58 +75,17 @@ for state in range(1):
     #     test_map.extend(NN_map)
     # 模型设置
     test_map = [
-        # 'DVRNN_Sigmoid_1_10',
-        # 'DVRNN_Sigmoid_1_10_12',
-        # 'DVRNN_Sigmoid_2_10_8',
-        # 'DVRNN_Sigmoid_2_10_8_8',
-        # 'DVRNN_Sigmoid_2_10_12_8',
-        # 'DVRNN_Sigmoid_3_10_8',
-        # 'DVRNN_Sigmoid_3_10_12',
-        # 'DVRNN_Sigmoid_3_10_8_8',
+        # 'DVR_9_25_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9',
+        # 'DVR_9_30_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9',
+        # 'DVR_9_35_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9',
+        # 'DVR_9_40_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9',
+        # 'DVR_9_45_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9',
+        # 'DVR_9_50_[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]_1e-9',
         # 'AKPTDNN_ReLU_10_6_4',
-        # 'AKPTDNN_Tanh_10_6_4',
+        'AKPTDNN_Tanh_40_6_4',
 
-        # 'DVRNN_Tanh_1_10_6',
-        # 'DVRNN_Tanh_1_10_6_12',
-        # 'DVRNN_Tanh_2_10_6_8',
-        # 'DVRNN_Tanh_2_10_6_8_8',
-        # 'DVRNN_Tanh_3_10_6_8_8',
-        # 'DVRNN_Tanh_3_10_6_12_8',
-        #
-        # 'DVRNN_Tanh_1_10_7',
-        # 'DVRNN_Tanh_1_10_7_12',
-        # 'DVRNN_Tanh_2_10_7_8',
-        # 'DVRNN_Tanh_2_10_7_8_8',
-        # 'DVRNN_Tanh_3_10_7_8_8',
-        # 'DVRNN_Tanh_3_10_7_12_8',
-        #
-        # 'DVRNN_Tanh_1_10_5',
-        # 'DVRNN_Tanh_1_10_5_12',
-        # 'DVRNN_Tanh_2_10_5_8',
-        # 'DVRNN_Tanh_2_10_5_8_8',
-        # 'DVRNN_Tanh_3_10_5_8_8',
-        # 'DVRNN_Tanh_3_10_5_12_8',
-        #
-        # 'DVRNN_Tanh_1_10_1',
-        # 'DVRNN_Tanh_1_10_1_12',
-        # 'DVRNN_Tanh_2_10_1_8',
-        # 'DVRNN_Tanh_2_10_1_8_8',
-        # 'DVRNN_Tanh_3_10_1_8_8',
-        # 'DVRNN_Tanh_3_10_1_12_8',
+        'DVRNN_Tanh_3_40_6_12_8',
 
-        # 'DVRNN_Tanh_1_20_6_12',
-        # 'DVRNN_Tanh_2_20_6_8',
-        # 'DVRNN_Tanh_2_20_6_8_8',
-        # 'DVRNN_Tanh_3_20_6_8_8',
-        # 'DVRNN_Tanh_3_20_6_12_8',
-        # 'DVRNN_ReLU_1_10',
-        # 'DVRNN_ReLU_1_10_12',
-        # 'DVRNN_ReLU_2_10_8',
-        # 'DVRNN_ReLU_2_10_8_8',
-        # 'DVRNN_ReLU_2_10_12_8',
-        # 'DVRNN_ReLU_3_10_8',
-        # 'DVRNN_ReLU_3_10_12',
-        # 'DVRNN_ReLU_3_10_8_8',
 
 
 
@@ -188,103 +162,23 @@ for state in range(1):
         # 'GMP_[5, 5, 5]_[3, 3, 3]_[2, 2]',
         # 'GMP_[7, 5, 5]_[3, 3, 3]_[2, 2]',
         # 'GMP_[7, 3, 3]_[3, 3, 3]_[2, 2]',
-        'GMP_[9, 3, 3]_[20, 10, 10]_[5, 5]',
-        'GMP_[9, 5, 5]_[20, 10, 10]_[5, 5]',
-        'GMP_[9, 7, 7]_[20, 10, 10]_[5, 5]',
-        'GMP_[9, 7, 7]_[20, 20, 20]_[5, 5]',
-        'GMP_[9, 9, 9]_[20, 10, 10]_[5, 5]',
+        # 'GMP_[9, 3, 3]_[20, 10, 10]_[5, 5]',
+        # 'GMP_[9, 5, 5]_[20, 10, 10]_[5, 5]',
+        # 'GMP_[9, 7, 7]_[20, 10, 10]_[5, 5]',
+        # 'GMP_[9, 7, 7]_[20, 20, 20]_[5, 5]',
+        # 'GMP_[9, 9, 9]_[20, 10, 10]_[5, 5]',
         # 'GMP_[11, 3, 3]_[3, 3, 3]_[2, 2]',
         # 'GMP_[11, 5, 5]_[3, 3, 3]_[2, 2]',
         # 'GMP_[11, 7, 7]_[3, 3, 3]_[3, 3]',
         # 'GMP_[11, 9, 9]_[3, 3, 3]_[3, 3]',
         # 'GMP_[11, 9, 9]_[3, 3, 3]_[4, 4]',
-        'DVR_1_20_[0.5]',
-        'DVR_2_20_[0.3,0.7]',
-        'DVR_3_20_[0.2,0.5,0.8]',
-        'DVR_4_20_[0.2,0.4,0.6,0.8]',
-        'DVR_5_20_[0.2,0.4,0.6,0.7,0.8]',
-        'DVR_6_20_[0.2,0.4,0.6,0.7,0.8,0.9]',
-        'DVR_7_20_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
 
-        # 'DVR_1_7_[0.5]',
-        # 'DVR_2_7_[0.3,0.7]',
-        # 'DVR_3_7_[0.2,0.5,0.8]',
-        # 'DVR_4_7_[0.2,0.4,0.6,0.8]',
-        # 'DVR_5_7_[0.2,0.4,0.6,0.7,0.8]',
-        # 'DVR_6_7_[0.2,0.4,0.6,0.7,0.8,0.9]',
-        # 'DVR_7_7_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
         #
-        # 'DVR_1_5_[0.5]',
-        # 'DVR_2_5_[0.3,0.7]',
-        # 'DVR_3_5_[0.2,0.5,0.8]',
-        # 'DVR_4_5_[0.2,0.4,0.6,0.8]',
-        # 'DVR_5_5_[0.2,0.4,0.6,0.7,0.8]',
-        # 'DVR_6_5_[0.2,0.4,0.6,0.7,0.8,0.9]',
-        # 'DVR_7_5_[0.1,0.2,0.4,0.5,0.6,0.7,0.8]',
-        # 'DVR_3_5_[0.2,0.5,0.8]',
-        # 'DVR_4_5_[0.2,0.4,0.6,0.8]',
-        #
-        # 'DVR_3_7_[0.2,0.5,0.8]',
-        # 'DVR_4_7_[0.2,0.4,0.6,0.8]',
         ]
     #     # 'KFCNN_ReLU_1_7_7',
     #     # 'KFCNN_ReLU_1_7_7_6_10',
     #     # 'KFCNN_ReLU_2_7_7',
     #     # 'KFCNN_ReLU_1_10_10',
-    #     # 'KFCNN_ReLU_3_7_7',
-    #     # 'KFCNN_ReLU_4_7_7',
-    #     # 'KFCNN_ReLU_2_10_10',
-    #     # 'KFCNN_ReLU_3_10_10',
-    #
-        # 'DVRNN_ReLU_1_10_6',
-        # 'DVRNN_ReLU_1_10_12',
-        # 'DVRNN_ReLU_2_10_6',
-        # 'DVRNN_ReLU_3_10_6',
-        # 'DVRNN_ReLU_2_10_12',
-        # 'DVRNN_ReLU_3_10_8_8',
-        # 'DVRNN_ReLU_3_10_10_12',
-        # 'DVRNN_ReLU_3_10_10_12',
-        # 'DVRNN_ReLU_1_20_6',
-        # 'DVRNN_ReLU_2_10_6',
-        # 'DVRNN_ReLU_1_10_12',
-        # 'DVRNN_ReLU_3_10_6',
-        # 'DVRNN_ReLU_2_10_12',
-        # 'DVRNN_ReLU_3_10_8_8',
-        # 'DVRNN_ReLU_3_10_10_12',
-        # ]
-        # DVRNN_M10_K1_layer[11, 6, 11]_ReLU
-        # DVRNN_M10_K1_layer[11, 12, 11]_ReLU
-        # DVRNN_M10_K2_layer[11, 6, 22]_ReLU
-        # DVRNN_M10_K2_layer[11, 12, 22]_ReLU
-        # DVRNN_M10_K3_layer[11, 6, 33]_ReLU
-        # DVRNN_M10_K3_layer[11, 8, 8, 33]_ReLU
-        # DVRNN_M10_K3_layer[11, 10, 12, 33]_ReLU
-
-        # 'DVRNN_ReLU_1_8',
-        # 'DVRNN_ReLU_1_10',
-        # 'DVRNN_ReLU_3_10_6',
-        # 'DVR_7_9_[0.1, 0.2, 0.3,0.4,0.6,0.7, 0.8]',
-        # 'DVR_7_10_[0.1, 0.2, 0.4,0.5,0.6,0.7, 0.8]',
-        # 'VDTDNN_ReLU_5_2_8',
-        # 'VDTDNN_ReLU_5_2_6_10',
-        # 'VDTDNN_ReLU_5_3_8_10',
-        # 'VDTDNN_ReLU_5_2_12_10',
-        # 'VDTDNN_ReLU_15_1_8_10',
-        # 'VDTDNN_ReLU_10_3_8_20',
-        # 'VDTDNN_ReLU_10_3_16_16',
-        # 'VDTDNN_Tanh_20_3_16',
-        # 'VDTDNN_ReLU_20_3_16_16',
-        # 'DVR_2_7_[0.2,0.5]',
-        # 'DVR_4_5_[0.2,0.4,0.6,0.8]',
-        # 'DVR_3_8_[0.2,0.5,0.8]',
-        # 'DVR_3_10_[0.2,0.5,0.8]',
-        # 'DVR_5_8_[0.2,0.4,0.6,0.7,0.8]',
-        # 'DVR_5_10_[0.2,0.4,0.6,0.7,0.8]',
-        # 'DVR_7_8_[0.1,0.2,0.3,0.4,0.5,0.6,0.8]',
-    #
-    #
-    # ]
-
     total_train = 1
 
     NMSE_list = []
@@ -314,7 +208,7 @@ for state in range(1):
             logger.info(f'------------------------{Model[0]}_M{M}_K{K}-------------------------------')
             # 初始化模型
             dvr = DVR.DVR(M=M, threshold=threshold)
-            coef = dvr.DVR_e(x_train, y_train, alpha=1e-5)
+            coef = dvr.DVR_e(x_train, y_train, alpha=1e-9)
             y_pred = dvr.DVR_v(x_train, coef)
             logger.info(f'{Model[0]} train NMSE:')
             NMSE = cal.nmse(y_train[M + 11:], y_pred[M + 11:], logger, 1)
@@ -385,7 +279,7 @@ for state in range(1):
                 # Train from scratch (paper: lr=1e-4, epochs=2000, batch_size=2000)
                 model.model_train(
                     x_train, y_train, model_path, logger, 1,
-                    para=[0.001,1000,512]
+                    para=[0.001,500,512]
                 )
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}---------------------")
@@ -513,7 +407,7 @@ for state in range(1):
             if total_train == 1:
                 # model.load_state_dict(torch.load(trained_model))
                 # 训练前的模型参数
-                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,1000,512,1e-5])
+                model.model_train(x_train,y_train,model_path, logger,1,para = [0.001,300,4096,1e-5,0.75,50])
                 # 训练后的模型参数
                 model.load_state_dict(torch.load(model_path))
                 logger.info(f"-------------------load model: {model_path}--------------------  -")

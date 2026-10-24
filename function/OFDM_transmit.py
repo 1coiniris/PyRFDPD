@@ -22,6 +22,9 @@ import os
 import numpy as np
 from scipy.signal import lfilter
 from scipy.special import i0 as besseli0
+from function import OFDM_rx as OFDM_rx
+from matplotlib import pyplot as plt
+
 
 __all__ = [
     'ofdm_params', 'ofdm_modulate', 'ofdm_demodulate', 'ofdm_tx_filter',
@@ -1538,9 +1541,9 @@ def ofdm_rx_packet(rx_sig, p, info, fec=None, scr_seed=20240517,
         idx_p = np.random.choice(tx_sym.size, n_show, replace=False)
         fig, ax = plt.subplots(figsize=(6, 6))
         ax.plot(np.real(tx_sym[idx_p]), np.imag(tx_sym[idx_p]), '.',
-                color=[196 / 255, 215 / 255, 248 / 255], markersize=12)
+                color=[196 / 255, 215 / 255, 248 / 255], markersize=5)
         ax.plot(np.real(rx_sym[idx_p]), np.imag(rx_sym[idx_p]), '.',
-                color=[0.7, 0.13, 0.13], markersize=12)
+                color=[0.7, 0.13, 0.13], markersize=5)
         ax.set_xlabel('I')
         ax.set_ylabel('Q')
         ax.set_xlim(-1.4, 1.4)
@@ -1631,6 +1634,26 @@ def ofdm_tx_file(zipFile, M, BW, fs=None, cpRatio=1 / 8, fec=None,
     return sig_pkts, meta
 
 
+def demod_OFDM(x1, p, info1, fec, scr_seed, SNR_dB,
+               label='RX', plot=True, savepath=None, logger=None):
+    """过信道 (PA 模型 / AWGN) 并解调评估 (星座图内嵌于 ofdm_rx_packet)
+
+    返回: (y, res)  y 为 PA/信道输出, res 为解调结果 dict
+    """
+
+    y = x1 / np.max(np.abs(x1))
+
+    # ---- 解调 (EVM / 纠错前后误码率 / 星座图) ----
+    res = ofdm_rx_packet(y, p, info1, fec=fec, scr_seed=scr_seed,
+                             plot=plot, savepath=savepath, label=label)
+    logger.info(f'[{label}] 信道原始误码 (FEC 译码前): '
+                f'{res["n_err_raw"]} / {info1["enc_bits"]} 比特 '
+                f'(BER = {res["ber_raw"]:.3e})')
+    logger.info(f'[{label}] 接收端 EVM (RMS) = {res["evm"]:.3f} %')
+    logger.info(f'[{label}] FEC 译码后比特错误 = {res["n_err_after"]} '
+                f'(BER = {res["ber_after"]:.3e})')
+    return y, res
+
 def ofdm_rx_file(rx_sig_pkts, meta, fec=None, scr_seed=20240517,
                  plot=False, savepath=None, label='RX', verbose=True):
     """整文件 OFDM 解调评估: 逐包 ofdm_rx_packet -> 拼接还原
@@ -1691,4 +1714,59 @@ def ofdm_rx_file(rx_sig_pkts, meta, fec=None, scr_seed=20240517,
         'ber_after_mean': float(np.mean(ber_after_pkt)),
         'pkt_results': pkt_results,
     }
+    return res
+
+
+# ---- 3) 解调评估子函数 (MATLAB '第k包评估' 小节的等价实现) ----
+def demodulate_ofdm_transmit(rx_signal, p_demod,sym1,qam_tbl,encBits1,txBits1,scrSeed,H_ldpc,nFEC,kFEC,nPadBits,bytes0,b1e,logger,figure_path,label='woDPD',
+                             save_fig=True):
+    """rx_signal: 与 x1 时间对齐的接收复基带信号 -> EVM/BER/还原文件。"""
+    rx_signal = np.asarray(rx_signal).ravel()
+    # a. 去CP/FFT/导频增益均衡
+    rxSym, gHat = ofdm_demodulate(rx_signal, p_demod)
+    # b. EVM (与发射符号 sym1 对比)
+    nRef = min(sym1.size, rxSym.size)
+    evm = np.sqrt(np.mean(np.abs(rxSym[:nRef] - sym1[:nRef]) ** 2) /
+                  np.mean(np.abs(sym1[:nRef]) ** 2)) * 100
+    # c. QAM 硬判决 + 预FEC误码 (加扰域对比 txBits1)
+    bitsRxPad = OFDM_rx.qamdemod_bits(rxSym, qam_tbl)
+    rxScr = bitsRxPad[:encBits1]
+    nErrRaw = int(np.count_nonzero(rxScr != txBits1))
+    berRaw = nErrRaw / encBits1
+    # d. 软LLR + 软解扰 (同 scrSeed 的确定性 PN)
+    varEst = np.mean(np.abs(rxSym - OFDM_rx.qammod_bits(bitsRxPad,
+                                                        qam_tbl)) ** 2) / 2
+    llr = OFDM_rx.qam_soft_llr(rxSym, qam_tbl, varEst)[:encBits1]
+    rng = np.random.RandomState(scrSeed)
+    pn = (rng.rand(llr.size) > 0.5).astype(float)
+    llr = llr * (1 - 2 * pn)
+    # e. DVB-S2 LDPC 译码 -> 字节还原
+    info, st = OFDM_rx.dvb_soft_decode_stream(llr, H_ldpc, nFEC, kFEC,
+                                              nPadBits=nPadBits, max_iter=50)
+    bytesRx = np.packbits(info.astype(np.uint8))
+    nByteErr = int(np.count_nonzero(bytesRx != bytes0)) if bytesRx.size == bytes0.size \
+        else -1
+    logger.info(f'[{label}] EVM(RMS) = {evm:.4f} %')
+    logger.info(f'[{label}] FEC_PRE: {nErrRaw} / {encBits1} (BER = {berRaw:.3e})')
+    logger.info(f'[{label}] FEC_POST: Iteration {st["nIter"]} , correct error '
+                f'{nByteErr} / {b1e} (ALL bytes correct: {nByteErr == 0})')
+
+    # f. 星座对比图
+    if save_fig:
+        fig, ax = plt.subplots(figsize=(6, 6))
+        nShow = min(500000, sym1.size)
+        rngp = np.random.RandomState(1)
+        idxP = rngp.choice(sym1.size, nShow, replace=False)
+        # ax.plot(np.real(sym1[idxP]), np.imag(sym1[idxP]), '.', color=[196/255, 215/255, 248/255], markersize=2)
+        ax.plot(np.real(rxSym[idxP]), np.imag(rxSym[idxP]), '.', color=[0.7, 0.13, 0.13], markersize=2)
+        ax.set_xlim(-1.4, 1.4); ax.set_ylim(-1.4, 1.4); ax.set_aspect('equal')
+        ax.set_xlabel('I'); ax.set_ylabel('Q')
+        ax.set_title(f' OFDM Constellation (EVM={evm:.2f}%)')
+        fig.tight_layout()
+        fig.savefig(os.path.join(figure_path, f'constellation_OFDM_{label}.png'),
+                    dpi=150)
+        plt.close(fig)
+    res = {'evm': evm, 'ber_raw': berRaw, 'n_err_raw': nErrRaw,
+           'n_byte_err': nByteErr, 'n_iter': st['nIter'],
+           'rxSym': rxSym, 'gHat': gHat, 'bytes_rx': bytesRx}
     return res

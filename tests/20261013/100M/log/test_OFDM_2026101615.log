@@ -1,0 +1,90 @@
+2026-10-16 15:05:07,830 INFO: ===========================load signal================================ 
+2026-10-16 15:05:07,922 INFO: LDPC: dvb2 (n=64800, k=48600), H file=dvb2_64800_r075_H.mat, H nnz=226799 
+2026-10-16 15:05:08,187 INFO: [origin] EVM(RMS) = 0.2618 % 
+2026-10-16 15:05:08,187 INFO: [origin] FEC_PRE: 0 / 194400 (BER = 0.000e+00) 
+2026-10-16 15:05:08,187 INFO: [origin] FEC_POST: Iteration 1 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-16 15:05:08,444 INFO: EVM_origin: 0.2618 % 
+2026-10-16 15:05:08,444 INFO: ===========================PA Transmit================================ 
+2026-10-16 15:05:08,600 INFO: power: -13 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-16 15:05:39,797 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:05:46,832 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:05:53,866 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:00,918 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:07,973 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:15,012 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:22,046 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:29,072 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:36,104 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:43,150 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:50,187 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:06:57,227 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:04,265 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:11,293 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:18,325 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:25,366 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:32,404 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:39,429 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:46,451 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:07:53,499 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 15:08:10,364 INFO: ===========================load signal================================ 
+2026-10-16 15:08:10,441 INFO: LDPC: dvb2 (n=64800, k=48600), H file=dvb2_64800_r075_H.mat, H nnz=226799 
+2026-10-16 15:08:10,642 INFO: [origin] EVM(RMS) = 0.2618 % 
+2026-10-16 15:08:10,643 INFO: [origin] FEC_PRE: 0 / 194400 (BER = 0.000e+00) 
+2026-10-16 15:08:10,643 INFO: [origin] FEC_POST: Iteration 1 , correct error 0 / 13043 (ALL bytes correct: True) 
+2026-10-16 15:08:10,849 INFO: EVM_origin: 0.2618 % 
+2026-10-16 15:08:10,849 INFO: ===========================PA Transmit================================ 
+2026-10-16 15:08:10,934 INFO: power: -13 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-16 15:08:24,996 INFO: SMW signal transmission finished! 
+2026-10-16 15:08:43,539 INFO: NMSE_WO_DPD: -8.332088575084596 dB 
+2026-10-16 15:08:43,549 INFO: ACPR1_L: -27.453 dBc, ACPR1_U: -27.074 dBc 
+2026-10-16 15:08:49,756 INFO: [woDPD] EVM(RMS) = 40.8882 % 
+2026-10-16 15:08:49,757 INFO: [woDPD] FEC_PRE: 69777 / 194400 (BER = 3.589e-01) 
+2026-10-16 15:08:49,757 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12690 / 13043 (ALL bytes correct: False) 
+2026-10-16 15:08:49,911 INFO: EVM_woDPD: 40.8882 % 
+2026-10-16 15:11:30,157 INFO: power: -10 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-16 15:11:32,729 INFO: SMW signal transmission finished! 
+2026-10-16 15:11:44,354 INFO: NMSE_WO_DPD: -7.385773389075937 dB 
+2026-10-16 15:11:44,360 INFO: ACPR1_L: -20.041 dBc, ACPR1_U: -20.905 dBc 
+2026-10-16 15:11:49,852 INFO: [woDPD] EVM(RMS) = 44.4751 % 
+2026-10-16 15:11:49,852 INFO: [woDPD] FEC_PRE: 71698 / 194400 (BER = 3.688e-01) 
+2026-10-16 15:11:49,852 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12784 / 13043 (ALL bytes correct: False) 
+2026-10-16 15:11:49,949 INFO: EVM_woDPD: 44.4751 % 
+2026-10-16 15:12:54,074 INFO: SMW signal transmission finished! 
+2026-10-16 15:13:04,783 INFO: NMSE_WO_DPD: -6.690612236326944 dB 
+2026-10-16 15:13:04,788 INFO: ACPR1_L: -17.317 dBc, ACPR1_U: -18.102 dBc 
+2026-10-16 15:13:57,795 INFO: power: -7 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-16 15:14:01,084 INFO: SMW signal transmission finished! 
+2026-10-16 15:14:11,767 INFO: NMSE_WO_DPD: -7.2328051727218075 dB 
+2026-10-16 15:14:11,772 INFO: ACPR1_L: -18.371 dBc, ACPR1_U: -19.225 dBc 
+2026-10-16 15:57:01,465 INFO: power: -13 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-16 15:57:04,823 INFO: SMW signal transmission finished! 
+2026-10-16 15:57:42,795 INFO: NMSE_WO_DPD: -5.69805654784346 dB 
+2026-10-16 15:57:42,801 INFO: ACPR1_L: -14.208 dBc, ACPR1_U: -14.586 dBc 
+2026-10-16 15:57:47,606 INFO: [woDPD] EVM(RMS) = 50.4756 % 
+2026-10-16 15:57:47,606 INFO: [woDPD] FEC_PRE: 74013 / 194400 (BER = 3.807e-01) 
+2026-10-16 15:57:47,606 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12814 / 13043 (ALL bytes correct: False) 
+2026-10-16 15:57:47,700 INFO: EVM_woDPD: 50.4756 % 
+2026-10-16 15:59:00,289 INFO: SMW signal transmission finished! 
+2026-10-16 15:59:37,515 INFO: NMSE_WO_DPD: -5.863973117891932 dB 
+2026-10-16 15:59:37,520 INFO: ACPR1_L: -15.029 dBc, ACPR1_U: -16.179 dBc 
+2026-10-16 15:59:42,522 INFO: [woDPD] EVM(RMS) = 44.1629 % 
+2026-10-16 15:59:42,522 INFO: [woDPD] FEC_PRE: 72594 / 194400 (BER = 3.734e-01) 
+2026-10-16 15:59:42,522 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12816 / 13043 (ALL bytes correct: False) 
+2026-10-16 15:59:42,621 INFO: EVM_woDPD: 44.1629 % 
+2026-10-16 16:00:15,243 INFO: SMW signal transmission finished! 
+2026-10-16 16:03:09,030 INFO: SMW signal transmission finished! 
+2026-10-16 16:03:46,312 INFO: NMSE_WO_DPD: -8.278526252529671 dB 
+2026-10-16 16:03:46,319 INFO: ACPR1_L: -24.167 dBc, ACPR1_U: -22.960 dBc 
+2026-10-16 16:05:26,142 INFO: SMW signal transmission finished! 
+2026-10-16 16:06:03,314 INFO: NMSE_WO_DPD: -8.536962122758311 dB 
+2026-10-16 16:06:03,321 INFO: ACPR1_L: -27.110 dBc, ACPR1_U: -24.312 dBc 
+2026-10-16 16:07:01,980 INFO: power: -10 dB, fc_1: 3.60 GHz, fc_2: 3.60 GHz 
+2026-10-16 16:07:03,238 INFO: SMW signal transmission finished! 
+2026-10-16 16:07:40,470 INFO: NMSE_WO_DPD: -8.20701081710136 dB 
+2026-10-16 16:07:40,476 INFO: ACPR1_L: -23.742 dBc, ACPR1_U: -22.272 dBc 
+2026-10-16 16:07:45,505 INFO: [woDPD] EVM(RMS) = 40.3459 % 
+2026-10-16 16:07:45,506 INFO: [woDPD] FEC_PRE: 70236 / 194400 (BER = 3.613e-01) 
+2026-10-16 16:07:45,506 INFO: [woDPD] FEC_POST: Iteration 50 , correct error 12749 / 13043 (ALL bytes correct: False) 
+2026-10-16 16:07:45,602 INFO: EVM_woDPD: 40.3459 % 
+2026-10-16 16:17:23,280 INFO: !!!!!!!!!!! error !!!!!!!!! 
+2026-10-16 16:17:24,331 INFO: SMW signal transmission finished! 

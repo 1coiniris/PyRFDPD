@@ -62,7 +62,7 @@ def ILC(board, ilc_in,logger=None):
             # y_k_1 = board.transmit(u_k_1)
             # y_k_2 = board.transmit(u_k_2)
             # y_k = np.concatenate(y_k_1,y_k_2)
-            y_k = board.transmit(u_k)
+            y_k = board.transmit(u_k,logger=logger)
             # Normalize the output (different from Fawzy)
             y_k = y_k / np.linalg.norm(y_k) * np.linalg.norm(u_k)
         except Exception as e:
@@ -84,7 +84,7 @@ def ILC(board, ilc_in,logger=None):
         y_d_trimmed = ilc_in['y_d'][10:-10]  # Python uses 0-indexing, so 10:end-10
         y_k_trimmed = y_k[10:-10]
         ilc_out['NMSE'][k] = cal.nmse(y_d_trimmed, y_k_trimmed,logger,1)
-        ACLR = cal.acpr(y_k_trimmed, fs, BW, BW*0.98, logger)
+        ACLR = cal.acpr(y_k_trimmed, fs, BW, BW*0.93, logger)
         # Store input and output for this iteration
         In.append(u_k.copy())
         Out.append(y_k.copy())
